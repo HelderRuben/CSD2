@@ -29,26 +29,25 @@ function generateRhythm(chopFactor) {
 	NoteListMid = generateNotes(LengthOptionsMid);
 	NoteListHigh = generateNotes(LengthOptionsHigh);
 
-	chopNotes(chopFactor)
+	chopNotes("getal tussen 1 en 100")
 }
 
 
 function generateNotes(Options) {
+	let noteArrayTotal;
 	for (let i = 0; i < TotalTime; i++) {
-		let tempArray = [];
-		List.append = random optie uit Options;
+		let noteArray = [];
+		noteArray.append = random optie uit Options;
 
 		//Check if TotalTime has been reached
-		let ListTotal = List.sum;
-
-		if (ListTotal >= TotalTime) {
+		if (noteArray.sum >= TotalTime) {
 			//Finish algorhythm
 			i = TotalTime;
 			//Capping last note
-			List[last] -= ("Waarde die over is");
+			noteArray[last] -= ("Waarde die over is");
 		}
 	}
-	return List;
+	return noteArray;
 }
 
 
