@@ -19,6 +19,7 @@ let NoteListTotalMid;
 let NoteListTotalHigh;
 // All note values added up.
 
+//Basic function to complete entire algorhythm
 function generateRhythm(chopFactor) {
 	//Resetting values
 	NoteListLow = [];
@@ -32,7 +33,7 @@ function generateRhythm(chopFactor) {
 	chopNotes("getal tussen 1 en 100")
 }
 
-
+//Function to fill array with note-length-values
 function generateNotes(Options) {
 	let noteArrayTotal;
 	for (let i = 0; i < TotalTime; i++) {
@@ -50,7 +51,7 @@ function generateNotes(Options) {
 	return noteArray;
 }
 
-
+//Function to chop random notes in pieces
 function chopNotes(chopFactor) {
 	Selectie van random notes uit de 3 tracks 
 	-> hoeveelheid van deze selecie op basis van chopFactor
