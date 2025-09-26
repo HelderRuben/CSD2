@@ -35,12 +35,12 @@ def generateNotes(Options):
         optionLength = len(Options)
         randomOption = random.randrange(optionLength);
         noteArray.append(Options[randomOption]);
-        #print(optionLength);
         #Stop filling array if totalTime has been reached
-        #if noteArray.sum >= totalTime:
-        #    i = totalTime;
+        if sum(noteArray) >= totalTime:
+            #i = totalTime;
             #Capping last note so noteArray doesn't overflow
-        #    noteArray[-1] -= (noteArray.sum - totalTime);
+            noteArray[-1] -= (sum(noteArray) - totalTime);
+            break;
     print(noteArray);
     return noteArray;
 
@@ -63,5 +63,5 @@ def chopNotes(chopFactor):
 
 
 #test
-testList = [1, 2, 3];
+testList = [5, 4, 6];
 generateNotes(testList);
