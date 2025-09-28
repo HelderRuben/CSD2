@@ -13,26 +13,12 @@ sampleHigh = pygame.mixer.Sound("../assets/hihat.wav");
 # Amount of 16th notes in bar
 totalTime = 14;
 bpm = 120;
-# arrays with possible note-lengths
-lenOptionsLow = [];
-lenOptionsMid = [];
-lenOptionsHigh = [];
-
-#arrays with timeified durations
-timeListLow = [];
-timeListMid = [];
-timeListHigh = [];
-
-#arrays with timestamps
-tsListLow = [];
-tsListMid = [];
-tsListHigh = [];
-
-##### FUNCTION SCRIPTS
 
 def timeify(durList, bpm):
+    """Converts list w note durations to time intervals"""
     timeList = [];
-    bpmMultiplyer = 60.0 / bpm;
+    #bpm times 2 if time signature is in 16ths
+    bpmMultiplyer = 60.0 / (bpm * 2);
 
     for i in durList:
         timeList.append(i * bpmMultiplyer);
@@ -40,6 +26,7 @@ def timeify(durList, bpm):
     return timeList;
 
 def timestampify(timeList):
+    """Converts list w time intervals to timestamps"""
     timestampList = [];
     #starts at 0
     timestamp = 0;
@@ -51,25 +38,8 @@ def timestampify(timeList):
     print(timestampList);
     return timestampList;
 
-# General Script to set algorhythms in motion.
-### Output is playable generated rhythm for 3 tracks.
-def generateRhythm(OptionsLow, OptionsMid, OptionsHigh, chopFactor):
-    # Lists with stored note-lengths
-    global noteListLow;
-    noteListLow = [];
-    global noteListMid;
-    noteListMid = [];
-    global noteListHigh;
-    noteListHigh = [];
-    #Fill with notes
-    noteListLow = generateNotes(OptionsLow);
-    noteListMid = generateNotes(OptionsMid);
-    noteListHigh = generateNotes(OptionsHigh);
-
-    #chopNotes(chopFactor);
-
-#Function for filling noteArrays with the possible options
 def generateNotes(Options):
+    """Outputs list w note durations according to options"""
     noteArray = [];
     for i in range(totalTime):
         #Fill array with note-lengths
@@ -84,12 +54,12 @@ def generateNotes(Options):
     print(noteArray);
     return noteArray;
 
-#Function to chop only one note, based on chop intensity
 def chopOneNote(note, amt):
+    """Chops note duration into series of small intervals"""
     pass
 
-#Function for chopping notes-randomisation based on Chopfactor
 def chopNotes(chopFactor):
+    """Outputs 3 chopped notelists according to chopFactor"""
     #To pick track to chop from
     trackArray = [noteListLow, noteListMid, noteListHigh];
 
@@ -99,13 +69,13 @@ def chopNotes(chopFactor):
     chopAmt = (chopFactor / 100) * -1 + 1;
         #math: / decides range, + decides minimum
 
-    #stappen uitgeschreven in PSEUDO-CODE
+    #stappen alvast uitgeschreven in PSEUDO-CODE
     for i in range(randomness):
         #Initialize array to chop note from
         whichTrack = random.randrange(3);
         trackToChop = trackArray[whichTrack];
         randomNote = random.randrange(len(whichTrack));
-        ####PSEUDO FOR SELECTING NOTE TO CHOP:
+        ####PSEUDO FOR SELECTING N0TE TO CHOP:
         #if trackToChop[randomNote] > minimumvalue chopped note:
             #chop one note
             #trackToChop[randomNote] = chopOneNote(trackToChop[randomNote], chopAmt);
@@ -115,12 +85,13 @@ def chopNotes(chopFactor):
             #    of random note being already chopped note
         #elif:
             #Make sure for loop selects other note to chop
-        #to chop one note
+            #one note
 
 def playNotes(listToPlay, sampleToPlay):
+    """Runs time and plays sample on timestamps"""
     timeStep = listToPlay.pop(0);
     timeStart = time.time();
-    #Cycling through time and playing samples on timestamps
+
     while True:
         now = time.time() - timeStart;
         if(now > timeStep):
@@ -134,20 +105,30 @@ def playNotes(listToPlay, sampleToPlay):
 
 
 ##### TESTING
-lenOptionsLow = [2, 3, 4];
-lenOptionsMid = [3, 4, 5, 6];
-lenOptionsHigh = [1, 2, 3, 4, 6];
 
-generateRhythm(lenOptionsLow, lenOptionsMid, lenOptionsHigh, 50);
+#options
+OptionsLow = [2, 3, 4];
+OptionsMid = [3, 4, 5, 6];
+OptionsHigh = [1, 2, 3, 4, 6];
 
+#Fill with notes
+noteListLow = generateNotes(OptionsLow);
+noteListMid = generateNotes(OptionsMid);
+noteListHigh = generateNotes(OptionsHigh);
+
+#chopNotes(chopFactor);
+
+#Convert to time intervals
 timeListLow = timeify(noteListLow, bpm);
 timeListMid = timeify(noteListMid, bpm);
 timeListHigh = timeify(noteListHigh, bpm);
 
+#convert to timestamsp
 tsListLow = timestampify(timeListLow);
 tsListMid = timestampify(timeListMid);
 tsListHigh = timestampify(timeListHigh);
 
+#Play
 playNotes(tsListLow, sampleLow);
-# playNotes(tsListMid, sampleMid);
-# playNotes(tsListHigh, sampleHigh);
+playNotes(tsListMid, sampleMid);
+playNotes(tsListHigh, sampleHigh);
