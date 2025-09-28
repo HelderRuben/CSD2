@@ -12,12 +12,44 @@ sampleHigh = pygame.mixer.Sound("../assets/hihat.wav");
 
 # Amount of 16th notes in bar
 totalTime = 14;
+bpm = 120;
 # arrays with possible note-lengths
 lenOptionsLow = [];
 lenOptionsMid = [];
 lenOptionsHigh = [];
 
+#arrays with timeified durations
+timeListLow = [];
+timeListMid = [];
+timeListHigh = [];
+
+#arrays with timestamps
+tsListLow = [];
+tsListMid = [];
+tsListHigh = [];
+
 ##### FUNCTION SCRIPTS
+
+def timeify(durList, bpm):
+    timeList = [];
+    bpmMultiplyer = 60.0 / bpm;
+
+    for i in durList:
+        timeList.append(i * bpmMultiplyer);
+    print(timeList);
+    return timeList;
+
+def timestampify(timeList):
+    timestampList = [];
+    #starts at 0
+    timestamp = 0;
+
+    for i in timeList:
+        timestampList.append(timestamp);
+        timestamp += i;
+
+    print(timestampList);
+    return timestampList;
 
 # General Script to set algorhythms in motion.
 ### Output is playable generated rhythm for 3 tracks.
@@ -54,7 +86,6 @@ def generateNotes(Options):
 
 #Function to chop only one note, based on chop intensity
 def chopOneNote(note, amt):
-    #append note plek in array
     pass
 
 #Function for chopping notes-randomisation based on Chopfactor
@@ -87,24 +118,36 @@ def chopNotes(chopFactor):
         #to chop one note
 
 def playNotes(listToPlay, sampleToPlay):
-    step = listToPlay.pop(0);
-    #for-loop cycles through one sequence
-    for i in range(int(totalTime)):
-        #test for current step
-        print("Current step: ", i);
-        if(i +1 == step):
-            #sample plays if the time reaches the i value
+    timeStep = listToPlay.pop(0);
+    timeStart = time.time();
+    #Cycling through time and playing samples on timestamps
+    while True:
+        now = time.time() - timeStart;
+        if(now > timeStep):
             sampleToPlay.play();
-            # Next step
-            step += listToPlay.pop(0);
-        #testing the sequence with a step-value of 1
-        time.sleep(1);
+            if listToPlay:
+                timeStep = listToPlay.pop(0);
+                now = timeStart;
+            else:
+                break;
+        time.sleep(0.01);
 
-#test
+
+##### TESTING
 lenOptionsLow = [2, 3, 4];
 lenOptionsMid = [3, 4, 5, 6];
 lenOptionsHigh = [1, 2, 3, 4, 6];
 
 generateRhythm(lenOptionsLow, lenOptionsMid, lenOptionsHigh, 50);
 
-playNotes(noteListLow, sampleLow);
+timeListLow = timeify(noteListLow, bpm);
+timeListMid = timeify(noteListMid, bpm);
+timeListHigh = timeify(noteListHigh, bpm);
+
+tsListLow = timestampify(timeListLow);
+tsListMid = timestampify(timeListMid);
+tsListHigh = timestampify(timeListHigh);
+
+playNotes(tsListLow, sampleLow);
+# playNotes(tsListMid, sampleMid);
+# playNotes(tsListHigh, sampleHigh);
