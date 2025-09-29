@@ -10,71 +10,69 @@ sampleLow = pygame.mixer.Sound("../assets/kick.wav");
 sampleMid = pygame.mixer.Sound("../assets/snare.wav");
 sampleHigh = pygame.mixer.Sound("../assets/hihat.wav");
 
-# Amount of 16th notes in bar
+# Amount of notes in bar
 totalTime = 14;
 bpm = 120;
 
-def timeify(durList, bpm):
-    """Converts list w note durations to time intervals"""
-    timeList = [];
-    #bpm times 2 if time signature is in 16ths
-    bpmMultiplyer = 60.0 / (bpm * 2);
 
-    for i in durList:
-        timeList.append(i * bpmMultiplyer);
-    print(timeList);
-    return timeList;
-
-def timestampify(timeList):
-    """Converts list w time intervals to timestamps"""
-    timestampList = [];
-    #starts at 0
-    timestamp = 0;
-
-    for i in timeList:
-        timestampList.append(timestamp);
-        timestamp += i;
-
-    print(timestampList);
-    return timestampList;
-
-def generateNotes(Options):
-    """Outputs list w note durations according to options"""
-    noteArray = [];
+def makeDurList(Options):
+    """Returns list w note durations according to options"""
+    durList = [];
     for i in range(totalTime):
         #Fill array with note-lengths
         optionLength = len(Options);
         randomOption = random.randrange(optionLength);
-        noteArray.append(Options[randomOption]);
+        durList.append(Options[randomOption]);
         #Stop filling array if totalTime has been reached
-        if sum(noteArray) >= totalTime:
-            #Capping last note so noteArray doesn't overflow
-            noteArray[-1] -= (sum(noteArray) - totalTime);
+        if sum(durList) >= totalTime:
+            #Capping last note so durList doesn't overflow
+            durList[-1] -= (sum(durList) - totalTime);
             break;
-    print(noteArray);
-    return noteArray;
+    return durList;
+
+def makeTimeList(durList, bpm):
+    """Returns list w time intervals from note durations"""
+    timeList = [];
+    #bpm times 2 if time signature is in 16ths
+    bpmMultiplyer = 60.0 / (bpm * 2);
+
+    for duration in durList:
+        timeList.append(duration * bpmMultiplyer);
+    return timeList;
+
+def makeTimestamps(timeList):
+    """Returns list w timestamps from time intervals"""
+    tsList = [];
+    #starts at 0
+    timestamp = 0;
+
+    for timeDur in timeList:
+        tsList.append(timestamp);
+        timestamp += timeDur;
+    return tsList;
+
 
 def chopOneNote(note, amt):
-    """Chops note duration into series of small intervals"""
+    """Chops 1 note duration into series of small durations"""
     pass
 
-def chopNotes(chopFactor):
-    """Outputs 3 chopped notelists according to chopFactor"""
+def chopTracks(chopFactor):
+    """Includes chopped notes in the 3 tracks according to chopFactor"""
     #To pick track to chop from
     trackArray = [noteListLow, noteListMid, noteListHigh];
 
     #gives a number from 1-10 for amount of notes chopped
     randomness = chopFactor / 10;
     #gives a range for how long the chopped notes will become
-    chopAmt = (chopFactor / 100) * -1 + 1;
+    chopAmt = (chopFactor / 100) * - 1 + 1;
         #math: / decides range, + decides minimum
 
     #stappen alvast uitgeschreven in PSEUDO-CODE
-    for i in range(randomness):
+    # for i in range(randomness):
         #Initialize array to chop note from
-        whichTrack = random.randrange(3);
-        trackToChop = trackArray[whichTrack];
-        randomNote = random.randrange(len(whichTrack));
+        # whichTrack = random.randrange(3);
+        # trackToChop = trackArray[whichTrack];
+        # randomNote = random.randrange(len(whichTrack));
         ####PSEUDO FOR SELECTING N0TE TO CHOP:
         #if trackToChop[randomNote] > minimumvalue chopped note:
             #chop one note
@@ -87,7 +85,17 @@ def chopNotes(chopFactor):
             #Make sure for loop selects other note to chop
             #one note
 
-def playNotes(listToPlay, sampleToPlay):
+#To get rid of duplicate code
+def OptionsToTimestamps(Options, whatTrack):
+    """Returns list of timestamps according to options and prints track kind"""
+    noteList = makeDurList(Options);
+    timeList = makeTimeList(noteList, bpm);
+    timestampsList = makeTimestamps(timeList);
+    print(whatTrack, timestampsList);
+    return timestampsList;
+
+
+def playTimestamps(listToPlay, sampleToPlay):
     """Runs time and plays sample on timestamps"""
     timeStep = listToPlay.pop(0);
     timeStart = time.time();
@@ -111,24 +119,13 @@ OptionsLow = [2, 3, 4];
 OptionsMid = [3, 4, 5, 6];
 OptionsHigh = [1, 2, 3, 4, 6];
 
-#Fill with notes
-noteListLow = generateNotes(OptionsLow);
-noteListMid = generateNotes(OptionsMid);
-noteListHigh = generateNotes(OptionsHigh);
+tsListLow = OptionsToTimestamps(OptionsLow, "Low: ")
+tsListMid = OptionsToTimestamps(OptionsMid, "Mid: ")
+tsListHigh = OptionsToTimestamps(OptionsHigh, "High: ")
 
-#chopNotes(chopFactor);
-
-#Convert to time intervals
-timeListLow = timeify(noteListLow, bpm);
-timeListMid = timeify(noteListMid, bpm);
-timeListHigh = timeify(noteListHigh, bpm);
-
-#convert to timestamsp
-tsListLow = timestampify(timeListLow);
-tsListMid = timestampify(timeListMid);
-tsListHigh = timestampify(timeListHigh);
+#Choptracks(50);
 
 #Play
-playNotes(tsListLow, sampleLow);
-playNotes(tsListMid, sampleMid);
-playNotes(tsListHigh, sampleHigh);
+playTimestamps(tsListLow, sampleLow);
+# playTimestamps(tsListMid, sampleMid);
+# playTimestamps(tsListHigh, sampleHigh);
