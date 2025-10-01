@@ -114,13 +114,14 @@ def chopTracks(chopFactor):
             #one note
 
 #To get rid of duplicate code
-def OptionsToTimestamps(Options, whatTrack):
+def OptionsToDictionaries(Options, whatTrack):
     """Returns list of timestamps according to options and prints track kind"""
     noteList = makeDurList(Options);
     timeList = makeTimeList(noteList, bpm);
     timestampsList = makeTimestamps(timeList);
-    print(whatTrack, timestampsList);
-    return timestampsList;
+    dictList = makeListDict(timestampsList, whatTrack);
+    print(whatTrack, ": ", dictList);
+    return dictList;
 
 
 def playTimestamps(listToPlay, sampleToPlay):
@@ -147,13 +148,9 @@ OptionsLow = [2, 3, 4];
 OptionsMid = [3, 4, 5, 6];
 OptionsHigh = [1, 2, 3, 4, 6];
 
-tsListLow = OptionsToTimestamps(OptionsLow, "Low: ")
-tsListMid = OptionsToTimestamps(OptionsMid, "Mid: ")
-tsListHigh = OptionsToTimestamps(OptionsHigh, "High: ")
-
-dictLow = makeListDict(tsListLow, "low");
-dictMid = makeListDict(tsListMid, "mid");
-dictHigh = makeListDict(tsListHigh, "high");
+dictLow = OptionsToDictionaries(OptionsLow, "low")
+dictMid = OptionsToDictionaries(OptionsMid, "mid")
+dictHigh = OptionsToDictionaries(OptionsHigh, "high")
 
 dictTotal = combineDict(dictLow, dictMid, dictHigh);
 print("TOTAL DICTIONARY:")
@@ -162,6 +159,6 @@ for dict in range(len(dictTotal)):
 #Choptracks(50);
 
 #Play
-playTimestamps(tsListLow, sampleLow);
-playTimestamps(tsListMid, sampleMid);
-playTimestamps(tsListHigh, sampleHigh);
+# playTimestamps(tsListLow, sampleLow);
+# playTimestamps(tsListMid, sampleMid);
+# playTimestamps(tsListHigh, sampleHigh);
