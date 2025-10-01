@@ -59,7 +59,16 @@ def makeNoteDict(ts, whatTrack):
         #Room for more specs like length and velocity
     }
 
-#Next step: combining the dictionaryies
+def makeListDict(tsList, whatTrack):
+    """Returns list with note dictionaries"""
+    listDict = [];
+    for ts in range(len(tsList)):
+        listDict.append(makeNoteDict(tsList[ts], whatTrack));
+    print(listDict);
+    return listDict;
+
+
+#Next step: combining the dictionaries
 def combineDict(dict1, dict2, dict3):
     pass
 
@@ -134,13 +143,9 @@ tsListLow = OptionsToTimestamps(OptionsLow, "Low: ")
 tsListMid = OptionsToTimestamps(OptionsMid, "Mid: ")
 tsListHigh = OptionsToTimestamps(OptionsHigh, "High: ")
 
-#testing new makeNoteDict func
-dictTestLow = makeNoteDict(tsListLow[1], "low");
-dictTestMid = makeNoteDict(tsListMid[1], "mid");
-dictTestHigh = makeNoteDict(tsListLow[1], "high");
-print("low: ", dictTestLow);
-print("mid: ", dictTestMid);
-print("high: ", dictTestHigh);
+dictLow = makeListDict(tsListLow, "low");
+dictMid = makeListDict(tsListMid, "mid");
+dictHigh = makeListDict(tsListHigh, "high");
 
 #Choptracks(50);
 
