@@ -124,19 +124,20 @@ def OptionsToDictionaries(Options, whatTrack):
     return dictList;
 
 
-def playTimestamps(listToPlay, sampleToPlay):
+def playSample(listToPlay):
     """Runs time and plays sample on timestamps"""
-    timeStep = listToPlay.pop(0);
+    nextSample = listToPlay.pop(0);
     timeStart = time.time();
 
     while True:
         now = time.time() - timeStart;
-        if(now > timeStep):
-            sampleToPlay.play();
+        if(now > nextSample["timestamp"]):
+            nextSample["sample"].play();
             if listToPlay:
-                timeStep = listToPlay.pop(0);
+                nextSample = listToPlay.pop(0);
                 now = timeStart;
             else:
+                time.sleep(1);
                 break;
         time.sleep(0.01);
 
@@ -148,9 +149,9 @@ OptionsLow = [2, 3, 4];
 OptionsMid = [3, 4, 5, 6];
 OptionsHigh = [1, 2, 3, 4, 6];
 
-dictLow = OptionsToDictionaries(OptionsLow, "low")
-dictMid = OptionsToDictionaries(OptionsMid, "mid")
-dictHigh = OptionsToDictionaries(OptionsHigh, "high")
+dictLow = OptionsToDictionaries(OptionsLow, sampleLow)
+dictMid = OptionsToDictionaries(OptionsMid, sampleMid)
+dictHigh = OptionsToDictionaries(OptionsHigh, sampleHigh)
 
 dictTotal = combineDict(dictLow, dictMid, dictHigh);
 print("TOTAL DICTIONARY:")
@@ -159,6 +160,4 @@ for dict in range(len(dictTotal)):
 #Choptracks(50);
 
 #Play
-# playTimestamps(tsListLow, sampleLow);
-# playTimestamps(tsListMid, sampleMid);
-# playTimestamps(tsListHigh, sampleHigh);
+playSample(dictTotal);
