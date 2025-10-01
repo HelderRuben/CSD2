@@ -56,7 +56,7 @@ def makeNoteDict(ts, whatTrack):
     return {
         "timestamp": ts,
         "sample": whatTrack
-        #Room for more specs like length and velocity
+        #Room for more specs like length, velocity and tone.
     }
 
 def makeListDict(tsList, whatTrack):
@@ -64,13 +64,21 @@ def makeListDict(tsList, whatTrack):
     listDict = [];
     for ts in range(len(tsList)):
         listDict.append(makeNoteDict(tsList[ts], whatTrack));
-    print(listDict);
     return listDict;
 
+def tsValueInDict(ts):
+    """Returns value of "timestamp" in dictionary"""
+    return ts["timestamp"];
 
 #Next step: combining the dictionaries
-def combineDict(dict1, dict2, dict3):
-    pass
+def combineDict(dictLow, dict2, dict3):
+    """Returns combined list of note dictionaries in order of timestamp"""
+    listDict = [];
+    for ts in range(len(dictLow)): listDict.append(dictLow[ts]);
+    for ts in range(len(dictMid)): listDict.append(dictMid[ts]);
+    for ts in range(len(dictHigh)): listDict.append(dictHigh[ts]);
+    listDict.sort(key=tsValueInDict);
+    return listDict;
 
 def chopOneNote(note, amt):
     """Chops 1 note duration into series of small durations"""
@@ -147,6 +155,10 @@ dictLow = makeListDict(tsListLow, "low");
 dictMid = makeListDict(tsListMid, "mid");
 dictHigh = makeListDict(tsListHigh, "high");
 
+dictTotal = combineDict(dictLow, dictMid, dictHigh);
+print("TOTAL DICTIONARY:")
+for dict in range(len(dictTotal)):
+    print(dictTotal[dict]);
 #Choptracks(50);
 
 #Play
