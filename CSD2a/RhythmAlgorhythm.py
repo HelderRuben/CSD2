@@ -51,6 +51,17 @@ def makeTimestamps(timeList):
         timestamp += timeDur;
     return tsList;
 
+def makeNoteDict(ts, whatTrack):
+    """Returns dictionary w one note with timestamp and sample"""
+    return {
+        "timestamp": ts,
+        "sample": whatTrack
+        #Room for more specs like length and velocity
+    }
+
+#Next step: combining the dictionaryies
+def combineDict(dict1, dict2, dict3):
+    pass
 
 def chopOneNote(note, amt):
     """Chops 1 note duration into series of small durations"""
@@ -123,9 +134,17 @@ tsListLow = OptionsToTimestamps(OptionsLow, "Low: ")
 tsListMid = OptionsToTimestamps(OptionsMid, "Mid: ")
 tsListHigh = OptionsToTimestamps(OptionsHigh, "High: ")
 
+#testing new makeNoteDict func
+dictTestLow = makeNoteDict(tsListLow[1], "low");
+dictTestMid = makeNoteDict(tsListMid[1], "mid");
+dictTestHigh = makeNoteDict(tsListLow[1], "high");
+print("low: ", dictTestLow);
+print("mid: ", dictTestMid);
+print("high: ", dictTestHigh);
+
 #Choptracks(50);
 
 #Play
 playTimestamps(tsListLow, sampleLow);
-# playTimestamps(tsListMid, sampleMid);
-# playTimestamps(tsListHigh, sampleHigh);
+playTimestamps(tsListMid, sampleMid);
+playTimestamps(tsListHigh, sampleHigh);
