@@ -52,14 +52,14 @@ def makeTimestamps(timeList):
     return tsList;
 
 def makeNoteDict(ts, whatTrack):
-    """Returns dictionary w one note with timestamp and sample"""
+    """Returns dictionary containing timestamp and sample of one note"""
     return {
         "timestamp": ts,
         "sample": whatTrack
         #Room for more specs like length, velocity and tone.
     }
 
-def makeListDict(tsList, whatTrack):
+def makeDictList(tsList, whatTrack):
     """Returns list with note dictionaries"""
     listDict = [];
     for ts in range(len(tsList)):
@@ -71,12 +71,12 @@ def tsValueInDict(ts):
     return ts["timestamp"];
 
 #Next step: combining the dictionaries
-def combineDict(dictLow, dict2, dict3):
+def combineDictLists(dictList1, dictList2, dictList3):
     """Returns combined list of note dictionaries in order of timestamp"""
     listDict = [];
-    for ts in range(len(dictLow)): listDict.append(dictLow[ts]);
-    for ts in range(len(dictMid)): listDict.append(dictMid[ts]);
-    for ts in range(len(dictHigh)): listDict.append(dictHigh[ts]);
+    for ts in range(len(dictList1)): listDict.append(dictList1[ts]);
+    for ts in range(len(dictList2)): listDict.append(dictList2[ts]);
+    for ts in range(len(dictList3)): listDict.append(dictList3[ts]);
     listDict.sort(key=tsValueInDict);
     return listDict;
 
@@ -114,13 +114,12 @@ def chopTracks(chopFactor):
             #one note
 
 #To get rid of duplicate code
-def OptionsToDictionaries(Options, whatTrack):
+def OptionsToDictList(Options, whatTrack):
     """Returns list of timestamps according to options and prints track kind"""
     noteList = makeDurList(Options);
     timeList = makeTimeList(noteList, bpm);
     timestampsList = makeTimestamps(timeList);
-    dictList = makeListDict(timestampsList, whatTrack);
-    print(whatTrack, ": ", dictList);
+    dictList = makeDictList(timestampsList, whatTrack);
     return dictList;
 
 
@@ -144,20 +143,23 @@ def playSample(listToPlay):
 
 ##### TESTING
 
-#options
+#Options
 OptionsLow = [2, 3, 4];
 OptionsMid = [3, 4, 5, 6];
 OptionsHigh = [1, 2, 3, 4, 6];
 
-dictLow = OptionsToDictionaries(OptionsLow, sampleLow)
-dictMid = OptionsToDictionaries(OptionsMid, sampleMid)
-dictHigh = OptionsToDictionaries(OptionsHigh, sampleHigh)
+#From Options to List containing all note dictionaries
+dictListLow = OptionsToDictList(OptionsLow, sampleLow)
+dictListMid = OptionsToDictList(OptionsMid, sampleMid)
+dictListHigh = OptionsToDictList(OptionsHigh, sampleHigh)
+dictListTotal = combineDictLists(dictListLow, dictListMid, dictListHigh);
 
-dictTotal = combineDict(dictLow, dictMid, dictHigh);
-print("TOTAL DICTIONARY:")
-for dict in range(len(dictTotal)):
-    print(dictTotal[dict]);
-#Choptracks(50);
+#Print
+print("+--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---+")
+print("|                         TOTAL DICTIONARY LIST                         |")
+print("+--- --- --- --- --- --- --- --- --*:*-- --- --- --- --- --- --- --- ---+")
+for dict in range(len(dictListTotal)):
+    print(dictListTotal[dict]);
 
 #Play
-playSample(dictTotal);
+playSample(dictListTotal);
