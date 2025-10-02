@@ -11,13 +11,14 @@ sampleMid = pygame.mixer.Sound("../assets/snare.wav");
 sampleHigh = pygame.mixer.Sound("../assets/hihat.wav");
 
 # Amount of notes in bar
-totalTime = 14;
+totalTime = 10;
 bpm = 120;
 
 
 def makeDurList(Options):
     """Returns list w note durations according to options"""
     durList = [];
+    #Filling list
     for i in range(totalTime):
         #Fill array with note-lengths
         optionLength = len(Options);
@@ -35,7 +36,7 @@ def makeTimeList(durList, bpm):
     timeList = [];
     #bpm times 2 if time signature is in 16ths
     bpmMultiplyer = 60.0 / (bpm * 2);
-
+    #Filling list
     for duration in durList:
         timeList.append(duration * bpmMultiplyer);
     return timeList;
@@ -45,7 +46,7 @@ def makeTimestamps(timeList):
     tsList = [];
     #starts at 0
     timestamp = 0;
-
+    #Filling list
     for timeDur in timeList:
         tsList.append(timestamp);
         timestamp += timeDur;
@@ -95,7 +96,7 @@ def chopTracks(chopFactor):
     chopAmt = (chopFactor / 100) * - 1 + 1;
         #math: / decides range, + decides minimum
 
-    #stappen alvast uitgeschreven in PSEUDO-CODE
+    # stappen alvast uitgeschreven in PSEUDO-CODE
     # for i in range(randomness):
         #Initialize array to chop note from
         # whichTrack = random.randrange(3);
@@ -113,30 +114,31 @@ def chopTracks(chopFactor):
             #Make sure for loop selects other note to chop
             #one note
 
-#To get rid of duplicate code
 def OptionsToDictList(Options, whatTrack):
-    """Returns list of timestamps according to options and prints track kind"""
+    """Returns list of note dictionaries according to options and track kind"""
     noteList = makeDurList(Options);
     timeList = makeTimeList(noteList, bpm);
     timestampsList = makeTimestamps(timeList);
     dictList = makeDictList(timestampsList, whatTrack);
     return dictList;
 
-
 def playSample(listToPlay):
     """Runs time and plays sample on timestamps"""
-    nextSample = listToPlay.pop(0);
+    playList = [];
+    for i in range(len(listToPlay)):
+        playList.append(listToPlay[i]);
+    nextSample = playList.pop(0);
     timeStart = time.time();
-
+    #While-loop for playing samples on timestamps
     while True:
         now = time.time() - timeStart;
         if(now > nextSample["timestamp"]):
             nextSample["sample"].play();
-            if listToPlay:
-                nextSample = listToPlay.pop(0);
+            if playList:
+                nextSample = playList.pop(0);
                 now = timeStart;
             else:
-                time.sleep(1);
+                playSample(dictListTotal);
                 break;
         time.sleep(0.01);
 
@@ -149,15 +151,15 @@ OptionsMid = [3, 4, 5, 6];
 OptionsHigh = [1, 2, 3, 4, 6];
 
 #From Options to List containing all note dictionaries
-dictListLow = OptionsToDictList(OptionsLow, sampleLow)
-dictListMid = OptionsToDictList(OptionsMid, sampleMid)
-dictListHigh = OptionsToDictList(OptionsHigh, sampleHigh)
+dictListLow = OptionsToDictList(OptionsLow, sampleLow);
+dictListMid = OptionsToDictList(OptionsMid, sampleMid);
+dictListHigh = OptionsToDictList(OptionsHigh, sampleHigh);
 dictListTotal = combineDictLists(dictListLow, dictListMid, dictListHigh);
 
 #Print
-print("+--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---+")
-print("|                         TOTAL DICTIONARY LIST                         |")
-print("+--- --- --- --- --- --- --- --- --*:*-- --- --- --- --- --- --- --- ---+")
+print("+--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---+");
+print("|                         TOTAL DICTIONARY LIST                         |");
+print("+--- --- --- --- --- --- --- --- --*:*-- --- --- --- --- --- --- --- ---+");
 for dict in range(len(dictListTotal)):
     print(dictListTotal[dict]);
 
