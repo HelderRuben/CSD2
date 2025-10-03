@@ -75,9 +75,9 @@ def tsValueInDict(ts):
 def combineDictLists(dictList1, dictList2, dictList3):
     """Returns combined list of note dictionaries in order of timestamp"""
     listDict = [];
-    for ts in range(len(dictList1)): listDict.append(dictList1[ts]);
-    for ts in range(len(dictList2)): listDict.append(dictList2[ts]);
-    for ts in range(len(dictList3)): listDict.append(dictList3[ts]);
+    listDict.extend(dictList1);
+    listDict.extend(dictList2);
+    listDict.extend(dictList3);
     listDict.sort(key=tsValueInDict);
     return listDict;
 
