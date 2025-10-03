@@ -11,7 +11,7 @@ sampleMid = pygame.mixer.Sound("../assets/snare.wav");
 sampleHigh = pygame.mixer.Sound("../assets/hihat.wav");
 
 # Amount of notes in bar
-totalTime = 10;
+totalTime = 14;
 bpm = 120;
 
 
@@ -81,9 +81,17 @@ def combineDictLists(dictList1, dictList2, dictList3):
     listDict.sort(key=tsValueInDict);
     return listDict;
 
-def chopOneNote(note, amt):
-    """Chops 1 note duration into series of small durations"""
-    pass
+def chopOneNote(listToChop, index, chopTime):
+    """Chops 1 note duration into series of small durations and inserts in list"""
+    #For testing in this phase: amt isn't linked to chopFactor, so default = 0.2
+    chopsAmount = int(listToChop[index] / chopTime);
+    #Remove current index...
+    listToChop.pop(index);
+    print(chopsAmount);
+    #... and replace with chops
+    for chop in range(chopsAmount):
+        listToChop.insert(index, chopTime);
+    return listToChop;
 
 def chopTracks(chopFactor):
     """Includes chopped notes in the 3 tracks according to chopFactor"""
@@ -117,6 +125,13 @@ def chopTracks(chopFactor):
 def OptionsToDictList(Options, whatTrack):
     """Returns list of note dictionaries according to options and track kind"""
     noteList = makeDurList(Options);
+
+    #Testing chopOneNote in second duration for HiHat
+    print(noteList);
+    if whatTrack == sampleHigh:
+        noteList = chopOneNote(noteList, 1, 0.2);
+    print(noteList);
+
     timeList = makeTimeList(noteList, bpm);
     timestampsList = makeTimestamps(timeList);
     dictList = makeDictList(timestampsList, whatTrack);
