@@ -52,19 +52,20 @@ def makeTimestamps(timeList):
         timestamp += timeDur;
     return tsList;
 
-def makeNoteDict(ts, whatTrack):
-    """Returns dictionary containing timestamp and sample of one note"""
+def makeNoteDict(ts, whatTrack, timeDur):
+    """Returns dictionary containing timestamp, sample and duration of one note"""
     return {
         "timestamp": ts,
-        "sample": whatTrack
+        "sample": whatTrack,
+        "duration": timeDur
         #Room for more specs like length, velocity and tone.
     }
 
-def makeDictList(tsList, whatTrack):
+def makeDictList(tsList, whatTrack, noteList):
     """Returns list with note dictionaries"""
     listDict = [];
     for ts in range(len(tsList)):
-        listDict.append(makeNoteDict(tsList[ts], whatTrack));
+        listDict.append(makeNoteDict(tsList[ts], whatTrack), timeList[ts]);
     return listDict;
 
 def tsValueInDict(ts):
@@ -100,7 +101,7 @@ def chopTracks(chopFactor):
 
     #gives a number from 1-10 for amount of notes chopped
     randomness = chopFactor / 10;
-    #gives a range for how long the chopped notes will become
+    #gives a range for chopped note duration
     chopAmt = (chopFactor / 100) * - 1 + 1;
         #math: / decides range, + decides minimum
 
@@ -130,11 +131,10 @@ def OptionsToDictList(Options, whatTrack):
     print(noteList);
     if whatTrack == sampleHigh:
         noteList = chopOneNote(noteList, 1, 0.2);
-    print(noteList);
 
     timeList = makeTimeList(noteList, bpm);
     timestampsList = makeTimestamps(timeList);
-    dictList = makeDictList(timestampsList, whatTrack);
+    dictList = makeDictList(timestampsList, whatTrack, timeList);
     return dictList;
 
 def playSample(listToPlay):
