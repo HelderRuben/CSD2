@@ -183,4 +183,13 @@ for dict in range(len(dictListTotal)):
     print(dictListTotal[dict]);
 
 #Play
-playSample(dictListTotal);
+# playSample(dictListTotal);
+
+#TESTING CHOPPED NOTES FOR ONLY HIHAT
+for i in range(len(dictListHigh)):
+    nextSample = dictListHigh[i]
+    nextSample["sample"].play();
+    time.sleep(0.02);
+    #Notes get stopped during sample, granulizing works as well
+    nextSample["sample"].stop();
+    time.sleep(durValueInDict(nextSample));
