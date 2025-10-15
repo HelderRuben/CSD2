@@ -11,7 +11,7 @@ sampleMid = pygame.mixer.Sound("../assets/snare.wav");
 sampleHigh = pygame.mixer.Sound("../assets/hihat.wav");
 
 # Amount of notes in bar
-totalTime = 14;
+noteAmount = 14;
 bpm = 120;
 
 
@@ -19,15 +19,15 @@ def makeDurList(Options):
     """Returns list w note durations according to options"""
     durList = [];
     #Filling list
-    for i in range(totalTime):
+    for i in range(int(noteAmount)):
         #Fill array with note-lengths
         optionLength = len(Options);
         randomOption = random.randrange(optionLength);
         durList.append(Options[randomOption]);
-        #Stop filling array if totalTime has been reached
-        if sum(durList) >= totalTime:
+        #Stop filling array if noteAmount has been reached
+        if sum(durList) >= noteAmount:
             #Capping last note so durList doesn't overflow
-            durList[-1] -= (sum(durList) - totalTime);
+            durList[-1] -= (sum(durList) - noteAmount);
             break;
     return durList;
 
@@ -180,6 +180,17 @@ while correctInput == False:
         except:
             print("Incorrect, enter a number I can work with please!");
 print("Good job, bpm is ", bpm, ".");
+
+#Asking noteAmount
+correctInput = False;
+while correctInput == False:
+    userNoteAmount = input("What amount of notes would you like? : ");
+    try:
+        noteAmount = float(userNoteAmount);
+        correctInput = True;
+    except:
+            print("Not correct, enter a number I can work with please!");
+print("Well done, there are now ", userNoteAmount, " notes in one bar.");
 
 #Options
 OptionsLow = [2, 3, 4];
