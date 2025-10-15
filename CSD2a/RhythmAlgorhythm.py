@@ -134,14 +134,14 @@ def OptionsToDictList(Options, whatTrack):
     #Testing chopOneNote in second duration for HiHat
     print(noteList);
     if whatTrack == sampleHigh:
-        noteList = chopOneNote(noteList, 1, 0.2);
+        noteList = chopOneNote(noteList, 1, 0.1);
 
     timeList = makeTimeList(noteList, bpm);
     timestampsList = makeTimestamps(timeList);
     dictList = makeDictList(timestampsList, whatTrack, timeList);
     return dictList;
 
-def playSample(listToPlay):
+def playRhythm(listToPlay):
     """Runs time and plays sample on timestamps"""
     playList = [];
     for i in range(len(listToPlay)):
@@ -151,16 +151,18 @@ def playSample(listToPlay):
     #While-loop for playing samples on timestamps
     while True:
         now = time.time() - timeStart;
-        if(now > nextSample["timestamp"]):
-            nextSample["sample"].play();
+        if now >= nextSample["timestamp"]:
+            #Make note duration from dictionary max sample playtime
+            noteDur = int(1000 * durValueInDict(nextSample));
+            print(noteDur);
+            nextSample["sample"].play(maxtime=noteDur);
             if playList:
                 nextSample = playList.pop(0);
                 now = timeStart;
             else:
-                playSample(dictListTotal);
+                #Looping the list
+                playRhythm(dictListTotal);
                 break;
-        time.sleep(0.01);
-
 
 ##### TESTING
 
@@ -183,13 +185,4 @@ for dict in range(len(dictListTotal)):
     print(dictListTotal[dict]);
 
 #Play
-# playSample(dictListTotal);
-
-#TESTING CHOPPED NOTES FOR ONLY HIHAT
-for i in range(len(dictListHigh)):
-    nextSample = dictListHigh[i]
-    nextSample["sample"].play();
-    time.sleep(0.02);
-    #Notes get stopped during sample, granulizing works as well
-    nextSample["sample"].stop();
-    time.sleep(durValueInDict(nextSample));
+playRhythm(dictListTotal);
