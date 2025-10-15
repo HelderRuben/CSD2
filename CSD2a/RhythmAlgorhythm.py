@@ -65,12 +65,16 @@ def makeDictList(tsList, whatTrack, noteList):
     """Returns list with note dictionaries"""
     listDict = [];
     for ts in range(len(tsList)):
-        listDict.append(makeNoteDict(tsList[ts], whatTrack), timeList[ts]);
+        listDict.append(makeNoteDict(tsList[ts], whatTrack, noteList[ts]));
     return listDict;
 
 def tsValueInDict(ts):
     """Returns value of "timestamp" in dictionary"""
     return ts["timestamp"];
+
+def durValueInDict(ts):
+    """Returns value of "duration" in dictionary"""
+    return ts["duration"];
 
 #Next step: combining the dictionaries
 def combineDictLists(dictList1, dictList2, dictList3):
