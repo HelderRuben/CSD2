@@ -164,7 +164,22 @@ def playRhythm(listToPlay):
                 playRhythm(dictListTotal);
                 break;
 
-##### TESTING
+#####  USER INPUT
+
+# Asking BPM
+correctInput = False;
+while correctInput == False:
+    userBpm = input("Please enter a bpm. Say nothing for 120. : ");
+    if not userBpm:
+        # bpm = 120
+        correctInput = True;
+    else:
+        try:
+            bpm = float(userBpm);
+            correctInput = True;
+        except:
+            print("Incorrect, enter a number I can work with please!");
+print("Good job, bpm is ", bpm, ".");
 
 #Options
 OptionsLow = [2, 3, 4];
