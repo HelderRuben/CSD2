@@ -20,13 +20,12 @@ def makeDurList(Options):
     durList = [];
     #Filling list
     for i in range(int(noteAmount)):
-        #Fill array with note-lengths
         optionLength = len(Options);
         randomOption = random.randrange(optionLength);
         durList.append(Options[randomOption]);
-        #Stop filling array if noteAmount has been reached
+        #Stop filling list
         if sum(durList) >= noteAmount:
-            #Capping last note so durList doesn't overflow
+            #Capping last note
             durList[-1] -= (sum(durList) - noteAmount);
             break;
     return durList;
@@ -44,7 +43,7 @@ def makeTimeList(durList, bpm):
 def makeTimestamps(timeList):
     """Returns list w timestamps from time intervals"""
     tsList = [];
-    #starts at 0
+    #Starts at 0
     timestamp = 0;
     #Filling list
     for timeDur in timeList:
@@ -58,12 +57,12 @@ def makeNoteDict(ts, whatTrack, timeDur):
         "timestamp": ts,
         "sample": whatTrack,
         "duration": timeDur
-        #Room for more specs like length, velocity and tone.
     }
 
 def makeDictList(tsList, whatTrack, noteList):
     """Returns list with note dictionaries"""
     listDict = [];
+    #Filling list
     for ts in range(len(tsList)):
         listDict.append(makeNoteDict(tsList[ts], whatTrack, noteList[ts]));
     return listDict;
@@ -76,7 +75,6 @@ def durValueInDict(ts):
     """Returns value of "duration" in dictionary"""
     return ts["duration"];
 
-#Next step: combining the dictionaries
 def combineDictLists(dictList1, dictList2, dictList3):
     """Returns combined list of note dictionaries in order of timestamp"""
     listDict = [];
@@ -88,12 +86,12 @@ def combineDictLists(dictList1, dictList2, dictList3):
 
 def chopOneNote(listToChop, index, chopTime):
     """Chops 1 note duration into series of small durations and inserts in list"""
-    #For testing in this phase: amt isn't linked to chopFactor, so default = 0.2
+    #For testing in this phase: amt isn't linked to chopFactor
     chopsAmount = int(listToChop[index] / chopTime);
-    #Remove current index...
+    #Remove current index
     listToChop.pop(index);
     print(chopsAmount);
-    #... and replace with chops
+    #Replace with chops
     for chop in range(chopsAmount):
         listToChop.insert(index, chopTime);
     return listToChop;
@@ -123,7 +121,7 @@ def chopTracks(chopFactor):
             #Make variable for amount of notes chopped tied to randomness?
             # -> To make sure for-loop doesnt make less chopped notes bc
             #    of random note being already chopped note
-        #elif:
+        #else:
             #Make sure for loop selects other note to chop
             #one note
 
@@ -131,7 +129,7 @@ def OptionsToDictList(Options, whatTrack):
     """Returns list of note dictionaries according to options and track kind"""
     noteList = makeDurList(Options);
 
-    #Testing chopOneNote in second duration for HiHat
+    #Testing chopOneNote in second duration of HiHat
     print(noteList);
     if whatTrack == sampleHigh:
         noteList = chopOneNote(noteList, 1, 0.1);
@@ -144,11 +142,12 @@ def OptionsToDictList(Options, whatTrack):
 def playRhythm(listToPlay):
     """Runs time and plays sample on timestamps"""
     playList = [];
+    #Filling list
     for i in range(len(listToPlay)):
         playList.append(listToPlay[i]);
     nextSample = playList.pop(0);
     timeStart = time.time();
-    #While-loop for playing samples on timestamps
+    #While-loop plays samples on timestamps
     while True:
         now = time.time() - timeStart;
         if now >= nextSample["timestamp"]:
@@ -165,7 +164,7 @@ def playRhythm(listToPlay):
                 break;
 
 #####  USER INPUT
-
+def askUserInput(question, error, options)
 # Asking BPM
 correctInput = False;
 while correctInput == False:
@@ -192,7 +191,7 @@ while correctInput == False:
             print("Not correct, enter a number I can work with please!");
 print("Well done, there are now ", userNoteAmount, " notes in one bar.");
 
-#Options
+#Defining Options
 OptionsLow = [2, 3, 4];
 OptionsMid = [3, 4, 5, 6];
 OptionsHigh = [1, 2, 3, 4, 6];
