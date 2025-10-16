@@ -94,21 +94,22 @@ def combineDictLists(dictList1, dictList2, dictList3):
     return listDict;
 
 def chopOneNote(listToChop, index, choptensity):
-    """Chops 1 note duration into series of small durations and inserts in list"""
-    #For testing in this phase: amt is linked to chopFactor
-    dictToChop = listToChop[index]
+    """Replaces 1 note duration w series of small durations and inserts in dictionary list"""
+    dictToChop = listToChop[index];
     chopsAmount = int(dictToChop["duration"] / choptensity);
-    for dict in range(len(listToChop)):
-        print(listToChop[dict]);
 
-    #Remove current index
+    #Remove current index dictionary
     removedDict = listToChop.pop(index);
     replaceTimestamp = removedDict["timestamp"];
     replaceSample = removedDict["sample"];
 
-    #Replace with chops
+    #Insert chops as dictionaries
     for chop in range(chopsAmount):
-        listToChop.insert(index + chop, {"timestamp": replaceTimestamp + (chop * choptensity), "sample": replaceSample, "duration": choptensity});
+        listToChop.insert(index + chop, {                                 #Add timestamp and sample back
+            "timestamp": removedDict["timestamp"] + (chop * choptensity), #Increasing timestamps
+            "sample": removedDict["sample"],
+            "duration": choptensity
+        });
     return listToChop;
 
 def chopTracks(chopFactor):
