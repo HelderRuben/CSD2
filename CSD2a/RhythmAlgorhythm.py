@@ -110,6 +110,8 @@ def chopOneNote(listToChop, index, choptensity):
             "sample": removedDict["sample"],
             "duration": choptensity
         });
+    #Sort list (samples played during chopped note is possible)
+    listToChop.sort(key=tsValueInDict);
     return listToChop;
 
 def chopTracks(chopFactor):
