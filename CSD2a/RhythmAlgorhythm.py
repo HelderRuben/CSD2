@@ -164,7 +164,7 @@ def playRhythm(listToPlay):
                 break;
 
 #####  USER INPUT
-def askUserInput(question, error, options)
+
 # Asking BPM
 correctInput = False;
 while correctInput == False:
@@ -190,6 +190,19 @@ while correctInput == False:
     except:
             print("Not correct, enter a number I can work with please!");
 print("Well done, there are now ", userNoteAmount, " notes in one bar.");
+
+#Asking Quarters or 8ths
+correctInput = False;
+while correctInput == False:
+    userQuarterOrEight = input("Is the time signature in Quarters or Eights? (Type 4 or 8) : ");
+    try:
+        QuarterOrEight = float(userQuarterOrEight);
+        if QuarterOrEight == 4 or QuarterOrEight == 8:
+            correctInput = True;
+        else: print("No, please enter 4 or 8!");
+    except:
+            print("No, please enter the number 4 or 8!");
+print("Perfect, your time signature is ", int(noteAmount), "/", userQuarterOrEight, " .");
 
 #Defining Options
 OptionsLow = [2, 3, 4];
