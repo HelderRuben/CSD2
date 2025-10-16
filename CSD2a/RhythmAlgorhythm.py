@@ -150,34 +150,55 @@ def OptionsToDictList(Options, whatTrack):
 
 def playRhythm(listToPlay):
     """Runs time and plays sample on timestamps"""
+    print("LISTTOPLAY LENGTH : ", len(listToPlay))
     playList = [];
     #Filling list
     for i in range(len(listToPlay)):
         playList.append(listToPlay[i]);
+    #Index of sample to be played
+    thisSample = 0
     nextSample = playList.pop(0);
+    print("Filled NEXTSAMPLE");
     timeStart = time.time();
+    print("timeStart", timeStart);
     #While-loop plays samples on timestamps
     while True:
         now = time.time() - timeStart;
+        # print(now)
         if now >= nextSample["timestamp"]:
             #Make note duration from dictionary max sample playtime
+            print("Played something...");
             noteDur = int(1000 * durValueInDict(nextSample));
-            # print(noteDur);
+            # if not nextSample["sample"] == 0:
+            # print("Index before playing: ", thisSample);
             nextSample["sample"].play(maxtime=noteDur);
+            thisSample += 1;
+            print("NOW::: ", now);
+            # nextSample["sample"] = 0;
             if playList:
-                nextSample = playList.pop(0);
-                now = timeStart;
+                # print("Put sample in nextSample")
+                print("Index: ", thisSample);
+                print(playList[thisSample]);
+                nextSample = playList[thisSample];
+                if thisSample + 2 >= len(listToPlay):
+                    thisSample = 0;
+                    timeStart = time.time() + durValueInDict(nextSample);
+                    print("timeStart::::", timeStart)
+                    print("NEW NOW supposed to be : ", time.time() - timeStart);
+                    print("Looping....")
             #Still plays last note
-            elif nextSample["timestamp"] + (noteDur / 1000) <= now:
+            # elif nextSample["timestamp"] + (noteDur / 1000) <= now:
             # else:
-                #Looping the list
-                testtime = nextSample["timestamp"] + (noteDur / 1000);
-                print("TEST1: ", testtime);
-                print("TEST2: ", now);
-                print("Looping...");
-                # print(testtime);
-                playRhythm(dictListTotal);
-                break;
+        # if not playList and nextSample["timestamp"] + (noteDur / 1000) <= now:
+        #             #Looping the list
+        #             testtime = nextSample["timestamp"] + (noteDur / 1000);
+        #             # print("TEST1: ", testtime);
+        #             # print("TEST2: ", now);
+        #             print("Looping...");
+        #             # print(testtime);
+        #             # timeStart = time.time();
+        #             playRhythm(dictListTotal);
+        #             break;
 
 #####  USER INPUT
 
@@ -222,7 +243,7 @@ print("Perfect, your time signature is ", int(noteAmount), "/", userQuarterOrEig
 
 #Defining Options (testing with bpm and quarter/8ths)
 OptionsLow = [2];
-OptionsMid = [3];
+OptionsMid = [2];
 # OptionsHigh = [1, 2, 3, 4, 6];
 OptionsHigh = [1];
 
