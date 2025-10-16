@@ -93,45 +93,26 @@ def combineDictLists(dictList1, dictList2, dictList3):
     listDict.sort(key=tsValueInDict);
     return listDict;
 
-def chopOneNote(listToChop, index, chopTime):
+def chopOneNote(listToChop, index, choptensity):
     """Chops 1 note duration into series of small durations and inserts in list"""
-    #For testing in this phase: amt isn't linked to chopFactor
-    chopsAmount = int(listToChop[index] / chopTime);
+    #For testing in this phase: amt is linked to chopFactor
+    dictToChop = listToChop[index]
+    chopsAmount = int(dictToChop["duration"] / choptensity);
+    for dict in range(len(listToChop)):
+        print(listToChop[dict]);
+
     #Remove current index
-    listToChop.pop(index);
+    removedDict = listToChop.pop(index);
+    replaceTimestamp = removedDict["timestamp"];
+    replaceSample = removedDict["sample"];
+
     #Replace with chops
     for chop in range(chopsAmount):
-        listToChop.insert(index, chopTime);
+        listToChop.insert(index + chop, {"timestamp": replaceTimestamp + (chop * choptensity), "sample": replaceSample, "duration": choptensity});
     return listToChop;
 
 def chopTracks(chopFactor):
     """Includes chopped notes in the 3 tracks according to chopFactor"""
-    #To pick track to chop from
-    trackArray = [noteListLow, noteListMid, noteListHigh];
-
-    #gives a number from 1-10 for amount of notes chopped
-    randomness = chopFactor / 10;
-    #gives a range for chopped note duration
-    chopAmt = (chopFactor / 100) * - 1 + 1;
-        #math: / decides range, + decides minimum
-
-    # stappen alvast uitgeschreven in PSEUDO-CODE
-    # for i in range(randomness):
-        #Initialize array to chop note from
-        # whichTrack = random.randrange(3);
-        # trackToChop = trackArray[whichTrack];
-        # randomNote = random.randrange(len(whichTrack));
-        ####PSEUDO FOR SELECTING N0TE TO CHOP:
-        #if trackToChop[randomNote] > minimumvalue chopped note:
-            #chop one note
-            #trackToChop[randomNote] = chopOneNote(trackToChop[randomNote], chopAmt);
-            #make sure for loop continues
-            #Make variable for amount of notes chopped tied to randomness?
-            # -> To make sure for-loop doesnt make less chopped notes bc
-            #    of random note being already chopped note
-        #else:
-            #Make sure for loop selects other note to chop
-            #one note
 
 def OptionsToDictList(Options, whatTrack):
     """Returns list of note dictionaries according to options and track kind"""
@@ -165,7 +146,7 @@ def playRhythm(listToPlay):
         if now >= nextSample["timestamp"] + timeStart:
             #Make note duration from dictionary max sample playtime
             noteDur = int(1000 * durValueInDict(nextSample));
-            print("Index before playing: ", thisSample);
+            # print("Index before playing: ", thisSample);
             nextSample["sample"].play(maxtime=noteDur);
             #loop list by resetting index and starting time
             if thisSample + 1 >= len(listToPlay):
@@ -225,13 +206,14 @@ dictListLow = OptionsToDictList(OptionsLow, sampleLow);
 dictListMid = OptionsToDictList(OptionsMid, sampleMid);
 dictListHigh = OptionsToDictList(OptionsHigh, sampleHigh);
 dictListTotal = combineDictLists(dictListLow, dictListMid, dictListHigh);
+choppedDictListTotal = chopOneNote(dictListTotal, 5, 0.05);
 
 #Print
 print("+--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---+");
 print("|                         TOTAL DICTIONARY LIST                         |");
 print("+--- --- --- --- --- --- --- --- --*:*-- --- --- --- --- --- --- --- ---+");
-for dict in range(len(dictListTotal)):
-    print(dictListTotal[dict]);
+for dict in range(len(choppedDictListTotal)):
+    print(choppedDictListTotal[dict]);
 
 #Play
-playRhythm(dictListTotal);
+playRhythm(choppedDictListTotal);
