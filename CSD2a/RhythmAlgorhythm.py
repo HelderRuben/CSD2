@@ -157,29 +157,21 @@ def playRhythm(listToPlay):
         playList.append(listToPlay[i]);
     #Index of sample to be played
     thisSample = 0
-    nextSample = playList.pop(0);
-    print("Filled NEXTSAMPLE");
+    nextSample = playList[0];
     timeStart = time.time();
-    print("timeStart", timeStart);
     #While-loop plays samples on timestamps
     while True:
         now = time.time();
-        # print("Index: ", thisSample)
-        # print("NEXT TIMESTAMP :::: ", nextSample["timestamp"])
         if now >= nextSample["timestamp"] + timeStart:
             #Make note duration from dictionary max sample playtime
-            print("Played something...");
             noteDur = int(1000 * durValueInDict(nextSample));
-            # if not nextSample["sample"] == 0:
-            # print("Index before playing: ", thisSample);
+            print("Index before playing: ", thisSample);
             nextSample["sample"].play(maxtime=noteDur);
-            thisSample += 1;
-            print("Index: ", thisSample);
+            #loop list by resetting index and starting time
             if thisSample + 1 >= len(listToPlay):
-                thisSample = 0;
+                thisSample = -1;
                 timeStart = time.time() + durValueInDict(nextSample);
-                print("timeStart::::", timeStart)
-                print("Looping....")
+            thisSample += 1;
             nextSample = playList[thisSample];
 
 #####  USER INPUT
@@ -224,10 +216,9 @@ while correctInput == False:
 print("Perfect, your time signature is ", int(noteAmount), "/", userQuarterOrEight, " .");
 
 #Defining Options (testing with bpm and quarter/8ths)
-OptionsLow = [2];
-OptionsMid = [2];
-# OptionsHigh = [1, 2, 3, 4, 6];
-OptionsHigh = [1];
+OptionsLow = [2, 3, 4];
+OptionsMid = [2, 3, 4];
+OptionsHigh = [1, 2, 3];
 
 #From Options to List containing all note dictionaries
 dictListLow = OptionsToDictList(OptionsLow, sampleLow);
