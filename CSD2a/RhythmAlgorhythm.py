@@ -114,8 +114,57 @@ def chopOneNote(listToChop, index, choptensity):
     listToChop.sort(key=tsValueInDict);
     return listToChop;
 
-def chopTracks(chopFactor):
-    """Includes chopped notes in the 3 tracks according to chopFactor"""
+def chopTracks(listToChop, chopFactor):
+    """Includes chopped notes in the total dictionary according to chopFactor"""
+
+    #calculate amount of notes in final list
+    totalNoteAmount = sum(listToChop);
+
+    #calculate percentage of notes to be chopped
+    amountOfChops = totalNoteAmount / (100 / chopFactor);
+
+    for chop in amountOfChops:
+        #randomise index
+        chopIndex = random.randrange(len(listToChop));
+        #randomise length, but for now length = 0.1
+
+        #chop
+        chopOneNote(trackToChop, chopIndex, 0.1)
+
+
+    NOTE dit weer weghalen
+    # chopLenMin
+    # chopLenMax
+    #calculate a range for chopped note duration
+    chopAmt = (chopFactor / 100) * - 1 + 1;
+        #math: / decides range, + decides minimum
+
+
+#####
+
+# =====PROBLEM=====
+
+# Location problem: for-loop chopOneNote-func
+
+# Explanation question: When does the computer know what selected note can
+# be chopped or if it is already chopped?
+
+# =====SOLUTION=====
+
+# Explanation: Make a list of integers which represent the indexes of the
+# dictionary list which are still available for chopping
+    # No scratch that, this is much better:
+
+    # Which indexes are available for chopping?
+    #     Solution:
+    #      1.  The chosen index in the dictionary list is popped
+    #      2.  Instead of inserting the chopped notes, append them
+    #      3.  One possible index is popped, so decrease the random range by 1
+    #      4.  Repeat this in for-loop for the amount of notes needed chopping
+    #      5.  Sort the giant dictionary list
+    #     --> this is perfect.
+
+#####
 
 def OptionsToDictList(Options, whatTrack):
     """Returns list of note dictionaries according to options and track kind"""
@@ -209,7 +258,8 @@ dictListLow = OptionsToDictList(OptionsLow, sampleLow);
 dictListMid = OptionsToDictList(OptionsMid, sampleMid);
 dictListHigh = OptionsToDictList(OptionsHigh, sampleHigh);
 dictListTotal = combineDictLists(dictListLow, dictListMid, dictListHigh);
-choppedDictListTotal = chopOneNote(dictListTotal, 5, 0.05);
+# choppedDictListTotal = chopOneNote(dictListTotal, 5, 0.05);
+choppedDictListTotal = chopTracks(dictListTotal, 5, 0.05);
 
 #Print
 print("+--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---+");
