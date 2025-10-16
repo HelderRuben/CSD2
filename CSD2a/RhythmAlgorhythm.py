@@ -17,21 +17,19 @@ bpm = 120;
 
 def optionsInTimeSignature(Options, quarterOrEight):
     """Returns list of options multiplied according to time signature"""
-    #If eight notes, options are halved
-    optionMultiplier = 1 / (quarterOrEight / 4);
+    #If time signature is in eight notes, options are halved
+    optionMultiplier = 1 / (quarterOrEight / 2);
     newOptions = [];
     #Filling list
-    print("options not multiplied: ", Options)
     for option in range(len(Options)):
         newOptions.append(Options[option] * optionMultiplier);
-    print("options multiplied: ", newOptions);
     return newOptions;
 
 def makeDurList(Options):
     """Returns list w note durations according to options"""
     durList = [];
     #Filling list
-    for i in range(int(noteAmount)):
+    for i in range(int(noteAmount * (quarterOrEight / 2))):
         optionLength = len(Options);
         randomOption = random.randrange(optionLength);
         durList.append(Options[randomOption]);
@@ -45,8 +43,7 @@ def makeDurList(Options):
 def makeTimeList(durList, bpm):
     """Returns list w time intervals from note durations"""
     timeList = [];
-    #bpm times 2 if time signature is in 16ths
-    bpmMultiplyer = 60.0 / (bpm * 2);
+    bpmMultiplyer = 60.0 / bpm;
     #Filling list
     for duration in durList:
         timeList.append(duration * bpmMultiplyer);
@@ -142,7 +139,7 @@ def OptionsToDictList(Options, whatTrack):
     noteList = makeDurList(optionsWithinTimeSignature);
 
     #Testing chopOneNote in second duration of HiHat
-    # print(noteList);
+    print(noteList);
     # if whatTrack == sampleHigh:
     #     noteList = chopOneNote(noteList, 1, 0.1);
 
@@ -165,13 +162,20 @@ def playRhythm(listToPlay):
         if now >= nextSample["timestamp"]:
             #Make note duration from dictionary max sample playtime
             noteDur = int(1000 * durValueInDict(nextSample));
-            print(noteDur);
+            # print(noteDur);
             nextSample["sample"].play(maxtime=noteDur);
             if playList:
                 nextSample = playList.pop(0);
                 now = timeStart;
-            else:
+            #Still plays last note
+            elif nextSample["timestamp"] + (noteDur / 1000) <= now:
+            # else:
                 #Looping the list
+                testtime = nextSample["timestamp"] + (noteDur / 1000);
+                print("TEST1: ", testtime);
+                print("TEST2: ", now);
+                print("Looping...");
+                # print(testtime);
                 playRhythm(dictListTotal);
                 break;
 
@@ -216,10 +220,11 @@ while correctInput == False:
             print("No, please enter the number 4 or 8!");
 print("Perfect, your time signature is ", int(noteAmount), "/", userQuarterOrEight, " .");
 
-#Defining Options
-OptionsLow = [2, 3, 4];
-OptionsMid = [3, 4, 5, 6];
-OptionsHigh = [1, 2, 3, 4, 6];
+#Defining Options (testing with bpm and quarter/8ths)
+OptionsLow = [2];
+OptionsMid = [3];
+# OptionsHigh = [1, 2, 3, 4, 6];
+OptionsHigh = [1];
 
 #From Options to List containing all note dictionaries
 dictListLow = OptionsToDictList(OptionsLow, sampleLow);
@@ -228,11 +233,11 @@ dictListHigh = OptionsToDictList(OptionsHigh, sampleHigh);
 dictListTotal = combineDictLists(dictListLow, dictListMid, dictListHigh);
 
 #Print
-# print("+--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---+");
-# print("|                         TOTAL DICTIONARY LIST                         |");
-# print("+--- --- --- --- --- --- --- --- --*:*-- --- --- --- --- --- --- --- ---+");
-# for dict in range(len(dictListTotal)):
-#     print(dictListTotal[dict]);
+print("+--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---+");
+print("|                         TOTAL DICTIONARY LIST                         |");
+print("+--- --- --- --- --- --- --- --- --*:*-- --- --- --- --- --- --- --- ---+");
+for dict in range(len(dictListTotal)):
+    print(dictListTotal[dict]);
 
 #Play
 playRhythm(dictListTotal);
