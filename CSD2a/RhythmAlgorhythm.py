@@ -163,9 +163,10 @@ def playRhythm(listToPlay):
     print("timeStart", timeStart);
     #While-loop plays samples on timestamps
     while True:
-        now = time.time() - timeStart;
-        # print(now)
-        if now >= nextSample["timestamp"]:
+        now = time.time();
+        # print("Index: ", thisSample)
+        # print("NEXT TIMESTAMP :::: ", nextSample["timestamp"])
+        if now >= nextSample["timestamp"] + timeStart:
             #Make note duration from dictionary max sample playtime
             print("Played something...");
             noteDur = int(1000 * durValueInDict(nextSample));
@@ -173,32 +174,13 @@ def playRhythm(listToPlay):
             # print("Index before playing: ", thisSample);
             nextSample["sample"].play(maxtime=noteDur);
             thisSample += 1;
-            print("NOW::: ", now);
-            # nextSample["sample"] = 0;
-            if playList:
-                # print("Put sample in nextSample")
-                print("Index: ", thisSample);
-                print(playList[thisSample]);
-                nextSample = playList[thisSample];
-                if thisSample + 2 >= len(listToPlay):
-                    thisSample = 0;
-                    timeStart = time.time() + durValueInDict(nextSample);
-                    print("timeStart::::", timeStart)
-                    print("NEW NOW supposed to be : ", time.time() - timeStart);
-                    print("Looping....")
-            #Still plays last note
-            # elif nextSample["timestamp"] + (noteDur / 1000) <= now:
-            # else:
-        # if not playList and nextSample["timestamp"] + (noteDur / 1000) <= now:
-        #             #Looping the list
-        #             testtime = nextSample["timestamp"] + (noteDur / 1000);
-        #             # print("TEST1: ", testtime);
-        #             # print("TEST2: ", now);
-        #             print("Looping...");
-        #             # print(testtime);
-        #             # timeStart = time.time();
-        #             playRhythm(dictListTotal);
-        #             break;
+            print("Index: ", thisSample);
+            if thisSample + 1 >= len(listToPlay):
+                thisSample = 0;
+                timeStart = time.time() + durValueInDict(nextSample);
+                print("timeStart::::", timeStart)
+                print("Looping....")
+            nextSample = playList[thisSample];
 
 #####  USER INPUT
 
