@@ -12,8 +12,20 @@ sampleHigh = pygame.mixer.Sound("../assets/hihat.wav");
 
 # Amount of notes in bar
 noteAmount = 14;
+quarterOrEight = 0;
 bpm = 120;
 
+def optionsInTimeSignature(Options, quarterOrEight):
+    """Returns list of options multiplied according to time signature"""
+    #If eight notes, options are halved
+    optionMultiplier = 1 / (quarterOrEight / 4);
+    newOptions = [];
+    #Filling list
+    print("options not multiplied: ", Options)
+    for option in range(len(Options)):
+        newOptions.append(Options[option] * optionMultiplier);
+    print("options multiplied: ", newOptions);
+    return newOptions;
 
 def makeDurList(Options):
     """Returns list w note durations according to options"""
@@ -90,7 +102,6 @@ def chopOneNote(listToChop, index, chopTime):
     chopsAmount = int(listToChop[index] / chopTime);
     #Remove current index
     listToChop.pop(index);
-    print(chopsAmount);
     #Replace with chops
     for chop in range(chopsAmount):
         listToChop.insert(index, chopTime);
@@ -127,12 +138,13 @@ def chopTracks(chopFactor):
 
 def OptionsToDictList(Options, whatTrack):
     """Returns list of note dictionaries according to options and track kind"""
-    noteList = makeDurList(Options);
+    optionsWithinTimeSignature = optionsInTimeSignature(Options, quarterOrEight)
+    noteList = makeDurList(optionsWithinTimeSignature);
 
     #Testing chopOneNote in second duration of HiHat
-    print(noteList);
-    if whatTrack == sampleHigh:
-        noteList = chopOneNote(noteList, 1, 0.1);
+    # print(noteList);
+    # if whatTrack == sampleHigh:
+    #     noteList = chopOneNote(noteList, 1, 0.1);
 
     timeList = makeTimeList(noteList, bpm);
     timestampsList = makeTimestamps(timeList);
@@ -196,8 +208,8 @@ correctInput = False;
 while correctInput == False:
     userQuarterOrEight = input("Is the time signature in Quarters or Eights? (Type 4 or 8) : ");
     try:
-        QuarterOrEight = float(userQuarterOrEight);
-        if QuarterOrEight == 4 or QuarterOrEight == 8:
+        quarterOrEight = float(userQuarterOrEight);
+        if quarterOrEight == 4 or quarterOrEight == 8:
             correctInput = True;
         else: print("No, please enter 4 or 8!");
     except:
@@ -216,11 +228,11 @@ dictListHigh = OptionsToDictList(OptionsHigh, sampleHigh);
 dictListTotal = combineDictLists(dictListLow, dictListMid, dictListHigh);
 
 #Print
-print("+--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---+");
-print("|                         TOTAL DICTIONARY LIST                         |");
-print("+--- --- --- --- --- --- --- --- --*:*-- --- --- --- --- --- --- --- ---+");
-for dict in range(len(dictListTotal)):
-    print(dictListTotal[dict]);
+# print("+--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---+");
+# print("|                         TOTAL DICTIONARY LIST                         |");
+# print("+--- --- --- --- --- --- --- --- --*:*-- --- --- --- --- --- --- --- ---+");
+# for dict in range(len(dictListTotal)):
+#     print(dictListTotal[dict]);
 
 #Play
 playRhythm(dictListTotal);
