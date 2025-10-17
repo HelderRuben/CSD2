@@ -106,7 +106,7 @@ def chopOneNote(listToChop, index, choptensity):
         #Timestamp increases each chop
         newTimestamp = removedDict["timestamp"] + (chop * choptensity)
         listToChop.append(makeNoteDict(newTimestamp, removedDict["sample"], choptensity));
-    print("Chopped note at: ", removedDict["timestamp"], ", with duration", removedDict["duration"]);
+    # print("Chopped note at: ", removedDict["timestamp"], ", with duration", removedDict["duration"]);
     return listToChop;
 
 def chopTracks(listToChop, chopFactor):
@@ -136,13 +136,20 @@ def chopTracks(listToChop, chopFactor):
 
     for chop in range(amountOfChops):
         #Randomise index, one less in randrange every chop
-        chopIndex = random.randrange(0, len(listToChop) - chop);
-
+        chopIndex = random.randrange(0, totalNoteAmount - chop);
+        print("CHOPINDEX == ", chopIndex);
         #Randomise length
-        chopLength = random.randint(int(chopLenMin), int(chopLenMax));
+        # chopLength = random.randint(int(chopLenMin), int(chopLenMax));
+
+        #TESTING PARAMETERS
+        if chop % 2 == 0:
+            chopLength = chopLenMin;
+        if chop % 2 == 1:
+            chopLength = chopLenMax;
+
         #Make sure chopLengths are small floats and very small for granuliser
         chopLength = chopLength * normalOrGranulised;
-        print("Length of current chop::: ", chopLength);
+        print("Length of current chop::: ", chopLength, ", and NOT DURATION WAS: ", listToChop[chopIndex]["duration"]);
         #Change list by adding one chop
         listToChop = chopOneNote(listToChop, chopIndex, chopLength);
     #Sort giant dictionary list including chops
