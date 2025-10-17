@@ -129,7 +129,7 @@ def chopTracks(listToChop, chopFactor):
     chopLenMin = 100 + (int(invertChopFactor - 20) * rangeWithinRangeFactor);
     chopLenMax = chopLenMin + 15;
     print("RANGE OF CHOPS::: ", chopLenMin, " - ", chopLenMax);
-    #If chopFacter is high, granulise instead of chop (very small chops)
+    #If chopFactor is high, granulise instead of chop (very small chops)
     if chopFactor >= 80:
         normalOrGranulised = 0.0001;
         print("RANGE OF CHOPS::: ", chopLenMin * 0.1, " - ", chopLenMax * 0.1);
@@ -240,6 +240,23 @@ while correctInput == False:
 print(" ");
 print("Perfect, your time signature is ", int(noteAmount), "/", userQuarterOrEight, " .");
 
+#Asking ChopFactor
+correctInput = False;
+while correctInput == False:
+    userChopFactor = input("From 0-99, How trippy do you want your rhythm to be? : ");
+    try:
+        chopFactor = float(userChopFactor);
+        if chopFactor >= 0 and chopFactor <= 99:
+            correctInput = True;
+        else:
+            print(" ");
+            print("Don't try to be funny!, number between 0-99");
+    except:
+        print(" ");
+        print("Come on, that's not a number!");
+print(" ");
+print("Great, your trippy-ness-factor is ", chopFactor, " .");
+
 #Defining Options (testing with bpm and quarter/8ths)
 OptionsLow = [2, 3, 4];
 OptionsMid = [2, 3, 4];
@@ -258,7 +275,7 @@ print("+--- --- --- --- --- --- --- --- --*:*-- --- --- --- --- --- --- --- ---+
 for dict in range(len(dictListTotal)):
     print(dictListTotal[dict]);
 
-choppedDictListTotal = chopTracks(dictListTotal, 98);
+choppedDictListTotal = chopTracks(dictListTotal, chopFactor);
 
 #Print after chopping
 print("+--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---+");
