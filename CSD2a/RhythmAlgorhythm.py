@@ -5,7 +5,7 @@ import random;
 
 pygame.init();
 
-#initiating samples from assets
+#Initiating samples from assets
 sampleLow = pygame.mixer.Sound("../assets/kick.wav");
 sampleMid = pygame.mixer.Sound("../assets/snare.wav");
 sampleHigh = pygame.mixer.Sound("../assets/hihat.wav");
@@ -94,7 +94,7 @@ def combineDictLists(dictList1, dictList2, dictList3):
     return listDict;
 
 def chopOneNote(listToChop, index, choptensity):
-    """Replaces 1 note duration w series of small durations and inserts in dictionary list"""
+    """Replaces 1 note duration w series of small durations and appends to dictionary list"""
     dictToChop = listToChop[index];
     chopsAmount = int(dictToChop["duration"] / choptensity);
 
@@ -103,75 +103,39 @@ def chopOneNote(listToChop, index, choptensity):
 
     #Insert chops as dictionaries
     for chop in range(chopsAmount):
-        listToChop.append({            #Add timestamp and sample back
-            "timestamp": removedDict["timestamp"] + (chop * choptensity), #Increasing timestamps
-            "sample": removedDict["sample"],
-            "duration": choptensity
-        });
+        #Timestamp increases each chop
+        newTimestamp = removedDict["timestamp"] + (chop * choptensity)
+        listToChop.append(makeNoteDict(newTimestamp, removedDict["sample"], choptensity));
     print("Chopped note at: ", removedDict["timestamp"]);
     return listToChop;
 
 def chopTracks(listToChop, chopFactor):
-    """Includes chopped notes in the total dictionary according to chopFactor"""
+    """returns dictionary list including chopped notes according to chopFactor"""
 
-    #calculate amount of notes in final list
+    #Calculate amount of notes in final list
     totalNoteAmount = len(listToChop);
 
-    #calculate percentage of notes to be chopped
-    amountOfChops = int(totalNoteAmount / (100 / chopFactor));
+    #Calculate percentage of notes to be chopped
+    amountOfChops = int(totalNoteAmount / (100/chopFactor));
     print("AMOUNT OF CHOPS IN LIST:::::: ", amountOfChops);
 
     for chop in range(amountOfChops):
-        #randomise index, one less in randrange every chop
+        #Randomise index, one less in randrange every chop
         chopIndex = random.randrange(0, len(listToChop) - chop);
 
-        #randomise length    (next step in system design)
-        #but for now length = 0.1
+        #Randomise length    (next step in system design)
+        #But for now length = 0.1
 
-        #change list by adding one chop
+        #Change list by adding one chop
         listToChop = chopOneNote(listToChop, chopIndex, 0.1);
     #Sort giant dictionary list including chops
     listToChop.sort(key=tsValueInDict);
     return listToChop;
 
-#####
-
-# =====PROBLEM=====
-
-# Location problem: for-loop chopOneNote-func
-
-# Explanation question: When does the computer know what selected note can
-# be chopped or if it is already chopped?
-
-# =====SOLUTION=====
-
-# Explanation: Make a list of integers which represent the indexes of the
-# dictionary list which are still available for chopping
-    # No scratch that, this is much better:
-
-    # Which indexes are available for chopping?
-    #     Solution:
-         # 1.  The chosen index in the dictionary list is popped
-         # 2.  Instead of inserting the chopped notes, append them
-         # 3.  One possible index is popped, so decrease the random range by 1
-         # 4.  Repeat this in for-loop for the amount of notes needed chopping
-         # 5.  Sort the giant dictionary list
-    #     --> this is perfect.
-
-    # ------> THISS COMMENTARY IS EXECUTED
-
-#####
-
 def OptionsToDictList(Options, whatTrack):
     """Returns list of note dictionaries according to options and track kind"""
     optionsWithinTimeSignature = optionsInTimeSignature(Options, quarterOrEight)
     noteList = makeDurList(optionsWithinTimeSignature);
-
-    #Testing chopOneNote in second duration of HiHat
-    print(noteList);
-    # if whatTrack == sampleHigh:
-    #     noteList = chopOneNote(noteList, 1, 0.1);
-
     timeList = makeTimeList(noteList, bpm);
     timestampsList = makeTimestamps(timeList);
     dictList = makeDictList(timestampsList, whatTrack, timeList);
@@ -196,7 +160,7 @@ def playRhythm(listToPlay):
             noteDur = int(1000 * durValueInDict(nextSample));
             # print("Index before playing: ", thisSample);
             nextSample["sample"].play(maxtime=noteDur);
-            #loop list by resetting index and starting time
+            #Loop list by resetting index and starting time
             if thisSample + 1 >= len(listToPlay):
                 thisSample = -1;
                 timeStart = time.time() + durValueInDict(nextSample);
@@ -256,7 +220,7 @@ dictListHigh = OptionsToDictList(OptionsHigh, sampleHigh);
 dictListTotal = combineDictLists(dictListLow, dictListMid, dictListHigh);
 # choppedDictListTotal = chopOneNote(dictListTotal, 5, 0.05);
 
-#testing with before and after chopping
+#Testing with before and after chopping
 print("+--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---+");
 print("|                         TOTAL DICTIONARY LIST (not chopped)           |");
 print("+--- --- --- --- --- --- --- --- --*:*-- --- --- --- --- --- --- --- ---+");
