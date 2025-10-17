@@ -119,18 +119,20 @@ def chopTracks(listToChop, chopFactor):
     amountOfChops = int(totalNoteAmount / (100/chopFactor));
     print("AMOUNT OF CHOPS IN LIST:::::: ", amountOfChops);
 
-    # testing with chop length range
+    #Testing with chop length range
 
-    rangeFactor = 2.5
+    rangeWithinRangeFactor = 2.5;
+    normalOrGranulised = 0.001;
 
-    if chopFactor < 80:
-        invertChopFactor = 100 - chopFactor;
-        print("INVERT: ", invertChopFactor);
-        chopLenMin = 100 + (int(invertChopFactor - 20) * rangeFactor);
-        chopLenMax = chopLenMin + 15;
+    invertChopFactor = 100 - chopFactor;
+    print("INVERT: ", invertChopFactor);
+    chopLenMin = 100 + (int(invertChopFactor - 20) * rangeWithinRangeFactor);
+    chopLenMax = chopLenMin + 15;
     print("RANGE OF CHOPS::: ", chopLenMin, " - ", chopLenMax);
-
-
+    #If chopFacter is high, granulise instead of chop (very small chops)
+    if chopFactor >= 80:
+        normalOrGranulised = 0.0001;
+        print("RANGE OF CHOPS::: ", chopLenMin * 0.1, " - ", chopLenMax * 0.1);
 
     for chop in range(amountOfChops):
         #Randomise index, one less in randrange every chop
@@ -138,8 +140,8 @@ def chopTracks(listToChop, chopFactor):
 
         #Randomise length
         chopLength = random.randint(int(chopLenMin), int(chopLenMax));
-        print("ChopLength before /100: ", chopLength);
-        chopLength = chopLength * 0.001;
+        #Make sure chopLengths are small floats and very small for granuliser
+        chopLength = chopLength * normalOrGranulised;
         print("Length of current chop::: ", chopLength);
         #Change list by adding one chop
         listToChop = chopOneNote(listToChop, chopIndex, chopLength);
@@ -196,7 +198,9 @@ while correctInput == False:
             bpm = float(userBpm);
             correctInput = True;
         except:
+            print(" ");
             print("Incorrect, enter a number I can work with please!");
+print(" ");
 print("Good job, bpm is ", bpm, ".");
 
 #Asking noteAmount
@@ -207,7 +211,9 @@ while correctInput == False:
         noteAmount = float(userNoteAmount);
         correctInput = True;
     except:
+            print(" ");
             print("Not correct, enter a number I can work with please!");
+print(" ");
 print("Well done, there are now ", userNoteAmount, " notes in one bar.");
 
 #Asking Quarters or 8ths
@@ -218,9 +224,13 @@ while correctInput == False:
         quarterOrEight = float(userQuarterOrEight);
         if quarterOrEight == 4 or quarterOrEight == 8:
             correctInput = True;
-        else: print("No, please enter 4 or 8!");
+        else:
+            print(" ");
+            print("No, please enter 4 or 8!");
     except:
-            print("No, please enter the number 4 or 8!");
+        print(" ");
+        print("No, please enter the number 4 or 8!");
+print(" ");
 print("Perfect, your time signature is ", int(noteAmount), "/", userQuarterOrEight, " .");
 
 #Defining Options (testing with bpm and quarter/8ths)
@@ -241,7 +251,7 @@ print("+--- --- --- --- --- --- --- --- --*:*-- --- --- --- --- --- --- --- ---+
 for dict in range(len(dictListTotal)):
     print(dictListTotal[dict]);
 
-choppedDictListTotal = chopTracks(dictListTotal, 70);
+choppedDictListTotal = chopTracks(dictListTotal, 98);
 
 #Print after chopping
 print("+--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---+");
