@@ -100,45 +100,39 @@ def chopOneNote(listToChop, index, choptensity):
 
     #Remove current index dictionary
     removedDict = listToChop.pop(index);
-    replaceTimestamp = removedDict["timestamp"];
-    replaceSample = removedDict["sample"];
 
     #Insert chops as dictionaries
     for chop in range(chopsAmount):
-        listToChop.insert(index + chop, {                                 #Add timestamp and sample back
+        listToChop.append({            #Add timestamp and sample back
             "timestamp": removedDict["timestamp"] + (chop * choptensity), #Increasing timestamps
             "sample": removedDict["sample"],
             "duration": choptensity
         });
-    #Sort list (samples played during chopped note is possible)
-    listToChop.sort(key=tsValueInDict);
+    print("Chopped note at: ", removedDict["timestamp"]);
     return listToChop;
 
 def chopTracks(listToChop, chopFactor):
     """Includes chopped notes in the total dictionary according to chopFactor"""
 
     #calculate amount of notes in final list
-    totalNoteAmount = sum(listToChop);
+    totalNoteAmount = len(listToChop);
 
     #calculate percentage of notes to be chopped
-    amountOfChops = totalNoteAmount / (100 / chopFactor);
+    amountOfChops = int(totalNoteAmount / (100 / chopFactor));
+    print("AMOUNT OF CHOPS IN LIST:::::: ", amountOfChops);
 
-    for chop in amountOfChops:
-        #randomise index
-        chopIndex = random.randrange(len(listToChop));
-        #randomise length, but for now length = 0.1
+    for chop in range(amountOfChops):
+        #randomise index, one less in randrange every chop
+        chopIndex = random.randrange(0, len(listToChop) - chop);
 
-        #chop
-        chopOneNote(trackToChop, chopIndex, 0.1)
+        #randomise length    (next step in system design)
+        #but for now length = 0.1
 
-
-    NOTE dit weer weghalen
-    # chopLenMin
-    # chopLenMax
-    #calculate a range for chopped note duration
-    chopAmt = (chopFactor / 100) * - 1 + 1;
-        #math: / decides range, + decides minimum
-
+        #change list by adding one chop
+        listToChop = chopOneNote(listToChop, chopIndex, 0.1);
+    #Sort giant dictionary list including chops
+    listToChop.sort(key=tsValueInDict);
+    return listToChop;
 
 #####
 
@@ -157,12 +151,14 @@ def chopTracks(listToChop, chopFactor):
 
     # Which indexes are available for chopping?
     #     Solution:
-    #      1.  The chosen index in the dictionary list is popped
-    #      2.  Instead of inserting the chopped notes, append them
-    #      3.  One possible index is popped, so decrease the random range by 1
-    #      4.  Repeat this in for-loop for the amount of notes needed chopping
-    #      5.  Sort the giant dictionary list
+         # 1.  The chosen index in the dictionary list is popped
+         # 2.  Instead of inserting the chopped notes, append them
+         # 3.  One possible index is popped, so decrease the random range by 1
+         # 4.  Repeat this in for-loop for the amount of notes needed chopping
+         # 5.  Sort the giant dictionary list
     #     --> this is perfect.
+
+    # ------> THISS COMMENTARY IS EXECUTED
 
 #####
 
@@ -259,11 +255,19 @@ dictListMid = OptionsToDictList(OptionsMid, sampleMid);
 dictListHigh = OptionsToDictList(OptionsHigh, sampleHigh);
 dictListTotal = combineDictLists(dictListLow, dictListMid, dictListHigh);
 # choppedDictListTotal = chopOneNote(dictListTotal, 5, 0.05);
-choppedDictListTotal = chopTracks(dictListTotal, 5, 0.05);
 
-#Print
+#testing with before and after chopping
 print("+--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---+");
-print("|                         TOTAL DICTIONARY LIST                         |");
+print("|                         TOTAL DICTIONARY LIST (not chopped)           |");
+print("+--- --- --- --- --- --- --- --- --*:*-- --- --- --- --- --- --- --- ---+");
+for dict in range(len(dictListTotal)):
+    print(dictListTotal[dict]);
+
+choppedDictListTotal = chopTracks(dictListTotal, 20);
+
+#Print after chopping
+print("+--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---+");
+print("|                         TOTAL DICTIONARY LIST (CHOPPED)               |");
 print("+--- --- --- --- --- --- --- --- --*:*-- --- --- --- --- --- --- --- ---+");
 for dict in range(len(choppedDictListTotal)):
     print(choppedDictListTotal[dict]);
