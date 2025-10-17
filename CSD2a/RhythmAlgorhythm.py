@@ -106,7 +106,7 @@ def chopOneNote(listToChop, index, choptensity):
         #Timestamp increases each chop
         newTimestamp = removedDict["timestamp"] + (chop * choptensity)
         listToChop.append(makeNoteDict(newTimestamp, removedDict["sample"], choptensity));
-    print("Chopped note at: ", removedDict["timestamp"]);
+    print("Chopped note at: ", removedDict["timestamp"], ", with duration", removedDict["duration"]);
     return listToChop;
 
 def chopTracks(listToChop, chopFactor):
@@ -119,15 +119,30 @@ def chopTracks(listToChop, chopFactor):
     amountOfChops = int(totalNoteAmount / (100/chopFactor));
     print("AMOUNT OF CHOPS IN LIST:::::: ", amountOfChops);
 
+    # testing with chop length range
+
+    rangeFactor = 2.5
+
+    if chopFactor < 80:
+        invertChopFactor = 100 - chopFactor;
+        print("INVERT: ", invertChopFactor);
+        chopLenMin = 100 + (int(invertChopFactor - 20) * rangeFactor);
+        chopLenMax = chopLenMin + 15;
+    print("RANGE OF CHOPS::: ", chopLenMin, " - ", chopLenMax);
+
+
+
     for chop in range(amountOfChops):
         #Randomise index, one less in randrange every chop
         chopIndex = random.randrange(0, len(listToChop) - chop);
 
-        #Randomise length    (next step in system design)
-        #But for now length = 0.1
-
+        #Randomise length
+        chopLength = random.randint(int(chopLenMin), int(chopLenMax));
+        print("ChopLength before /100: ", chopLength);
+        chopLength = chopLength * 0.001;
+        print("Length of current chop::: ", chopLength);
         #Change list by adding one chop
-        listToChop = chopOneNote(listToChop, chopIndex, 0.1);
+        listToChop = chopOneNote(listToChop, chopIndex, chopLength);
     #Sort giant dictionary list including chops
     listToChop.sort(key=tsValueInDict);
     return listToChop;
@@ -218,7 +233,6 @@ dictListLow = OptionsToDictList(OptionsLow, sampleLow);
 dictListMid = OptionsToDictList(OptionsMid, sampleMid);
 dictListHigh = OptionsToDictList(OptionsHigh, sampleHigh);
 dictListTotal = combineDictLists(dictListLow, dictListMid, dictListHigh);
-# choppedDictListTotal = chopOneNote(dictListTotal, 5, 0.05);
 
 #Testing with before and after chopping
 print("+--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---+");
@@ -227,7 +241,7 @@ print("+--- --- --- --- --- --- --- --- --*:*-- --- --- --- --- --- --- --- ---+
 for dict in range(len(dictListTotal)):
     print(dictListTotal[dict]);
 
-choppedDictListTotal = chopTracks(dictListTotal, 20);
+choppedDictListTotal = chopTracks(dictListTotal, 70);
 
 #Print after chopping
 print("+--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---+");
