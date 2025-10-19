@@ -106,6 +106,10 @@ def chopOneNote(listToChop, index, choptensity, changeGrainsize, chopLenMin, cho
         #If it's time to change grainsize, randomise choptensity again
         if chop % changeGrainsize == 0:
             choptensity = random.randint(int(chopLenMin), int(chopLenMax));
+
+            #Implementing right conditions for granulator
+            if chopFactor >= 80:
+                choptensity = random.randint(150, 300);
             choptensity = choptensity * normalOrGranulised;
             print("changed grainSize, choptensity is now: ", choptensity);
         #Timestamp increases each chop
@@ -128,19 +132,15 @@ def chopTracks(listToChop, chopFactor):
     rangeWithinRangeFactor = 2.5;
     normalOrGranulised = 0.001;
 
-    #Testing with changing grainsize every so often
-    #Based on random amount of chops in for-loop
-    changeChoptensityInterval = random.randrange(7, 10);
-
     invertChopFactor = 100 - chopFactor;
     print("INVERT: ", invertChopFactor);
     chopLenMin = 100 + (int(invertChopFactor - 20) * rangeWithinRangeFactor);
     chopLenMax = chopLenMin + 15;
-    print("RANGE OF CHOPS::: ", chopLenMin, " - ", chopLenMax);
     #If chopFactor is high, granulise instead of chop (very small chops)
     if chopFactor >= 80:
         normalOrGranulised = 0.0001;
-        print("RANGE OF CHOPS::: ", chopLenMin * 0.1, " - ", chopLenMax * 0.1);
+    #For bug-fixing
+    else: print("RANGE OF CHOPS::: ", chopLenMin, " - ", chopLenMax);
 
     for chop in range(amountOfChops):
         #Randomise index, one less in randrange every chop
@@ -149,8 +149,15 @@ def chopTracks(listToChop, chopFactor):
         #Randomise length
         choptensity = random.randint(int(chopLenMin), int(chopLenMax));
 
+        #Implementing right conditions for granulator
+        if chopFactor >= 80:
+            choptensity = random.randint(150, 300);
+
         #Make sure choptensitys are small floats and very small for granuliser
         choptensity = choptensity * normalOrGranulised;
+
+        #Every so often within a note-length, the grainsize changes
+        changeChoptensityInterval = int(0.5 / choptensity);
         print("Length of current chop::: ", choptensity, ", NOTE DURATION WAS: ", listToChop[chopIndex]["duration"], "And with TIME STAMP ", listToChop[chopIndex]["timestamp"]);
         #Change list by adding one chop
         listToChop = chopOneNote(listToChop, chopIndex, choptensity, changeChoptensityInterval, chopLenMin, chopLenMax, normalOrGranulised);
@@ -265,10 +272,12 @@ OptionsMid = [2, 3, 4];
 OptionsHigh = [1, 2, 3];
 
 #From Options to List containing all note dictionaries
-dictListLow = OptionsToDictList(OptionsLow, sampleLow);
-dictListMid = OptionsToDictList(OptionsMid, sampleMid);
-dictListHigh = OptionsToDictList(OptionsHigh, sampleHigh);
-dictListTotal = combineDictLists(dictListLow, dictListMid, dictListHigh);
+####TESTING WITH ONLY HIHAT
+# dictListLow = OptionsToDictList(OptionsLow, sampleLow);
+# dictListMid = OptionsToDictList(OptionsMid, sampleMid);
+# dictListHigh = OptionsToDictList(OptionsHigh, sampleHigh);
+dictListTotal = OptionsToDictList(OptionsHigh, sampleMid);
+# dictListTotal = combineDictLists(dictListLow, dictListMid, dictListHigh);
 
 #Testing with before and after chopping
 print("+--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---+");
