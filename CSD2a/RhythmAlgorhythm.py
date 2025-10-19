@@ -93,7 +93,7 @@ def combineDictLists(dictList1, dictList2, dictList3):
     listDict.sort(key=tsValueInDict);
     return listDict;
 
-def chopOneNote(listToChop, index, choptensity):
+def chopOneNote(listToChop, index, choptensity, changeGrainsize, chopLenMin, chopLenMax, normalOrGranulised):
     """Replaces 1 note duration w series of small durations and appends to dictionary list"""
     dictToChop = listToChop[index];
     chopsAmount = int(dictToChop["duration"] / choptensity);
@@ -103,8 +103,13 @@ def chopOneNote(listToChop, index, choptensity):
 
     #Insert chops as dictionaries
     for chop in range(chopsAmount):
+        #If it's time to change grainsize, randomise choptensity again
+        if chop % changeGrainsize == 0:
+            choptensity = random.randint(int(chopLenMin), int(chopLenMax));
+            choptensity = choptensity * normalOrGranulised;
+            print("changed grainSize, choptensity is now: ", choptensity);
         #Timestamp increases each chop
-        newTimestamp = removedDict["timestamp"] + (chop * choptensity)
+        newTimestamp = removedDict["timestamp"] + (chop * choptensity);
         listToChop.append(makeNoteDict(newTimestamp, removedDict["sample"], choptensity));
     # print("Chopped note at: ", removedDict["timestamp"], ", with duration", removedDict["duration"]);
     return listToChop;
@@ -120,9 +125,12 @@ def chopTracks(listToChop, chopFactor):
     print("AMOUNT OF CHOPS IN LIST:::::: ", amountOfChops);
 
     #Testing with chop length range
-
     rangeWithinRangeFactor = 2.5;
     normalOrGranulised = 0.001;
+
+    #Testing with changing grainsize every so often
+    #Based on random amount of chops in for-loop
+    changeChoptensityInterval = random.randrange(7, 10);
 
     invertChopFactor = 100 - chopFactor;
     print("INVERT: ", invertChopFactor);
@@ -139,19 +147,13 @@ def chopTracks(listToChop, chopFactor):
         chopIndex = random.randrange(0, totalNoteAmount - chop);
         print("CHOPINDEX == ", chopIndex);
         #Randomise length
-        # chopLength = random.randint(int(chopLenMin), int(chopLenMax));
+        choptensity = random.randint(int(chopLenMin), int(chopLenMax));
 
-        #TESTING PARAMETERS
-        if chop % 2 == 0:
-            chopLength = chopLenMin;
-        if chop % 2 == 1:
-            chopLength = chopLenMax;
-
-        #Make sure chopLengths are small floats and very small for granuliser
-        chopLength = chopLength * normalOrGranulised;
-        print("Length of current chop::: ", chopLength, ", and NOT DURATION WAS: ", listToChop[chopIndex]["duration"]);
+        #Make sure choptensitys are small floats and very small for granuliser
+        choptensity = choptensity * normalOrGranulised;
+        print("Length of current chop::: ", choptensity, ", NOTE DURATION WAS: ", listToChop[chopIndex]["duration"], "And with TIME STAMP ", listToChop[chopIndex]["timestamp"]);
         #Change list by adding one chop
-        listToChop = chopOneNote(listToChop, chopIndex, chopLength);
+        listToChop = chopOneNote(listToChop, chopIndex, choptensity, changeChoptensityInterval, chopLenMin, chopLenMax, normalOrGranulised);
     #Sort giant dictionary list including chops
     listToChop.sort(key=tsValueInDict);
     return listToChop;
