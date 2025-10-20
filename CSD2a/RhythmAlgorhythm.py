@@ -13,9 +13,11 @@ sampleHigh = pygame.mixer.Sound("../assets/hihat.wav");
 # Amount of notes in bar
 noteAmount = 14;
 quarterOrEight = 0;
+#Playing beat
 bpm = 120;
 stopLoop = 0;
 
+# =-=-=-=-=-=-=-=- GOING FROM LIST TO LIST =-=-=-=-=-=-=-=-
 def optionsInTimeSignature(Options, quarterOrEight):
     """Returns list of options multiplied according to time signature"""
     #If time signature is in eight notes, options are halved
@@ -62,7 +64,7 @@ def makeTimestamps(timeList):
     return tsList;
 
 def makeNoteDict(ts, whatTrack, timeDur):
-    """Returns dictionary containing timestamp, sample and duration of one note"""
+    """Returns dictionary containing timestamp, sample and duration of given note"""
     return {
         "timestamp": ts,
         "sample": whatTrack,
@@ -77,6 +79,7 @@ def makeDictList(tsList, whatTrack, noteList):
         listDict.append(makeNoteDict(tsList[ts], whatTrack, noteList[ts]));
     return listDict;
 
+# =-=-=-=-=-=-=-=- DICTIONARY FUNCTIONS =-=-=-=-=-=-=-=-
 def tsValueInDict(ts):
     """Returns value of "timestamp" in dictionary"""
     return ts["timestamp"];
@@ -94,6 +97,7 @@ def combineDictLists(dictList1, dictList2, dictList3):
     listDict.sort(key=tsValueInDict);
     return listDict;
 
+# =-=-=-=-=-=-=-=- CHOPPING FUNCTIONS =-=-=-=-=-=-=-=-
 def chopOneNote(listToChop, index, choptensity, changeGrainsize, chopLenMin, chopLenMax, normalOrGranulised):
     """Replaces 1 note duration w series of small durations and appends to dictionary list"""
     dictToChop = listToChop[index];
@@ -104,7 +108,7 @@ def chopOneNote(listToChop, index, choptensity, changeGrainsize, chopLenMin, cho
 
     #Insert chops as dictionaries
     for chop in range(chopsAmount):
-        #If it's time to change grainsize, randomise choptensity again
+        #Changing grain size every so often
         if chop % changeGrainsize == 0:
             choptensity = random.randint(int(chopLenMin), int(chopLenMax));
 
@@ -112,42 +116,36 @@ def chopOneNote(listToChop, index, choptensity, changeGrainsize, chopLenMin, cho
             if chopFactor >= 80:
                 choptensity = random.randint(150, 300);
             choptensity = choptensity * normalOrGranulised;
-            # print("changed grainSize, choptensity is now: ", choptensity);
         #Timestamp increases each chop
         newTimestamp = removedDict["timestamp"] + (chop * choptensity);
         listToChop.append(makeNoteDict(newTimestamp, removedDict["sample"], choptensity));
-    # print("Chopped note at: ", removedDict["timestamp"], ", with duration", removedDict["duration"]);
     return listToChop;
 
 def chopTracks(listToChop, chopFactor):
-    """returns dictionary list including chopped notes according to chopFactor"""
-
-    #Calculate amount of notes in final list
+    """Returns dictionary list including chopped notes according to chopFactor"""
     totalNoteAmount = len(listToChop);
 
     #Calculate percentage of notes to be chopped
     amountOfChops = int(totalNoteAmount / (100/chopFactor));
-    # print("AMOUNT OF CHOPS IN LIST:::::: ", amountOfChops);
 
-    #Testing with chop length range
+    #Constants for creating chopping range
     rangeWithinRangeFactor = 2.5;
     normalOrGranulised = 0.001;
-
+    #Variables for creating chopping range
     invertChopFactor = 100 - chopFactor;
-    # print("INVERT: ", invertChopFactor);
     chopLenMin = 100 + (int(invertChopFactor - 20) * rangeWithinRangeFactor);
     chopLenMax = chopLenMin + 15;
-    #If chopFactor is high, granulise instead of chop (very small chops)
+
+    #Granulator gives smaller chops
     if chopFactor >= 80:
         normalOrGranulised = 0.0001;
-    #For bug-fixing
-    # else: print("RANGE OF CHOPS::: ", chopLenMin, " - ", chopLenMax);
 
+    #Chopping all notes picked to be chopped
     for chop in range(amountOfChops):
-        #Randomise index, one less in randrange every chop
+        #Randomise index (one less in randrange every chop bc one is popped)
         chopIndex = random.randrange(0, totalNoteAmount - chop);
-        # print("CHOPINDEX == ", chopIndex);
-        #Randomise length
+
+        #Randomise length according to range
         choptensity = random.randint(int(chopLenMin), int(chopLenMax));
 
         #Implementing right conditions for granulator
@@ -159,13 +157,14 @@ def chopTracks(listToChop, chopFactor):
 
         #Every so often within a note-length, the grainsize changes
         changeChoptensityInterval = int(0.5 / choptensity);
-        # print("Length of current chop::: ", choptensity, ", NOTE DURATION WAS: ", listToChop[chopIndex]["duration"], "And with TIME STAMP ", listToChop[chopIndex]["timestamp"]);
+
         #Change list by adding one chop
         listToChop = chopOneNote(listToChop, chopIndex, choptensity, changeChoptensityInterval, chopLenMin, chopLenMax, normalOrGranulised);
     #Sort giant dictionary list including chops
     listToChop.sort(key=tsValueInDict);
     return listToChop;
 
+# =-=-=-=-=-=-=-=- GENERATING ALGORHYTHM PARAMETERS =-=-=-=-=-=-=-=-
 def OptionsToDictList(Options, whatTrack):
     """Returns list of note dictionaries according to options and track kind"""
     optionsWithinTimeSignature = optionsInTimeSignature(Options, quarterOrEight)
@@ -175,6 +174,7 @@ def OptionsToDictList(Options, whatTrack):
     dictList = makeDictList(timestampsList, whatTrack, timeList);
     return dictList;
 
+# =-=-=-=-=-=-=-=- USER INPUT FUNCTIONS =-=-=-=-=-=-=-=-
 def askChopFactor():
     """Sets chopFactor to correct user input"""
     correctInput = False;
@@ -182,6 +182,7 @@ def askChopFactor():
         userChopFactor = input("From 1-99, How trippy do you want your rhythm to be? : ");
         try:
             chopFactor = float(userChopFactor);
+            #Check for right range
             if chopFactor >= 1 and chopFactor <= 99:
                 correctInput = True;
             else:
@@ -201,6 +202,7 @@ def oldBeatOrNewInput():
         userChangeBeat = input("Do you want to change the trippy-ness of this beat? : ");
         try:
             changeBeat = str(userChangeBeat);
+            #"Spelling-check"
             if changeBeat == "yes":
                 chopFactor = askChopFactor();
                 choppedDictListTotal = chopTracks(dictListTotal, chopFactor);
@@ -216,12 +218,13 @@ def oldBeatOrNewInput():
             print("You're not even making sense, just say yes or no");
 
 def playAgainOrNot():
-    """Lets beat play again or make new beat based on user input"""
+    """Lets beat play again or not based on user input"""
     correctInput = False;
     while correctInput == False:
         userPlayAgain = input("Nice beat! Do you want to play it again? : ");
         try:
             playAgain = str(userPlayAgain);
+            #"Spelling-check"
             if playAgain == "yes":
                 correctInput = True;
                 playRhythm(choppedDictListTotal);
@@ -235,11 +238,12 @@ def playAgainOrNot():
             print(" ");
             print("You're not even making sense, just say yes or no");
 
+# =-=-=-=-=-=-=-=- PLAY =-=-=-=-=-=-=-=-
 def playRhythm(listToPlay):
     """Runs time and plays sample on timestamps"""
     #Make sure loop can be started
     loopCount = 0;
-    # print("LISTTOPLAY LENGTH : ", len(listToPlay))
+
     playList = [];
     #Filling list
     for i in range(len(listToPlay)):
@@ -254,21 +258,21 @@ def playRhythm(listToPlay):
         if now >= nextSample["timestamp"] + timeStart:
             #Make note duration from dictionary max sample playtime
             noteDur = int(1000 * durValueInDict(nextSample));
-            # print("Index before playing: ", thisSample);
             nextSample["sample"].play(maxtime=noteDur);
-            #Loop list by resetting index and starting time, stop loop if user says so
-            if thisSample + 1 >= len(listToPlay) and loopCount < 4:
 
+            #Loop list by resetting index and starting time
+            if thisSample + 1 >= len(listToPlay) and loopCount < 4:
                 thisSample = -1;
                 timeStart = time.time() + durValueInDict(nextSample);
                 loopCount += 1;
+            #Stop loop
             if loopCount >= 4:
                 playAgainOrNot();
                 break;
             thisSample += 1;
             nextSample = playList[thisSample];
 
-#####  USER INPUT
+# =-=-=-=-=-=-=-=- USER INPUT FOR START =-=-=-=-=-=-=-=-
 
 # Asking BPM
 correctInput = False;
@@ -280,6 +284,7 @@ while correctInput == False:
     else:
         try:
             bpm = float(userBpm);
+            #Check for right range
             if bpm >= 50 and bpm <= 300:
                 correctInput = True;
             else:
@@ -297,6 +302,7 @@ while correctInput == False:
     userNoteAmount = input("What amount of notes would you like? : ");
     try:
         noteAmount = float(userNoteAmount);
+        #Check for right range
         if noteAmount > 0:
             correctInput = True;
         else:
@@ -314,6 +320,7 @@ while correctInput == False:
     userQuarterOrEight = input("Is the time signature in Quarters or Eights? (Type 4 or 8) : ");
     try:
         quarterOrEight = float(userQuarterOrEight);
+        #Check for right answers
         if quarterOrEight == 4 or quarterOrEight == 8:
             correctInput = True;
         else:
@@ -327,20 +334,18 @@ print("Perfect, your time signature is ", int(noteAmount), "/", userQuarterOrEig
 
 chopFactor = askChopFactor();
 
-#Defining Options (testing with bpm and quarter/8ths)
+#Defining Options
 OptionsLow = [2, 3, 4];
 OptionsMid = [2, 3, 4];
 OptionsHigh = [1, 2, 3];
 
 #From Options to List containing all note dictionaries
-####TESTING WITH ONLY HIHAT
 dictListLow = OptionsToDictList(OptionsLow, sampleLow);
 dictListMid = OptionsToDictList(OptionsMid, sampleMid);
 dictListHigh = OptionsToDictList(OptionsHigh, sampleHigh);
-# dictListTotal = OptionsToDictList(OptionsHigh, sampleMid);
 dictListTotal = combineDictLists(dictListLow, dictListMid, dictListHigh);
 
-#Testing with before and after chopping
+#Testing, Print before chopping
 # print("+--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---+");
 # print("|                         TOTAL DICTIONARY LIST (not chopped)           |");
 # print("+--- --- --- --- --- --- --- --- --*:*-- --- --- --- --- --- --- --- ---+");
@@ -349,7 +354,7 @@ dictListTotal = combineDictLists(dictListLow, dictListMid, dictListHigh);
 
 choppedDictListTotal = chopTracks(dictListTotal, chopFactor);
 
-#Print after chopping
+#Testing, Print after chopping
 # print("+--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---+");
 # print("|                         TOTAL DICTIONARY LIST (CHOPPED)               |");
 # print("+--- --- --- --- --- --- --- --- --*:*-- --- --- --- --- --- --- --- ---+");
