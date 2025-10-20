@@ -175,6 +175,25 @@ def OptionsToDictList(Options, whatTrack):
     dictList = makeDictList(timestampsList, whatTrack, timeList);
     return dictList;
 
+def playAgainOrNot():
+    """Lets beat play again or make new beat based on user input"""
+    correctInput = False;
+    while correctInput == False:
+        userPlayAgain = input("Nice beat! Do you want to play it again? : ");
+        try:
+            playAgain = str(userPlayAgain);
+            if playAgain == "yes":
+                correctInput = True;
+                playRhythm(choppedDictListTotal);
+            elif playAgain == "no":
+                correctInput = True;
+            else:
+                print(" ");
+                print("Just say yes or no.");
+        except:
+            print(" ");
+            print("You're not even making sense, just say yes or no");
+
 def playRhythm(listToPlay):
     """Runs time and plays sample on timestamps"""
     #Make sure loop can be started
@@ -202,7 +221,9 @@ def playRhythm(listToPlay):
                 thisSample = -1;
                 timeStart = time.time() + durValueInDict(nextSample);
                 loopCount += 1;
-            if loopCount >= 4: break;
+            if loopCount >= 4:
+                playAgainOrNot();
+                break;
             thisSample += 1;
             nextSample = playList[thisSample];
 
