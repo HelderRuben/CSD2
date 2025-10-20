@@ -14,6 +14,7 @@ sampleHigh = pygame.mixer.Sound("../assets/hihat.wav");
 noteAmount = 14;
 quarterOrEight = 0;
 bpm = 120;
+stopLoop = 0;
 
 def optionsInTimeSignature(Options, quarterOrEight):
     """Returns list of options multiplied according to time signature"""
@@ -176,6 +177,8 @@ def OptionsToDictList(Options, whatTrack):
 
 def playRhythm(listToPlay):
     """Runs time and plays sample on timestamps"""
+    #Make sure loop can be started
+    loopCount = 0;
     print("LISTTOPLAY LENGTH : ", len(listToPlay))
     playList = [];
     #Filling list
@@ -193,10 +196,13 @@ def playRhythm(listToPlay):
             noteDur = int(1000 * durValueInDict(nextSample));
             # print("Index before playing: ", thisSample);
             nextSample["sample"].play(maxtime=noteDur);
-            #Loop list by resetting index and starting time
-            if thisSample + 1 >= len(listToPlay):
+            #Loop list by resetting index and starting time, stop loop if user says so
+            if thisSample + 1 >= len(listToPlay) and loopCount < 4:
+
                 thisSample = -1;
                 timeStart = time.time() + durValueInDict(nextSample);
+                loopCount += 1;
+            if loopCount >= 4: break;
             thisSample += 1;
             nextSample = playList[thisSample];
 
@@ -273,11 +279,11 @@ OptionsHigh = [1, 2, 3];
 
 #From Options to List containing all note dictionaries
 ####TESTING WITH ONLY HIHAT
-# dictListLow = OptionsToDictList(OptionsLow, sampleLow);
-# dictListMid = OptionsToDictList(OptionsMid, sampleMid);
-# dictListHigh = OptionsToDictList(OptionsHigh, sampleHigh);
-dictListTotal = OptionsToDictList(OptionsHigh, sampleMid);
-# dictListTotal = combineDictLists(dictListLow, dictListMid, dictListHigh);
+dictListLow = OptionsToDictList(OptionsLow, sampleLow);
+dictListMid = OptionsToDictList(OptionsMid, sampleMid);
+dictListHigh = OptionsToDictList(OptionsHigh, sampleHigh);
+# dictListTotal = OptionsToDictList(OptionsHigh, sampleMid);
+dictListTotal = combineDictLists(dictListLow, dictListMid, dictListHigh);
 
 #Testing with before and after chopping
 print("+--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---+");
