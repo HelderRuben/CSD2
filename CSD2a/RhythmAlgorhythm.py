@@ -175,6 +175,65 @@ def OptionsToDictList(Options, whatTrack):
     dictList = makeDictList(timestampsList, whatTrack, timeList);
     return dictList;
 
+def askChopFactor():
+    """Sets chopFactor to correct user input"""
+    correctInput = False;
+    while correctInput == False:
+        userChopFactor = input("From 0-99, How trippy do you want your rhythm to be? : ");
+        try:
+            chopFactor = float(userChopFactor);
+            if chopFactor >= 0 and chopFactor <= 99:
+                correctInput = True;
+            else:
+                print(" ");
+                print("Don't try to be funny!, number between 0-99");
+        except:
+            print(" ");
+            print("Come on, that's not a number!");
+    print(" ");
+    print("Great, your trippy-ness-factor is ", chopFactor, " .");
+    return chopFactor;
+
+
+def newBeatOrQuit():
+    correctInput = False;
+    while correctInput == False:
+        userBeatAgain = input("Would you like to make a new beat? ('no' quits script) : ");
+        try:
+            beatAgain = str(userBeatAgain);
+            if beatAgain == "yes":
+                correctInput = True;
+                beatInputParameters();
+            elif beatAgain == "no":
+                correctInput = True;
+            else:
+                print(" ");
+                print("Just say yes or no.");
+        except:
+            print(" ");
+            print("You're not even making sense, just say yes or no");
+
+def oldBeatOrNewInput():
+    correctInput = False;
+    while correctInput == False:
+        userChangeBeat = input("Do you want to change the trippy-ness of this beat? : ");
+        try:
+            changeBeat = str(userChangeBeat);
+            if changeBeat == "yes":
+                correctInput = True;
+                chopFactor = askChopFactor();
+                choppedDictListTotal = chopTracks(dictListTotal, chopFactor);
+                playRhythm(choppedDictListTotal);
+            elif changeBeat == "no":
+                correctInput = True;
+                newBeatOrQuit();
+            else:
+                print(" ");
+                print("Just say yes or no.");
+        except:
+            print(" ");
+            print("You're not even making sense, just say yes or no");
+
 def playAgainOrNot():
     """Lets beat play again or make new beat based on user input"""
     correctInput = False;
@@ -187,6 +246,7 @@ def playAgainOrNot():
                 playRhythm(choppedDictListTotal);
             elif playAgain == "no":
                 correctInput = True;
+                oldBeatOrNewInput();
             else:
                 print(" ");
                 print("Just say yes or no.");
@@ -276,22 +336,7 @@ while correctInput == False:
 print(" ");
 print("Perfect, your time signature is ", int(noteAmount), "/", userQuarterOrEight, " .");
 
-#Asking ChopFactor
-correctInput = False;
-while correctInput == False:
-    userChopFactor = input("From 0-99, How trippy do you want your rhythm to be? : ");
-    try:
-        chopFactor = float(userChopFactor);
-        if chopFactor >= 0 and chopFactor <= 99:
-            correctInput = True;
-        else:
-            print(" ");
-            print("Don't try to be funny!, number between 0-99");
-    except:
-        print(" ");
-        print("Come on, that's not a number!");
-print(" ");
-print("Great, your trippy-ness-factor is ", chopFactor, " .");
+chopFactor = askChopFactor();
 
 #Defining Options (testing with bpm and quarter/8ths)
 OptionsLow = [2, 3, 4];
