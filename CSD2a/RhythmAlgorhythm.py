@@ -112,7 +112,7 @@ def chopOneNote(listToChop, index, choptensity, changeGrainsize, chopLenMin, cho
             if chopFactor >= 80:
                 choptensity = random.randint(150, 300);
             choptensity = choptensity * normalOrGranulised;
-            print("changed grainSize, choptensity is now: ", choptensity);
+            # print("changed grainSize, choptensity is now: ", choptensity);
         #Timestamp increases each chop
         newTimestamp = removedDict["timestamp"] + (chop * choptensity);
         listToChop.append(makeNoteDict(newTimestamp, removedDict["sample"], choptensity));
@@ -127,26 +127,26 @@ def chopTracks(listToChop, chopFactor):
 
     #Calculate percentage of notes to be chopped
     amountOfChops = int(totalNoteAmount / (100/chopFactor));
-    print("AMOUNT OF CHOPS IN LIST:::::: ", amountOfChops);
+    # print("AMOUNT OF CHOPS IN LIST:::::: ", amountOfChops);
 
     #Testing with chop length range
     rangeWithinRangeFactor = 2.5;
     normalOrGranulised = 0.001;
 
     invertChopFactor = 100 - chopFactor;
-    print("INVERT: ", invertChopFactor);
+    # print("INVERT: ", invertChopFactor);
     chopLenMin = 100 + (int(invertChopFactor - 20) * rangeWithinRangeFactor);
     chopLenMax = chopLenMin + 15;
     #If chopFactor is high, granulise instead of chop (very small chops)
     if chopFactor >= 80:
         normalOrGranulised = 0.0001;
     #For bug-fixing
-    else: print("RANGE OF CHOPS::: ", chopLenMin, " - ", chopLenMax);
+    # else: print("RANGE OF CHOPS::: ", chopLenMin, " - ", chopLenMax);
 
     for chop in range(amountOfChops):
         #Randomise index, one less in randrange every chop
         chopIndex = random.randrange(0, totalNoteAmount - chop);
-        print("CHOPINDEX == ", chopIndex);
+        # print("CHOPINDEX == ", chopIndex);
         #Randomise length
         choptensity = random.randint(int(chopLenMin), int(chopLenMax));
 
@@ -159,7 +159,7 @@ def chopTracks(listToChop, chopFactor):
 
         #Every so often within a note-length, the grainsize changes
         changeChoptensityInterval = int(0.5 / choptensity);
-        print("Length of current chop::: ", choptensity, ", NOTE DURATION WAS: ", listToChop[chopIndex]["duration"], "And with TIME STAMP ", listToChop[chopIndex]["timestamp"]);
+        # print("Length of current chop::: ", choptensity, ", NOTE DURATION WAS: ", listToChop[chopIndex]["duration"], "And with TIME STAMP ", listToChop[chopIndex]["timestamp"]);
         #Change list by adding one chop
         listToChop = chopOneNote(listToChop, chopIndex, choptensity, changeChoptensityInterval, chopLenMin, chopLenMax, normalOrGranulised);
     #Sort giant dictionary list including chops
@@ -179,14 +179,14 @@ def askChopFactor():
     """Sets chopFactor to correct user input"""
     correctInput = False;
     while correctInput == False:
-        userChopFactor = input("From 0-99, How trippy do you want your rhythm to be? : ");
+        userChopFactor = input("From 1-99, How trippy do you want your rhythm to be? : ");
         try:
             chopFactor = float(userChopFactor);
-            if chopFactor >= 0 and chopFactor <= 99:
+            if chopFactor >= 1 and chopFactor <= 99:
                 correctInput = True;
             else:
                 print(" ");
-                print("Don't try to be funny!, number between 0-99");
+                print("Don't try to be funny!, number between 1-99");
         except:
             print(" ");
             print("Come on, that's not a number!");
@@ -194,39 +194,20 @@ def askChopFactor():
     print("Great, your trippy-ness-factor is ", chopFactor, " .");
     return chopFactor;
 
-
-def newBeatOrQuit():
-    correctInput = False;
-    while correctInput == False:
-        userBeatAgain = input("Would you like to make a new beat? ('no' quits script) : ");
-        try:
-            beatAgain = str(userBeatAgain);
-            if beatAgain == "yes":
-                correctInput = True;
-                beatInputParameters();
-            elif beatAgain == "no":
-                correctInput = True;
-            else:
-                print(" ");
-                print("Just say yes or no.");
-        except:
-            print(" ");
-            print("You're not even making sense, just say yes or no");
-
 def oldBeatOrNewInput():
+    """Continues beat with different chopFactor or stops code based on user input"""
     correctInput = False;
     while correctInput == False:
         userChangeBeat = input("Do you want to change the trippy-ness of this beat? : ");
         try:
             changeBeat = str(userChangeBeat);
             if changeBeat == "yes":
-                correctInput = True;
                 chopFactor = askChopFactor();
                 choppedDictListTotal = chopTracks(dictListTotal, chopFactor);
+                correctInput = True;
                 playRhythm(choppedDictListTotal);
             elif changeBeat == "no":
                 correctInput = True;
-                newBeatOrQuit();
             else:
                 print(" ");
                 print("Just say yes or no.");
@@ -258,7 +239,7 @@ def playRhythm(listToPlay):
     """Runs time and plays sample on timestamps"""
     #Make sure loop can be started
     loopCount = 0;
-    print("LISTTOPLAY LENGTH : ", len(listToPlay))
+    # print("LISTTOPLAY LENGTH : ", len(listToPlay))
     playList = [];
     #Filling list
     for i in range(len(listToPlay)):
@@ -299,7 +280,11 @@ while correctInput == False:
     else:
         try:
             bpm = float(userBpm);
-            correctInput = True;
+            if bpm >= 50 and bpm <= 300:
+                correctInput = True;
+            else:
+                print(" ");
+                print("I'm not going to allow that. (Between 50-300 please.)");
         except:
             print(" ");
             print("Incorrect, enter a number I can work with please!");
@@ -312,7 +297,11 @@ while correctInput == False:
     userNoteAmount = input("What amount of notes would you like? : ");
     try:
         noteAmount = float(userNoteAmount);
-        correctInput = True;
+        if noteAmount > 0:
+            correctInput = True;
+        else:
+            print(" ");
+            print("Tragically, that's not possible.");
     except:
             print(" ");
             print("Not correct, enter a number I can work with please!");
@@ -352,20 +341,20 @@ dictListHigh = OptionsToDictList(OptionsHigh, sampleHigh);
 dictListTotal = combineDictLists(dictListLow, dictListMid, dictListHigh);
 
 #Testing with before and after chopping
-print("+--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---+");
-print("|                         TOTAL DICTIONARY LIST (not chopped)           |");
-print("+--- --- --- --- --- --- --- --- --*:*-- --- --- --- --- --- --- --- ---+");
-for dict in range(len(dictListTotal)):
-    print(dictListTotal[dict]);
+# print("+--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---+");
+# print("|                         TOTAL DICTIONARY LIST (not chopped)           |");
+# print("+--- --- --- --- --- --- --- --- --*:*-- --- --- --- --- --- --- --- ---+");
+# for dict in range(len(dictListTotal)):
+#     print(dictListTotal[dict]);
 
 choppedDictListTotal = chopTracks(dictListTotal, chopFactor);
 
 #Print after chopping
-print("+--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---+");
-print("|                         TOTAL DICTIONARY LIST (CHOPPED)               |");
-print("+--- --- --- --- --- --- --- --- --*:*-- --- --- --- --- --- --- --- ---+");
-for dict in range(len(choppedDictListTotal)):
-    print(choppedDictListTotal[dict]);
+# print("+--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---+");
+# print("|                         TOTAL DICTIONARY LIST (CHOPPED)               |");
+# print("+--- --- --- --- --- --- --- --- --*:*-- --- --- --- --- --- --- --- ---+");
+# for dict in range(len(choppedDictListTotal)):
+#     print(choppedDictListTotal[dict]);
 
 #Play
 playRhythm(choppedDictListTotal);
