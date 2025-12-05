@@ -2,7 +2,7 @@
 
 //constructor and Dog part of Pet class
 Dog::Dog(std::string name) : Pet(name) {
-  std::cout << "Dog named " << name << " is born\n";
+  std::cout << "Dog named " << name << " is born!\n";
   this->name = name;
 }
 

@@ -7,5 +7,6 @@ target_sources(inheritance PRIVATE
     main.cpp
     pet.cpp
     dog.cpp
+    cat.cpp
 )
 set_property(TARGET inheritance PROPERTY CXX_STANDARD 20)

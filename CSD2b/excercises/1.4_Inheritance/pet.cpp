@@ -26,5 +26,5 @@ void Pet::sleep() {
 
 //eat method
 void Pet::eat() {
-  std::cout << name << "is eating\n";
+  std::cout << name << " is eating\n";
 }
