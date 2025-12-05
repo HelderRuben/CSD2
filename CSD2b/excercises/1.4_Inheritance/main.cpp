@@ -3,34 +3,43 @@
 //Icluding Header files of classes
 #include "dog.h"
 #include "cat.h"
+#include "corgy.h"
+#include "husky.h"
 
 #include <iostream>
 
 int main() {
   //Dog named Barry
-  std::cout << "    LIFE STORY OF BARRY THE DOG:\n";
+  std::cout << "    BARRY THE DOG:\n";
   Dog dogObj("Barry");
   dogObj.sleep();
   dogObj.eat();
   dogObj.bark();
-  dogObj.sleep();
-  dogObj.bark();
-  dogObj.bark();
-  dogObj.sleep();
-  dogObj.climb();
 
   //Cat named Herculus
-  std::cout << "    LIFE STORY OF HERCULUS THE CAT:\n";
+  std::cout << "    HERCULUS THE CAT:\n";
   Cat catObj("Herculus");
   catObj.sleep();
   catObj.eat();
   catObj.climb();
-  catObj.sleep();
-  catObj.climb();
-  catObj.climb();
-  catObj.sleep();
+
+  //Corgy named Pip
+  std::cout << "    PIP THE CORGY:\n";
+  Corgy corgyObj("Pip");
+  corgyObj.sleep();
+  corgyObj.eat();
+  corgyObj.bark();
+  corgyObj.lookCute();
+
+  //Cat named Herculus
+  std::cout << "    XANDER THE HUSKY:\n";
+  Husky huskyObj("Xander");
+  huskyObj.sleep();
+  huskyObj.eat();
+  huskyObj.bark();
+  huskyObj.lookCool();
 
   //Ending program
-  std::cout << "    SAY BYE BYE TO BARRY AND HERCULUS\n";
+  std::cout << "    SAY BYE BYE TO ALL THE PETS\n";
   return 0;
 };

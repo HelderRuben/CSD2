@@ -1,3 +1,11 @@
+# Last addition: Corgy and Husky
+
+I liked this assignment, so i practised it a bit more by expanding on 'Dog', adding Corgy and Husky into the mix.  
+(**See inheritanceDiagram.png**).  
+With their own methods, Corgy can look cute but not cool, and Husky can look cool but not cute. They also inherit the bark method.
+(**See consoleCorgyAndHusky.png**)
+
+
 # Experience of this assignment
 I am learning a lot by doing this assignment and i think it is important to reflect on it.  
 I did not use copy/paste at all during this, so by repetition i learned a lot about syntax and how classes work. Also, using terms like constructor, methods and members is normal now.  
@@ -17,9 +25,9 @@ I didn't look at the ciska-code anymore, only my own code sometimes as example.
 # TESTING
 
 ## Private and Protected  
- If 'protected' is changed into 'private' in line 15 of pet.h, the other files (see dog.cpp) can't access the *name* variable anymore, therefore the console gives an error (**see protectedAndPrivateError image**).  
+ If 'protected' is changed into 'private' in line 15 of pet.h, the other files (see dog.cpp) can't access the *name* variable anymore, therefore the console gives an error (**see protectedAndPrivateError.png**).  
 
 ## Dog Tries to Climb
   Obviously, because eat and sleep are both inside pet.h, cat and dog can access them both.
   But if i add "**dogObj.climb();**" to main.cpp, a simple error occurs, saying the dog physically can't climb (:
-  (**see dogTriesToClimb**).
+  (**see dogTriesToClimb.png**).

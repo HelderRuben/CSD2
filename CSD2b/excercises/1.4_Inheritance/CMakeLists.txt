@@ -8,5 +8,7 @@ target_sources(inheritance PRIVATE
     pet.cpp
     dog.cpp
     cat.cpp
+    corgy.cpp
+    husky.cpp
 )
 set_property(TARGET inheritance PROPERTY CXX_STANDARD 20)
