@@ -14,7 +14,12 @@ I didn't look at the ciska-code anymore, only my own code sometimes as example.
   Dog: Able to eat, sleep and *bark*  
   Cat: Able to eat, sleep and *climb*
 
-# PRIVATE AND PROTECTED:  
- (not finished)
- If 'protected' is changed into 'private' in line ...
- Conclusion
+# TESTING
+
+## Private and Protected  
+ If 'protected' is changed into 'private' in line 15 of pet.h, the other files (see dog.cpp) can't access the *name* variable anymore, therefore the console gives an error (**see protectedAndPrivateError image**).  
+
+## Dog Tries to Climb
+  Obviously, because eat and sleep are both inside pet.h, cat and dog can access them both.
+  But if i add "**dogObj.climb();**" to main.cpp, a simple error occurs, saying the dog physically can't climb (:
+  (**see dogTriesToClimb**).

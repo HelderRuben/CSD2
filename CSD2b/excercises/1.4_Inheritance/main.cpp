@@ -17,6 +17,7 @@ int main() {
   dogObj.bark();
   dogObj.bark();
   dogObj.sleep();
+  dogObj.climb();
 
   //Cat named Herculus
   std::cout << "    LIFE STORY OF HERCULUS THE CAT:\n";
