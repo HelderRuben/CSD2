@@ -6,8 +6,11 @@
 #include <cmath>
 #include "oscillator.h"
 
-class Sine : Oscillator {
+class Sine : public Oscillator {
 public:
+
+  //Default Constructor
+  Sine();
   //Constructor
   Sine(float frequency, float samplerate = 44100);
   //Destructor

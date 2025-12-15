@@ -8,6 +8,7 @@
 class Oscillator {
   //accessible anywhere
   public:
+
     //Constructor
     Oscillator(float frequency = 440, float samplerate = 44100);
     //Destructor

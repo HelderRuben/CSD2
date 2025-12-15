@@ -13,7 +13,7 @@ Oscillator::Oscillator (float frequency, float samplerate) :
 };
 
 //Destructor
-Oscillator::~Osc() {
+Oscillator::~Oscillator() {
   std::cout << "Oscillator destructed\n";
 };
 

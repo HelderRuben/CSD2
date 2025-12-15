@@ -22,3 +22,5 @@ Also, the constructor is linked to Oscillator (with " : Oscillator(parameters)")
 I also started looking at 3_sineSquareSaw in _session3 to compare my code and learn syntax.  
 After this, it was a matter of changes some #include's and linking the callback to oscillator i.o. the waveforms.
 -> Never mind, that's what i thought but i forgot to do things with protected/private and virtual. I also kept getting the error that "Oscillator" wasn't a class name (in Sine-constructor line) which i was very confused about, but by painfully looking at where my #include's were, i learned that i did it wrong (I included sine.h in the oscillator.h which messed up the defining of headers).  
+And i forgot to include the sine.h in the callback (I am learning to include things in my life apparantly).  
+Aaaand something's wrong again.
