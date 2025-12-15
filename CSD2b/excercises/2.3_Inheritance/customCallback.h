@@ -3,6 +3,8 @@
 //Connecting things to here
 #include "audiocomponent.h"
 #include "sine.h"
+#include "square.h"
+#include "saw.h"
 
 struct CustomCallback : AudioCallback {
     explicit CustomCallback (double Fs) : AudioCallback(Fs) {
@@ -33,7 +35,7 @@ struct CustomCallback : AudioCallback {
 
 private:
   //Making the sine
-  Sine oscillator;
+  Saw oscillator;
   //Making the square
   // Square square{440};
 };

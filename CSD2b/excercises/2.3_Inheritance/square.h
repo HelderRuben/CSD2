@@ -4,31 +4,19 @@
 //Including basic utility libraries
 #include <iostream>
 #include <cmath>
+#include "oscillator.h"
 
-class Square
-{
+class Square : public Oscillator{
 public:
+  //Default Constructor
+  Square();
   //Constructor
   Square(float frequency, float samplerate = 44100);
   //Destructor
   ~Square();
-  void setSamplerate(float samplerate);
-  //return current sample
-  float getSample();
-  // go to next sample
-  void tick();
 
-  //getters and setters
-  void setFrequency(float frequency);
-  float getFrequency();
-
-private:
-  float frequency;
-  float amplitude;
-  float phase;
-  // sample contains the current sample
-  float sample;
-  float samplerate;
+  //Override bass class calculate by calculating squarewave position
+  void calculate();
 };
 
 #endif

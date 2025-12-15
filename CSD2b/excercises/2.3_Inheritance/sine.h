@@ -8,7 +8,6 @@
 
 class Sine : public Oscillator {
 public:
-
   //Default Constructor
   Sine();
   //Constructor
