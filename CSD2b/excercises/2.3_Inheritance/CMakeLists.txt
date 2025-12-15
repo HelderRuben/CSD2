@@ -5,6 +5,7 @@ juce_add_console_app(example PRODUCT_NAME "example")
 target_sources(example
         PRIVATE
         main.cpp
+        oscillator.cpp
         sine.cpp
         square.cpp
 )

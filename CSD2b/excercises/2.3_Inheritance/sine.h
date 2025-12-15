@@ -4,32 +4,20 @@
 //Including basic utility libraries
 #include <iostream>
 #include <cmath>
+#include "oscillator.h"
 
-class Sine
-{
+class Sine : Oscillator {
 public:
   //Constructor
   Sine(float frequency, float samplerate = 44100);
   //Destructor
   ~Sine();
-  void setSamplerate(float samplerate);
-  //return current sample
-  float getSample();
-  // go to next sample
-  void tick();
 
-  //getters and setters
-  void setFrequency(float frequency);
-  float getFrequency();
-
+  //Sine-Calculation, overridden from base class
+  void calculate();
 private:
-  const float pi = acos (-1);  //atan(1) * 4; <-- vak van Pieter.
-  float frequency;
-  float amplitude;
-  float phase;
-  // sample contains the current sample
-  float sample;
-  float samplerate;
+  //Used for Sine-calculation
+  const float pi = acos (-1);
 };
 
 #endif

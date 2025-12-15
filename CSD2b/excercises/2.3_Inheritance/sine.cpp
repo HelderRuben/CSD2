@@ -3,41 +3,17 @@
 #include "math.h"
 
 //Constructor and initialiser list
-Sine::Sine(float frequency, float samplerate) : frequency(frequency), amplitude(1.0), phase(0), sample(0), samplerate(samplerate) {
-  std::cout << "Sine - constructor\n";
+Sine::Sine(float frequency, float samplerate) : Oscillator(frequency, samplerate) {
+  std::cout << "Sine constructed\n";
 };
 
 //Destructor
 Sine::~Sine() {
-  std::cout << "Sine - destructor\n";
+  std::cout << "Sine destructed \n";
 };
 
-//Setter for samplerate
-void Sine::setSamplerate(float samplerate) {
-  this->samplerate = samplerate;
-};
-
-//getter for sample
-  // Sample = number speaker position at certain phase
-float Sine::getSample() {
-  return sample;
-};
-
-//Setter for Frequency
-void Sine::setFrequency(float frequency)
-{
-  // TODO add check to see if parameter is valid
-  this->frequency = frequency;
-};
-
-//Getter for Frequency
-float Sine::getFrequency()
-{
-  return frequency;
-};
-
-//Tick
-void Sine::tick() {
+//Calculation but ALSO STILL PHASE UPDATE
+void Sine::calculate() {
   // NOTE 1. - frequency / SAMPLERATE can be implemented in a more efficient way
   phase += frequency / samplerate;
 

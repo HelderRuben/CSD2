@@ -1,6 +1,5 @@
-//Including things
+//Including header
 #include "square.h"
-#include "math.h"
 
 //Constructor and initialiser list
 Square::Square(float frequency, float samplerate) : frequency(frequency), amplitude(1.0), phase(0), sample(0), samplerate(samplerate) {

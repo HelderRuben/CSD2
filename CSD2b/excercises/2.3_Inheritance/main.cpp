@@ -6,7 +6,7 @@
 int main() {
     //Not really any idea what this is for
     ScopedMessageThreadEnabler scopedMessageThreadEnabler;
-    //Something with sampleRate and connecting with JUCE things
+    //Something with sampleRate and connecting with JUCE things i suppose
     CustomCallback audioSource (44100);
     JUCEModule juceModule (audioSource);
     juceModule.init(1,1);

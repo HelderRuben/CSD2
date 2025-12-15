@@ -2,8 +2,7 @@
 
 //Connecting things to here
 #include "audiocomponent.h"
-#include "sine.h"
-#include "square.h"
+#include "oscillator.h"
 
 struct CustomCallback : AudioCallback {
     explicit CustomCallback (double Fs) : AudioCallback(Fs) {
@@ -26,19 +25,15 @@ struct CustomCallback : AudioCallback {
                 //Writing the buffer
 
                 // write sample to buffer at channel 0, amp = 0.25
-                  //for sine
-                outputChannels[channel][sample] = sine.getSample();
-                sine.tick();
-                  //for square
-                outputChannels[channel][sample] = square.getSample();
-                square.tick();
+                outputChannels[channel][sample] = oscillator.getSample();
+                oscillator.tick();
             };
         };
     };
 
 private:
   //Making the sine
-  Sine sine{440};
+  Sine oscillator();
   //Making the square
-  Square square{440};
+  // Square square{440};
 };
