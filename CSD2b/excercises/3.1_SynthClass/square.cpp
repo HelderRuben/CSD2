@@ -2,7 +2,7 @@
 #include "square.h"
 
 //Default Constructor
-Square::Square() : Square(420, 44100) {
+Square::Square() : Square(440, 44100) {
   std::cout << "Square Default Constructor\n";
 }
 //Constructor and initialiser list

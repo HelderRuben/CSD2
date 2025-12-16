@@ -5,6 +5,7 @@ juce_add_console_app(examp PRODUCT_NAME "examp")
 target_sources(examp
         PRIVATE
         main.cpp
+        callback.cpp
         oscillator.cpp
         sine.cpp
         square.cpp

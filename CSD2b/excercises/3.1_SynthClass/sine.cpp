@@ -2,7 +2,7 @@
 #include "sine.h"
 #include "math.h"
 
-//Default Constructor Test
+//Default Constructor
 Sine::Sine() : Sine(440, 44100) {
   std::cout << "Sine Default Constructor\n";
 };
@@ -18,10 +18,6 @@ Sine::~Sine() {
 
 //Calculation but ALSO STILL PHASE UPDATE
 void Sine::calculate() {
-  //Correction for phase
-  if(phase > 1.0f) {
-  phase -= 1.0f;
-  };
   //SINE CALCULATION
   sample = sin(pi * 2 * phase) * amplitude;
 };
