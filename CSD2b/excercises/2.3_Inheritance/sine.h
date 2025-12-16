@@ -1,8 +1,7 @@
 //If not defined, define sine header
 #ifndef _SINE_H_
 #define _SINE_H_
-//Including basic utility libraries
-#include <iostream>
+
 #include <cmath>
 #include "oscillator.h"
 

@@ -1,5 +1,4 @@
 #include "saw.h"
-#include <iostream>
 
 Saw::Saw() : Saw(440, 44100) {
   std::cout << "Saw Default Constructor\n";

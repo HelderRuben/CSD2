@@ -35,7 +35,7 @@ struct CustomCallback : AudioCallback {
 
 private:
   //Making the sine
-  Saw oscillator;
+  Square oscillator;
   //Making the square
   // Square square{440};
 };

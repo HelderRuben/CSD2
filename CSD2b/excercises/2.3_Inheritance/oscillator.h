@@ -3,7 +3,6 @@
 #define _OSCILLATOR_H_
 
 #include <iostream>
-//Including individual waveform headers
 
 class Oscillator {
   //accessible anywhere

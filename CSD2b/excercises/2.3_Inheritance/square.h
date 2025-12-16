@@ -2,7 +2,6 @@
 #ifndef _SQUARE_H_
 #define _SQUARE_H_
 //Including basic utility libraries
-#include <iostream>
 #include <cmath>
 #include "oscillator.h"
 

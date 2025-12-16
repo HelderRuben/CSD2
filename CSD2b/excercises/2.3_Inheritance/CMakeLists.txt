@@ -8,6 +8,7 @@ target_sources(example
         oscillator.cpp
         sine.cpp
         square.cpp
+        saw.cpp
 )
 
 target_compile_definitions(example PRIVATE JUCE_WEB_BROWSER=0 JUCE_USE_CURL=0)

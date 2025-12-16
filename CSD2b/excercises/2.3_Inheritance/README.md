@@ -39,3 +39,9 @@ I'm proud to say these were the only 2!
 
 Now time for the Saw class! I didn't do anything with it yet and i'm gonna try to make saw.cpp and its header from scratch from memory.  
 I made it just now! I think it'll be fun to commit this, so i can see the changes what i got wrong when i compare with sine.cpp and its header.
+
+**I COMPLETELY NAILED IT**  
+
+That was fun.  
+Only small thing i forgot was adding "saw.cpp" to the CMakeLists.txt, but that's okay. I've really gotten muchhhh better at navigating c++.  
+Also, I learned that "#include <iostream>" is only necessary in the header of the base class, so i cleaned this up as well.  
