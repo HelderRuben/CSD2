@@ -3,15 +3,14 @@
 //Constructor wth initialiser list, with oscillators
 Callback::Callback (float samplerate)
   : AudioCallback (samplerate),
-    sawOsc(330, samplerate),
-    squareOsc(440 * (3/2), samplerate)
+    test(440, 1.5f)
 {std::cout << "Callback - Constructor\n";};
 
 
 //Function for making the chosen samplerate the samplerate used by the oscillators
 void Callback::prepare(int samplerate) {
-  sawOsc.setSamplerate (samplerate);
-  std::cout << "\nsamplerate: " << samplerate << "\n";
+  test.setSamplerate(samplerate);
+  std::cout << "\nSamplerate: " << samplerate << "\n";
 };
 
 //Function for processing the buffer (making and ???)
@@ -31,14 +30,13 @@ void Callback::process(AudioBuffer buffer) {
       //Assigning float as type to output
       outputChannels[channel][frame] = 0.0f;
       //Calculating total sample value by adding oscillators
-      float sample = sawOsc.getSample() + squareOsc.getSample();
+      float sample = test.getSample();
       //normalising sample value
       sample *= 0.5f;
       //making sample the output
       outputChannels[channel][frame] = sample;
       //Updating sample of oscillators
-      sawOsc.tick();
-      squareOsc.tick();
+      test.tick();
     };
   };
 };

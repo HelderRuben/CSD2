@@ -6,6 +6,7 @@ target_sources(examp
         PRIVATE
         main.cpp
         callback.cpp
+        synth.cpp
         oscillator.cpp
         sine.cpp
         square.cpp

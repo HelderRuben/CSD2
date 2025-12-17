@@ -7,6 +7,7 @@
 #include "sine.h"
 #include "square.h"
 #include "saw.h"
+#include "synth.h"
 
 //Making Callback class, derived class from Audiocallback class in audiocomponent
 class Callback : public AudioCallback {
@@ -20,7 +21,6 @@ public:
 
 //Making oscillators for Synth
 private:
-  Saw sawOsc;
-  Square squareOsc;
+  Synth test;
 };
 #endif
