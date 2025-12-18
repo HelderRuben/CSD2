@@ -4,20 +4,14 @@
 #include <iostream>
 //include this bc i actually need it now
 #include <string>
+#include <list>
 
-class UserInput() {
-public:
-  //constructor
-  // UserInput();
-
-  //destructor
-  //Im realising as i type this i dont even need a con/destructor sooo nvm
-
-  //MEMBER FUNCTIONS AKA QUESTION-TYPESSS
-    //nooooo clue if this syntax is right, probably totally not but i'll learn from it
-  std::string UIReturnString(array optionList);
-
+namespace userinput {
+  //FUNCTIONS AKA QUESTION-TYPESSS
+  std::string UIReturnString(std::string optionList[], int optionAmount);
   float UIReturnFloat(float rangeStart, float rangeEnd);
+  //boolean bc its valid or not
+  // bool validateSelection(std::string)
 }
 
 #endif

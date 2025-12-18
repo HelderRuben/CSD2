@@ -1,6 +1,8 @@
 //Including Things
 #include <iostream>
 #include "callback.h"
+#include "userinput.h"
+#include <list>
 
 //Main function when running code
 int main() {
@@ -10,6 +12,14 @@ int main() {
     Callback audioSource (44100);
     JUCEModule juceModule (audioSource);
     juceModule.init(1,1);
+
+
+    //TESTING UI
+    // std::string saw;
+    // saw = "saw";
+    std::string waveforms[3] = {"sine", "saw", "square"};
+    std::string test1 = userinput::UIReturnString(waveforms, 3);
+    float test2 = userinput::UIReturnFloat(1.0f, 5.0f);
 
     //Letting user know how to quit script
     std::cout << "Press q + Enter to quit..." << std::endl;
