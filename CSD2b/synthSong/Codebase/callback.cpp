@@ -38,8 +38,8 @@ void Callback::setOscs(
   std::string modWaveform,
   float ratio)
 {
-  // synthPtr = new Ringmod();
-  synthPtr = new Synth();
+  synthPtr = new Ringmod();
+  // synthPtr = new Synth();
   synthPtr->setOscs(carrWaveform, modWaveform, ratio);
 }
 

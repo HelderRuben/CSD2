@@ -32,9 +32,9 @@ public:
   //2 Pointers pointing to oscillators (but now empty)
   Oscillator* CarrAndMod[2];
   float ratio;
-  // protected:
-  //   float virtual modulate(float carrierSample, float modulatorSample) = 0;
-    // float modAmount;
+  protected:
+    float virtual modulate(float carrierSample, float modulatorSample) = 0;
+    float modAmount;
 };
 
 #endif

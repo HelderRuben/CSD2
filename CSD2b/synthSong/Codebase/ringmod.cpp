@@ -29,5 +29,5 @@ Ringmod::~Ringmod() {
 //RM
 float Ringmod::modulate(float carrierSample, float modulatorSample) {
   float RMSample = carrierSample * modulatorSample;
-  // return RMSample;
+  return RMSample;
 }

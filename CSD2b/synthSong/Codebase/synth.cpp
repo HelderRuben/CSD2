@@ -38,8 +38,8 @@ void Synth::setFrequency(float frequency, float ratio) {
 float Synth::getSample() {
   float carrierSample = CarrAndMod[0]->getSample();
   float modulatorSample = CarrAndMod[1]->getSample();
-  // float sample = modulate(carrierSample, modulatorSample) * 0.5f; //FM/RM and normalisation
-  float sample = (carrierSample + modulatorSample) * 0.5f;
+  float sample = modulate(carrierSample, modulatorSample) * 0.5f; //FM/RM and normalisation
+  // float sample = (carrierSample + modulatorSample) * 0.5f;
   return sample;
 };
 

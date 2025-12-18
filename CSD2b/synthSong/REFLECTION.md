@@ -53,3 +53,7 @@ Reflecting is good and healthy, definitely in a design- and production-process. 
 
 4. PLAN MY TRIPS (:
 Maybe it's not a good idea to go to South-Africa on the day of the deadline, I can see that now...
+
+## FINAL REFLECTION: THE CODE WORKSSSS
+
+I noticed that i had something in comments that shouln't have been, so the sound works now!! I added RM. Still no user input for FM or RM, but that's how it is..

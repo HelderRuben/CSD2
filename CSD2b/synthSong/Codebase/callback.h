@@ -26,8 +26,8 @@ public:
 
 private:
   //Pointer to Synth
-  //Ringmod* synthPtr = nullptr;
-  Synth* synthPtr = nullptr;
+  Ringmod* synthPtr = nullptr;
+  // Synth* synthPtr = nullptr;
 
   //Adding melody
   Melody melody;
