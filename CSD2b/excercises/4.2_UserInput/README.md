@@ -73,7 +73,10 @@ OKAYYYY now it's time to fix the horrible things i have just written down. This 
   - Struggled with corrected error when implementing list as string (i learned how to do list in c++ yay)
 
 # Adding another question
+
 i didn't know why i didn't do this in my first attempt, but suddenly i realised there was another question type:
 1. Q: Would you like to play again? yes = 1, no = 0
   - A: 0 or 1
 Yes plays again, 0 quits application
+
+So i did a little testing with bools and added this question as well

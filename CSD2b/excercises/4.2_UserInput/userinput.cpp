@@ -28,3 +28,16 @@ std::string userinput::UIReturnString(std::string optionList[], int optionAmount
   //and then check for legitness in some way
   return userString;
 }
+
+bool userinput::UIReturnBool(std::string boolQuestion) {
+  std::cout << boolQuestion;
+  std::cout << "\n  1 = yes\n  0 = no\n";
+
+  std::string userFloatInput;
+  std::cin >> userFloatInput;
+  float userFloat = std::stof(userFloatInput);
+  if (userFloat == 1) {return true;};
+  if (userFloat == 0) {return false;};
+
+  // return userFloat;
+}
