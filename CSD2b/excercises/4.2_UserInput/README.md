@@ -117,4 +117,9 @@ testing that now...
 I just found out that it's purely logical to work with pointers here. In the class diagram, the callback *HAS A* Synth, so im gonna connect the synth to the callback in the same way i connected the oscillator to the synth; a pointer.
 I got "Bus error: 10", i think bc i didn't use a ```delete synthPtr;```. So im making a destructor for the Callback to delete it.  
 
-I don't really know what im doing anymore to be honest, I am pushing this commit just as checkpoint because im gonna sleep.
+# Error "Segmentation fault: 11"
+
+Not really sure what it means fully, but it shows up when i complete one question. Doesn't matter which question, as soon another one wants to come in its over.  
+I'm getting frustrated with this error because its stopping me from doing things i want. It seems like the ```CarrAndMod[0]``` pointer can't store ```new Saw();``` which is really annoying and i dont know what im missing.  
+**I GOT IT.**
+Through trial and error though. I did ```synthPtr = NULL;``` and made the ```new Synth();``` in the function when setting the waveforms, instead of initialising the synthPtr in ```Callback::Callback```.  

@@ -1,30 +1,29 @@
 #include "callback.h"
 
 //Constructor wth initialiser list, with oscillators
-Callback::Callback (float samplerate) : AudioCallback (samplerate), synthPtr(){
+Callback::Callback (float samplerate) : AudioCallback (samplerate) {
   std::cout << "Callback - Constructor\n";
 
     //SYNTH KIND
-  std::cout << "What kinda Synth you want?\n";
-  // synthOptions[2] = {"FM", "RM"};
-  synthPtr->chosenSynth = userinput::UIReturnString(synthOptions, 2);
+  // std::cout << "What kinda Synth you want?\n";
+  // synthPtr->chosenSynth = userinput::UIReturnString(synthOptions, 2);
 
     //CARRIERS WAVEFORM
   std::cout << "What's the Carrier waveform?\n";
-  // waveforms[3] = {"sine", "saw", "square"};
-  synthPtr->chosenCarrWaveform = userinput::UIReturnString(waveforms, 3);
+  std::string UICarrWaveform = userinput::UIReturnString(waveforms, 3);
 
     //MODULATORS WAVEFORM
   std::cout << "What's the Modulator waveform?\n";
-  synthPtr->chosenModWaveform = userinput::UIReturnString(waveforms, 3);
+  std::string UIModWaveform = userinput::UIReturnString(waveforms, 3);
 
     //CARRIER-MODULATOR RATIO
   std::cout << "What's the carrier-modulator ratio?\n";
-  synthPtr->chosenRatio = userinput::UIReturnFloat(1.0f, 5.0f);
+  float UIRatio = userinput::UIReturnFloat(1.0f, 5.0f);
 
+  Callback::setWaveforms(UICarrWaveform, UIModWaveform, UIRatio);
     //MODULATION AMOUNT
-  std::cout << "How much is the modulation amount?\n";
-  synthPtr->chosenModAmount = userinput::UIReturnFloat(0.0f, 1.0f);
+  // std::cout << "How much is the modulation amount?\n";
+  // synthPtr->chosenModAmount = userinput::UIReturnFloat(0.0f, 1.0f);
 
   // synthPtr(440, chosenRatio, chosenCarrWaveform, chosenModWaveform);
 };
@@ -33,6 +32,15 @@ Callback::Callback (float samplerate) : AudioCallback (samplerate), synthPtr(){
 Callback::~Callback() {
   std::cout << "Callback - Destructor\n";
   delete synthPtr;
+}
+
+//LINKING TO SYNTH CLASS
+
+void Callback::setWaveforms(std::string carrWaveform, std::string modWaveform, float ratio) {
+  std::cout << "SETWAVEFORMS\n";
+  synthPtr = new Synth();
+  synthPtr->setWaveforms(carrWaveform, modWaveform, ratio);
+  // synthPtr->setModWaveform(modWaveform, ratio);
 }
 
 

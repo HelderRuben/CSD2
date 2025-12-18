@@ -19,6 +19,8 @@
 class Synth {
 public:
   //constructor
+  Synth();
+  //constructor
   Synth(float frequency, float ratio, std::string chosenCarrWaveform, std::string chosenModWaveform);
   //destructor
   ~Synth();
@@ -31,17 +33,20 @@ public:
     //gets osc sample
   float getSample();
 
+  void setWaveforms(std::string carrWaveform, std::string modWaveform, float ratio);
+  // void setModWaveform(std::string waveform, float ratio);
+
   //In the future: Function to set waveform with user input
 
   //2 Pointers pointing to oscillators (but now empty)
   Oscillator* CarrAndMod[2];
 
   //Fields for userinput: STANDARD VALUES
-  std::string chosenSynth = "FM";
-  std::string chosenCarrWaveform = "saw";
-  std::string chosenModWaveform = "saw";
-  float chosenRatio = 1.4f;
-  float chosenModAmount = 1;
+  // std::string chosenSynth = "FM";
+  // std::string chosenCarrWaveform = "saw";
+  // std::string chosenModWaveform = "saw";
+  // float chosenRatio = 1.4f;
+  // float chosenModAmount = 1;
 };
 
 #endif
