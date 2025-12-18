@@ -56,4 +56,4 @@ Maybe it's not a good idea to go to South-Africa on the day of the deadline, I c
 
 ## FINAL REFLECTION: THE CODE WORKSSSS
 
-I noticed that i had something in comments that shouln't have been, so the sound works now!! I added RM. Still no user input for FM or RM, but that's how it is..
+I noticed that i had something in comments that shouln't have been, so the sound works now!! I added RM. And now FM as well! and even user choice for this. Helemaal mooi
