@@ -1,4 +1,3 @@
-//Including things
 #include "sine.h"
 #include "math.h"
 
@@ -16,8 +15,7 @@ Sine::~Sine() {
   std::cout << "Sine destructed\n";
 };
 
-//Calculation but ALSO STILL PHASE UPDATE
+//Calculation
 void Sine::calculate() {
-  //SINE CALCULATION
   sample = sin(pi * 2 * phase) * amplitude;
 };

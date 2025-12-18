@@ -20,12 +20,10 @@ Callback::Callback (float samplerate) : AudioCallback (samplerate) {
   std::cout << "What's the carrier-modulator ratio?\n";
   float UIRatio = userinput::UIReturnFloat(1.0f, 5.0f);
 
-  Callback::setWaveforms(UICarrWaveform, UIModWaveform, UIRatio);
+  Callback::setOscs(UICarrWaveform, UIModWaveform, UIRatio);
     //MODULATION AMOUNT
   // std::cout << "How much is the modulation amount?\n";
   // synthPtr->chosenModAmount = userinput::UIReturnFloat(0.0f, 1.0f);
-
-  // synthPtr(440, chosenRatio, chosenCarrWaveform, chosenModWaveform);
 };
 
 //Destructor for deleting pointer
@@ -35,22 +33,22 @@ Callback::~Callback() {
 }
 
 //LINKING TO SYNTH CLASS
-
-void Callback::setWaveforms(std::string carrWaveform, std::string modWaveform, float ratio) {
-  std::cout << "SETWAVEFORMS\n";
+void Callback::setOscs(
+  std::string carrWaveform,
+  std::string modWaveform,
+  float ratio)
+{
   synthPtr = new Synth();
-  synthPtr->setWaveforms(carrWaveform, modWaveform, ratio);
-  // synthPtr->setModWaveform(modWaveform, ratio);
+  synthPtr->setOscs(carrWaveform, modWaveform, ratio);
 }
 
-
-//Function for making the chosen samplerate the samplerate used by the oscillators
+//Function for making the samplerate the samplerate used by the oscillators
 void Callback::prepare(int samplerate) {
   synthPtr->setSamplerate(samplerate);
   std::cout << "\nSamplerate: " << samplerate << "\n";
 };
 
-//Function for processing the buffer (making and ???)
+//Function for processing the buffer
 void Callback::process(AudioBuffer buffer) {
   //Automatically detecting the type of these variables
   auto [inputChannels,
@@ -59,7 +57,6 @@ void Callback::process(AudioBuffer buffer) {
         numOutputChannels,
         numFrames] = buffer;
 
-  //Deathly for-loop
   //For every channel used as ouput
   for (int channel = 0u; channel < numOutputChannels; ++channel) {
     //For every frame used

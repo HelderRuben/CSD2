@@ -1,4 +1,3 @@
-//including header
 #include "oscillator.h"
 
 //Constructor and initialising list
@@ -21,10 +20,8 @@ Oscillator::~Oscillator() {
 void Oscillator::tick() {
   //Phase update: Next Sample
   phase += frequency / samplerate;
-
   //Phase correction
   if (phase > 1.0f) phase -= 1.0f;
-
   //calculate sample of correct waveform
   calculate();
 };
@@ -35,13 +32,11 @@ float Oscillator::getFrequency() {
 };
 
 //Changes frequency value
-//From CISKA:
-// TODO add check to see if parameter is valid
 void Oscillator::setFrequency (float frequency) {
   this->frequency = frequency;
 };
 
-//
+//Changes samplerate value
 void Oscillator::setSamplerate (float samplerate) {
   this->samplerate = samplerate;
 };

@@ -11,8 +11,7 @@ Saw::Saw(float frequency, float samplerate) : Oscillator(frequency, samplerate) 
 Saw::~Saw() {
   std::cout << "Saw destructed\n";
 };
-
+//saw calculation
 void Saw::calculate() {
-  //Saw this in example earlier and remembered (i think correctly)
   sample = phase * 2 - 1.0f;
 };

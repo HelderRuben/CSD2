@@ -1,4 +1,3 @@
-//If not defined, define sine header
 #ifndef _SINE_H_
 #define _SINE_H_
 

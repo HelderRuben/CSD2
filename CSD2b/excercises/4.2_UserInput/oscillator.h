@@ -5,7 +5,6 @@
 #include <iostream>
 
 class Oscillator {
-  //accessible anywhere
   public:
     //Constructor
     Oscillator(float frequency = 440, float samplerate = 44100);
@@ -16,10 +15,8 @@ class Oscillator {
     void setFrequency(float frequency);
     //Freq getter
     float getFrequency();
-
     //Samplerate setter
     void setSamplerate(float samplerate);
-
     //Sample getter (current sample)
     float getSample();
     //Updating tick (next sample)

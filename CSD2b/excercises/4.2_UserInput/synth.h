@@ -1,12 +1,3 @@
-//This is synth class.
-  //Its devided into 2 different synths:
-    //FM
-    //RM
-  //And it is connected to the melody.
-  ////
-  //It has oscillators and their ratios,
-    // and possibly calculations of these which will be done in the derived classes.
-
 #ifndef _SYNTH_H_
 #define _SYNTH_H_
 
@@ -25,28 +16,17 @@ public:
   //destructor
   ~Synth();
 
-  //Member functions which ... can access
-    //ticks oscs
+  //ticks oscs
   void tick();
-    //sets osc samplerate
+  //sets osc samplerate
   void setSamplerate(float samplerate);
-    //gets osc sample
+  //gets osc sample
   float getSample();
-
-  void setWaveforms(std::string carrWaveform, std::string modWaveform, float ratio);
-  // void setModWaveform(std::string waveform, float ratio);
-
-  //In the future: Function to set waveform with user input
+  //setting the oscillators with waveforms and ratio
+  void setOscs(std::string carrWaveform, std::string modWaveform, float ratio);
 
   //2 Pointers pointing to oscillators (but now empty)
   Oscillator* CarrAndMod[2];
-
-  //Fields for userinput: STANDARD VALUES
-  // std::string chosenSynth = "FM";
-  // std::string chosenCarrWaveform = "saw";
-  // std::string chosenModWaveform = "saw";
-  // float chosenRatio = 1.4f;
-  // float chosenModAmount = 1;
 };
 
 #endif

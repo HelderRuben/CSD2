@@ -69,7 +69,7 @@ std::string userinput::UIReturnString(std::string optionList[], int optionAmount
   bool checkValidity = false;
 
   while(notRightInput) {
-    //question asking
+    //question asked
     std::cout << "\nType one of these options to choose:";
     for (int option = 0; option < optionAmount; option++) {
       std::cout << "\n" << optionList[option];
@@ -78,8 +78,7 @@ std::string userinput::UIReturnString(std::string optionList[], int optionAmount
 
     //retrieve a string from user
     std::getline(std::cin, userString);
-
-
+    //is the answer possible?
     checkValidity = checkStringValidity(optionList, userString, optionAmount);
     if (checkValidity) {notRightInput = false;};
     if(notRightInput) {

@@ -123,3 +123,8 @@ Not really sure what it means fully, but it shows up when i complete one questio
 I'm getting frustrated with this error because its stopping me from doing things i want. It seems like the ```CarrAndMod[0]``` pointer can't store ```new Saw();``` which is really annoying and i dont know what im missing.  
 **I GOT IT.**
 Through trial and error though. I did ```synthPtr = NULL;``` and made the ```new Synth();``` in the function when setting the waveforms, instead of initialising the synthPtr in ```Callback::Callback```.  
+
+# Clean up time(:
+
+- Removed and changed some commentary
+- Improved readability

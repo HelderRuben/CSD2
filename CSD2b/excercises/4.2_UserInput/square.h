@@ -1,7 +1,6 @@
-//If not defined, define square header
 #ifndef _SQUARE_H_
 #define _SQUARE_H_
-//Including basic utility libraries
+
 #include <cmath>
 #include "oscillator.h"
 
@@ -14,7 +13,7 @@ public:
   //Destructor
   ~Square();
 
-  //Override bass class calculate by calculating squarewave position
+  //Square calculation, overridden from base class
   void calculate();
 };
 

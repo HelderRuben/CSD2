@@ -2,17 +2,15 @@
 #define _USERINPUT_H_
 
 #include <iostream>
-//include this bc i actually need it now
 #include <string>
 #include <list>
 
 namespace userinput {
-  //FUNCTIONS AKA QUESTION-TYPESSS
+  //different types of questions
   float UIReturnFloat(float rangeStart, float rangeEnd);
   bool UIReturnBool(std::string boolQuestion);
-
   std::string UIReturnString(std::string optionList[], int optionAmount);
-  //boolean bc its valid or not
+  //function for checking validity of user input
   bool checkStringValidity(std::string optionList[], std::string userString, int optionAmount);
 }
 

@@ -16,7 +16,7 @@ public:
   //constructor with samplerate
   Callback(float samplerate);
 
-  //Neede destructor for deleting synthPtr
+  //destructor for deleting synthPtr
   ~Callback();
 
   //Member functions
@@ -26,12 +26,12 @@ public:
     //options lists
   std::string synthOptions[2] = {"FM", "RM"};
   std::string waveforms[3] = {"sine", "saw", "square"};
-// private:
+private:
   //Pointer to Synth
   Synth* synthPtr = NULL;
 
   //functions that are linked back to Synth class
     //SETTING WAVEFORMS
-  void setWaveforms(std::string waveform, std::string modWaveform, float ratio);
+  void setOscs(std::string waveform, std::string modWaveform, float ratio);
 };
 #endif
