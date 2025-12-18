@@ -8,9 +8,11 @@
 
 namespace userinput {
   //FUNCTIONS AKA QUESTION-TYPESSS
-  std::string UIReturnString(std::string optionList[], int optionAmount);
   float UIReturnFloat(float rangeStart, float rangeEnd);
   bool UIReturnBool(std::string boolQuestion);
+
+  std::string UIReturnString(std::string optionList[], int optionAmount);
+  bool checkStringValidity(std::string optionList[], std::string userString, int optionAmount);
   //boolean bc its valid or not
   // bool validateSelection(std::string)
 }

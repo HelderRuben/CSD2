@@ -88,3 +88,14 @@ Saw Vida using std::exception, googled it, implemented it.
 
 Also added this range thing to the boolean question so the answer is 1 or 0 (but then with std::stoi i.o. std::stof).  
 Note: Maybe this isn't very clean because, if answering with a float, it gets rounded off (0.5 = 0, 1.2 = 1) But i'm accepting it bc it's **4:18 AM** right now.  
+
+# Correct String
+
+Now the same thing but with the string question. I'm making a function to check the validity of the string, by for-looping through the string and checking if it's one of the options or not.  
+Just like the usual, i first tried myself and then looked at Ciska-code to try to learn something.  
+Uhhh no i'm not for-looping through the string, i'm for-looping through the options to check every one of them. Somehow i thought i needed to check every string-character but okay nvm.  
+But it went pretty smoothly actually!  
+Okay the error-fixing went smoothly but now im stuck on the bug that everything that i type is wrong, even if its right.  
+Nvm, was something to do with a wrong for-loop.  
+
+I still have a bug left, the UIReturnBool also accepts specific string values as 0, like "sdfg". Don't exactly know why.

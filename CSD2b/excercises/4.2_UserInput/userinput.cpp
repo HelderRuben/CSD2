@@ -19,29 +19,15 @@ float userinput::UIReturnFloat(float rangeStart, float rangeEnd) {
         //stops while-loop to return value (conditions are met)
         notInRange = false;
       } else {
-        std::cout << "\nWithin range please.\n";
+        std::cout << "\nWithin range please.\n--------------------\n";
       }
     }
     catch (const std::exception& nonFloatInput) {
      std::cout << "\nNumber(floating point) please.\n";
     }
   }
+  std::cout << "\n   You picked " << userFloat << "\n";
   return userFloat;
-}
-
-std::string userinput::UIReturnString(std::string optionList[], int optionAmount) {
-  //Asking questions
-  std::cout << "\nType one of these options to choose:";
-  for (int option = 0; option < optionAmount ;option++) {
-    std::cout << "\n" << optionList[option];
-  };
-  std::cout << "\n";
-
-  //retrieve a string from user
-  std::string userString = "";
-  std::getline(std::cin, userString);
-  //and then check for legitness in some way
-  return userString;
 }
 
 bool userinput::UIReturnBool(std::string boolQuestion) {
@@ -59,13 +45,57 @@ bool userinput::UIReturnBool(std::string boolQuestion) {
         std::cout << userFloat;
         notInRange = false;
       } else {
-        std::cout << "\n1 or 0 please.\n";
+        std::cout << "\n1 or 0 please.\n-------------\n";
       }
     }
     catch (const std::exception& nonFloatInput) {
-     std::cout << "\nNumber(integer) please.\n";
+     std::cout << "\nNumber(integer) please.\n-----------------------\n";
     }
-    if (userFloat == 1) {return true;};
-    if (userFloat == 0) {return false;};
+
+    if (userFloat == 1) {
+      std::cout << "\n   You picked yes\n";
+      return true;
+    };
+    if (userFloat == 0) {
+      std::cout << "\n   You picked no\n";
+      return false;
+    };
   }
+}
+
+std::string userinput::UIReturnString(std::string optionList[], int optionAmount) {
+  std::string userString = "";
+  bool notRightInput = true;
+  bool checkValidity = false;
+
+  while(notRightInput) {
+    //question asking
+    std::cout << "\nType one of these options to choose:";
+    for (int option = 0; option < optionAmount; option++) {
+      std::cout << "\n" << optionList[option];
+    };
+    std::cout << "\n";
+
+    //retrieve a string from user
+    std::getline(std::cin, userString);
+
+
+    checkValidity = checkStringValidity(optionList, userString, optionAmount);
+    if (checkValidity) {notRightInput = false;};
+    if(notRightInput) {
+      std::cout << "\nTake some typing or spelling lessons\n------------------------------------\n";
+    };
+  }
+  std::cout << "\n   You picked " << userString << "\n";
+  return userString;
+}
+
+bool userinput::checkStringValidity(std::string optionList[], std::string userString, int optionAmount) {
+  //cycling through options to check if its there
+  for(int option = 0; option < optionAmount; option++) {
+    if (userString == optionList[option]) {
+      return true;
+    }
+  }
+  return false;
 }
