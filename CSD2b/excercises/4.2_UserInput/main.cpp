@@ -22,13 +22,7 @@ int main() {
     float test2 = userinput::UIReturnFloat(1.0f, 5.0f);
     std::string boolQuestion = "Is red your favorourite colour? maybeee?";
     bool test3 = userinput::UIReturnBool(boolQuestion);
-
-    if(test3) {
-      std::cout << "IT ISSS";
-    } else {std::cout << "IT ISSNTTTT";};
-
-
-
+    
     //Letting user know how to quit script
     std::cout << "Press q + Enter to quit..." << std::endl;
 

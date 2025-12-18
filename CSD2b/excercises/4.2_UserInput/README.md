@@ -80,3 +80,11 @@ i didn't know why i didn't do this in my first attempt, but suddenly i realised 
 Yes plays again, 0 quits application
 
 So i did a little testing with bools and added this question as well
+
+# float Range
+
+Its time for the range of the answer to work properly. I liked the idea of a boolean "notInRange" in a while-loop so thats what im doing. I googled how to do try and catch and then i kind of did it(thanks w3schools).
+Saw Vida using std::exception, googled it, implemented it.  
+
+Also added this range thing to the boolean question so the answer is 1 or 0 (but then with std::stoi i.o. std::stof).  
+Note: Maybe this isn't very clean because, if answering with a float, it gets rounded off (0.5 = 0, 1.2 = 1) But i'm accepting it bc it's **4:18 AM** right now.  
