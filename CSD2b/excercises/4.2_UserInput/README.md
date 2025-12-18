@@ -99,3 +99,22 @@ Okay the error-fixing went smoothly but now im stuck on the bug that everything 
 Nvm, was something to do with a wrong for-loop.  
 
 I still have a bug left, the UIReturnBool also accepts specific string values as 0, like "sdfg". Don't exactly know why.
+
+# Correct questions
+
+Implemented the correct questions in main function (for testing) and connected the values to right variables. (Not the FM, RM and modAmount yet, but the waveforms and ratio).  
+
+In main:
+NOTE: I know the questions can be implemented in the functions(small duplicate code) as well but this is very readable...
+
+I'm using * and & with pointers for the first time to make these "user-chosen" variables accessible for the functions that need them. I think that's just very easy to do that from the main, since the main.cpp is the source of the questions code.
+**Nope never mind that's not what i'm doing**
+I'm gonna make the Callback *use* the userinput, just like it says in my class diagram.
+
+I am so close, i already have that the synth starts playing AFTER the questions are answered. The only thing that's bothering me is how the Synth has to be initialised by the Callback constructor, before i can have the variables ready (so now its just always the standard values of the synth-parameters, because they are defined in the callback-header).  
+I think the solution would be to have pointers, because i seem to need dynamic memory allocation.  
+testing that now...
+I just found out that it's purely logical to work with pointers here. In the class diagram, the callback *HAS A* Synth, so im gonna connect the synth to the callback in the same way i connected the oscillator to the synth; a pointer.
+I got "Bus error: 10", i think bc i didn't use a ```delete synthPtr;```. So im making a destructor for the Callback to delete it.  
+
+I don't really know what im doing anymore to be honest, I am pushing this commit just as checkpoint because im gonna sleep.

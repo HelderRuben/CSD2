@@ -26,7 +26,7 @@ float userinput::UIReturnFloat(float rangeStart, float rangeEnd) {
      std::cout << "\nNumber(floating point) please.\n";
     }
   }
-  std::cout << "\n   You picked " << userFloat << "\n";
+  std::cout << "\n+----You picked " << userFloat << "----+\n";
   return userFloat;
 }
 
@@ -53,11 +53,11 @@ bool userinput::UIReturnBool(std::string boolQuestion) {
     }
 
     if (userFloat == 1) {
-      std::cout << "\n   You picked yes\n";
+      std::cout << "\n+----You picked yes----+\n";
       return true;
     };
     if (userFloat == 0) {
-      std::cout << "\n   You picked no\n";
+      std::cout << "\n+----You picked no----+\n";
       return false;
     };
   }
@@ -86,7 +86,7 @@ std::string userinput::UIReturnString(std::string optionList[], int optionAmount
       std::cout << "\nTake some typing or spelling lessons\n------------------------------------\n";
     };
   }
-  std::cout << "\n   You picked " << userString << "\n";
+  std::cout << "\n+----You picked " << userString << "----+\n";
   return userString;
 }
 

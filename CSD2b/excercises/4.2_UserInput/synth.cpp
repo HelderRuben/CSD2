@@ -1,11 +1,16 @@
 #include "synth.h"
 
 //constructor
-Synth::Synth(float frequency, float ratio) {
+Synth::Synth(float frequency, float ratio, std::string chosenCarrWaveform, std::string chosenModWaveform) {
   //something with oscillators and ratios
   std::cout << "Synth - Constructor\n";
-  CarrAndMod[0] = new Saw(frequency);
-  CarrAndMod[1] = new Square(frequency * ratio);
+  //Linking to correct osc type
+  if(chosenCarrWaveform == "saw") {CarrAndMod[0] = new Saw(frequency);};
+  if(chosenCarrWaveform == "sine") {CarrAndMod[0] = new Sine(frequency);};
+  if(chosenCarrWaveform == "square") {CarrAndMod[0] = new Square(frequency);};
+  if(chosenModWaveform == "saw") {CarrAndMod[1] = new Saw(frequency * ratio);};
+  if(chosenModWaveform == "sine") {CarrAndMod[1] = new Sine(frequency * ratio);};
+  if(chosenModWaveform == "square") {CarrAndMod[1] = new Square(frequency * ratio);};
 };
 
 Synth::~Synth() {

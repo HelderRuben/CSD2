@@ -8,6 +8,7 @@
 #include "square.h"
 #include "saw.h"
 #include "synth.h"
+#include "userinput.h"
 
 //Making Callback class, derived class from Audiocallback class in audiocomponent
 class Callback : public AudioCallback {
@@ -15,12 +16,18 @@ public:
   //constructor with samplerate
   Callback(float samplerate);
 
+  //Neede destructor for deleting synthPtr
+  ~Callback();
+
   //Member functions
   void prepare (int sampleRate) override;
   void process (AudioBuffer buffer) override;
 
-//Making oscillators for Synth
+    //options lists
+  std::string synthOptions[2] = {"FM", "RM"};
+  std::string waveforms[3] = {"sine", "saw", "square"};
 private:
-  Synth test;
+  //Pointer to Synth
+  Synth* synthPtr = new Synth();
 };
 #endif

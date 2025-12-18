@@ -12,9 +12,8 @@ namespace userinput {
   bool UIReturnBool(std::string boolQuestion);
 
   std::string UIReturnString(std::string optionList[], int optionAmount);
-  bool checkStringValidity(std::string optionList[], std::string userString, int optionAmount);
   //boolean bc its valid or not
-  // bool validateSelection(std::string)
+  bool checkStringValidity(std::string optionList[], std::string userString, int optionAmount);
 }
 
 #endif
