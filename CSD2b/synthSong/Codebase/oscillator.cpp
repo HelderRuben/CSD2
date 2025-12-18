@@ -36,6 +36,11 @@ void Oscillator::setFrequency (float frequency) {
   this->frequency = frequency;
 };
 
+//Returning phase
+float Oscillator::getPhase() {
+  return this->phase;
+}
+
 //Changes samplerate value
 void Oscillator::setSamplerate (float samplerate) {
   this->samplerate = samplerate;

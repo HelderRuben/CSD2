@@ -4,6 +4,7 @@
 #include "audiocomponent.h"
 #include "synth.h"
 #include "ringmod.h"
+#include "freqmod.h"
 #include "userinput.h"
 #include "melody.h"
 
@@ -23,10 +24,11 @@ public:
     //options lists
   std::string synthOptions[2] = {"FM", "RM"};
   std::string waveforms[3] = {"sine", "saw", "square"};
+  std::string chosenSynth;
 
 private:
   //Pointer to Synth
-  Ringmod* synthPtr = nullptr;
+  Synth* synthPtr = nullptr;
   // Synth* synthPtr = nullptr;
 
   //Adding melody

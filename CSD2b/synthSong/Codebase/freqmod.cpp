@@ -20,7 +20,8 @@ Freqmod::Freqmod(
     frequency,
     ratio,
     chosenCarrWaveform,
-    chosenModWaveform) {
+    chosenModWaveform)
+{
   std::cout << "Freqmod - Constructor\n";
 };
 
@@ -29,7 +30,10 @@ Freqmod::~Freqmod() {
   std::cout << "Freqmod - Destructor\n";
 };
 
-//Freqmod
+//FM
   float Freqmod::modulate(float carrierSample, float modulatorSample) {
-
+    float carrPhase = CarrAndMod[0]->getPhase();
+    // float modPhase = CarrAndMod[0]->getPhase();
+    float RMSample = carrPhase * modulatorSample;
+    return RMSample;
 };

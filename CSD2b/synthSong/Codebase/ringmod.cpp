@@ -16,7 +16,11 @@ Ringmod::Ringmod(
   float ratio,
   std::string chosenCarrWaveform,
   std::string chosenModWaveform)
-  : Synth(frequency, ratio, chosenCarrWaveform, chosenModWaveform)
+  : Synth(
+    frequency,
+    ratio,
+    chosenCarrWaveform,
+    chosenModWaveform)
 {
   std::cout << "Ringmod - Constructor\n";
 };

@@ -17,9 +17,22 @@ Does it work? Yes kinda but stumbling on an annoying error: *"constructor cannot
 I FORGOT A SEMICOLON AT THE END OF THE CLASS OKAYYYYY  
 Anyway. Works now.
 
-# Calculation
+# RM Calculation
 
 - Added RM calculation to RM::modulate() and parameters (samples)
 - Tested and doesnt work(struggled bc didn't notice i was half working in previous assignment...)
 
 Had lots of errors, now everything is in place except i can't hear any soundd....
+
+Nevermind! Forgot to un-comment one line that returns the sample value :D
+
+# FM Coding
+
+I am currently on the train to Schiphol and i thought yea why not try it for the last time.  
+Soo here we go, implementing FM.  
+I need Phase and Oscillator's got phase, so function getPhase() it is.
+
+ - Added ```float getPhase()``` to Oscillator.
+ - Tested if Freqmod could be implemented in ```Freqmod* synthPtr``` (successful)
+ - Did FM calculation
+ - Changed ```Freqmod* synthPtr``` to ```Synth* synthPtr```, this way pointer points to either Freqmod or Ringmod based on variable ```chosenSynth``` (UserInput)

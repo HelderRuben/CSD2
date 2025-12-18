@@ -8,13 +8,16 @@ public:
   //Constructor
   Ringmod();
   //Constructor looking like Synth Constructor
-  Ringmod(float frequency, float ratio, std::string chosenCarrWaveform, std::string chosenModWaveform);
+  Ringmod(
+    float frequency,
+    float ratio,
+    std::string chosenCarrWaveform,
+    std::string chosenModWaveform);
   //Destructor
   ~Ringmod();
 
   //RM
   float modulate(float carrierSample, float modulatorSample);
-
 };
 
 #endif

@@ -5,8 +5,8 @@ Callback::Callback (float samplerate) : AudioCallback (samplerate) {
   std::cout << "Callback - Constructor\n";
 
     //SYNTH KIND
-  // std::cout << "What kinda Synth you want?\n";
-  // synthPtr->chosenSynth = userinput::UIReturnString(synthOptions, 2);
+  std::cout << "What kinda Synth you want?\n";
+  chosenSynth = userinput::UIReturnString(synthOptions, 2);
 
     //CARRIERS WAVEFORM
   std::cout << "What's the Carrier waveform?\n";
@@ -38,9 +38,14 @@ void Callback::setOscs(
   std::string modWaveform,
   float ratio)
 {
-  synthPtr = new Ringmod();
-  // synthPtr = new Synth();
-  synthPtr->setOscs(carrWaveform, modWaveform, ratio);
+  if(chosenSynth == "FM") {
+    synthPtr = new Freqmod();
+    synthPtr->setOscs(carrWaveform, modWaveform, ratio);
+  };
+  if(chosenSynth == "RM") {
+    synthPtr = new Ringmod();
+    synthPtr->setOscs(carrWaveform, modWaveform, ratio);
+  };
 }
 
 //Function for making the samplerate the samplerate used by the oscillators
@@ -51,7 +56,7 @@ void Callback::prepare(int samplerate) {
 
   // set start frequency
   Note currentNote = melody.getCurrentNote();
-  synthPtr->setFrequency(currentNote.getPitch(), synthPtr->getRatio());
+  // synthPtr->setFrequency(currentNote.getPitch(), synthPtr->getRatio());
 };
 
 //Function for processing the buffer

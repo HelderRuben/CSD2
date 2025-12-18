@@ -2,7 +2,6 @@
 #define _Freqmod_H_
 
 #include "synth.h"
-#include <iostream>
 
 class Freqmod : public Synth {
 public:

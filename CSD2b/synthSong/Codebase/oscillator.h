@@ -19,6 +19,8 @@ class Oscillator {
     void setSamplerate(float samplerate);
     //Sample getter (current sample)
     float getSample();
+    //Getting phase for FM
+    float getPhase();
     //Updating tick (next sample)
     void tick();
 
