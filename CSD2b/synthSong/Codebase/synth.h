@@ -21,17 +21,19 @@ public:
   //sets osc samplerate
   void setSamplerate(float samplerate);
   //sets frequency of note
-  void setFrequency(float frequency);
+  void setFrequency(float frequency, float ratio);
   //gets osc sample
   float getSample();
+  //gets ratio
+  float getRatio();
   //setting the oscillators with waveforms and ratio
   void setOscs(std::string carrWaveform, std::string modWaveform, float ratio);
 
   //2 Pointers pointing to oscillators (but now empty)
   Oscillator* CarrAndMod[2];
-
-  protected:
-    float virtual modulate(float carrierSample, float modulatorSample) = 0;
+  float ratio;
+  // protected:
+  //   float virtual modulate(float carrierSample, float modulatorSample) = 0;
     // float modAmount;
 };
 

@@ -10,6 +10,7 @@ Synth::Synth(
   std::string chosenModWaveform)
 {
   std::cout << "\n\nSynth - Constructor\n";
+  this->ratio = ratio;
 };
 
 Synth::~Synth() {
@@ -29,17 +30,22 @@ void Synth::setSamplerate(float samplerate = 44100) {
   CarrAndMod[1]->setSamplerate(samplerate);
 };
 
-void Synth::setFrequency(float frequency) {
+void Synth::setFrequency(float frequency, float ratio) {
   CarrAndMod[0]->setFrequency(frequency);
-  CarrAndMod[1]->setFrequency(frequency);
+  CarrAndMod[1]->setFrequency(frequency * ratio);
 };
 
 float Synth::getSample() {
   float carrierSample = CarrAndMod[0]->getSample();
   float modulatorSample = CarrAndMod[1]->getSample();
-  float sample = modulate(carrierSample, modulatorSample) * 0.5f; //FM/RM and normalisation
+  // float sample = modulate(carrierSample, modulatorSample) * 0.5f; //FM/RM and normalisation
+  float sample = (carrierSample + modulatorSample) * 0.5f;
   return sample;
 };
+
+float Synth::getRatio() {
+  return this->ratio;
+}
 
 //setting waveforms and osc ratio to user's choice
 void Synth::setOscs(

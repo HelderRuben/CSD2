@@ -38,7 +38,8 @@ void Callback::setOscs(
   std::string modWaveform,
   float ratio)
 {
-  synthPtr = new Ringmod();
+  // synthPtr = new Ringmod();
+  synthPtr = new Synth();
   synthPtr->setOscs(carrWaveform, modWaveform, ratio);
 }
 
@@ -50,7 +51,7 @@ void Callback::prepare(int samplerate) {
 
   // set start frequency
   Note currentNote = melody.getCurrentNote();
-  synthPtr->setFrequency(currentNote.getPitch());
+  synthPtr->setFrequency(currentNote.getPitch(), synthPtr->getRatio());
 };
 
 //Function for processing the buffer
@@ -80,7 +81,7 @@ void Callback::process(AudioBuffer buffer) {
       // returns true when a new note is reached
       if (melody.tick()) {
         Note note = melody.getCurrentNote();
-        synthPtr->setFrequency(note.getPitch());
+        synthPtr->setFrequency(note.getPitch(), synthPtr->getRatio());
       };
     };
   };
