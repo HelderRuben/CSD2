@@ -63,8 +63,7 @@ Just noticed that
 ```for(int channel = 0; channel < buffer.getNumChannels(); ++channel){  
     auto* inputChannel = buffer.getReadPointer(channel);  
     auto* outputChannel = buffer.getWritePointer(channel);  
-    for (int sample = 0; sample < buffer.getNumSamples();   ++sample){ ```
-
+    for (int sample = 0; sample < buffer.getNumSamples();   ++sample){```
 is already working with a buffer. I should read more code. Makes kindof sense now: the waveshaper and the delay both process a frame and output a sample. It makes a chain by going from **inputsample -> outputSample1 -> outputSample2** and then outputting it.  
 Doing that now, so testing with waveshaper AND delay in chain.  
 
