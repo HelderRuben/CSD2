@@ -1,33 +1,41 @@
 #include "circularBuffer.h"
 
-CircularBuffer::CircularBuffer(int size, int delayLength) :
+//standard constructor
+CircularBuffer::CircularBuffer() : CircularBuffer(0, 256) {};
+
+CircularBuffer::CircularBuffer(uint size, uint delayLength) :
+  bufferSize(size),
   RHPosition(0),
-  WHPosition(size)
+  WHPosition(0)
 {
-    //yay constructed
+    //making space for the buffer and then making it
+    allocateBuffer();
+    setDelayLength(delayLength);
 };
 
-CircularBuffer::~CircularBuffer()
-{
-  //release allocated memory or smth
-}:
-
-float CircularBuffer::getReadValue() {
-  return buffer[RHPosition];
+CircularBuffer::~CircularBuffer() {
+  releaseBuffer();
 };
 
-void CircularBuffer::setWriteValue(float inputSample) {
-  buffer[WHPosition] = inputSample;
+void CircularBuffer::resetSize(uint size) {
+  releaseBuffer();
+  allocateBuffer();
 };
 
-void CircularBuffer::tick() {
-  incrementHead(RHPosition);
-  incrementHead(WHPosition);
+void CircularBuffer::setDelayLength(uint delayLength) {
+  delayLength = delayLength;
 };
 
-void CircularBuffer::incrementHead(int& head) {
-  head++;
-  if(head >= SIZE_ARRAY) {
-    head -= SIZE_ARRAY;
-  };
+uint CircularBuffer::getDelayLength() {
+  return delayLength;
+};
+
+void CircularBuffer::allocateBuffer() {
+  //do smth with memory
+  buffer = (float*)malloc(bufferSize * sizeof(float));
+  memset(buffer, 0, bufferSize * sizeof(float));
+};
+
+void CircularBuffer::releaseBuffer() {
+  free(buffer);
 };

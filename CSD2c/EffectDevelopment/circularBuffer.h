@@ -1,31 +1,56 @@
 #pragma once
 
 #include <iostream>
-#define SIZE_ARRAY 512
 
 class CircularBuffer {
 public:
   //constructor
   CircularBuffer();
-  CircularBuffer(int size, int delayLength);
+  CircularBuffer(uint size, uint delayLength);
   //destructor
   ~CircularBuffer();
 
-  //members
-  float getReadValue();
-  void setWriteValue(float inputSample);
+  void resetSize(uint size);
 
-  void setBufferSize(int buffSize);
+  //delaylength set/get
+  void setDelayLength(uint delayLength);
+  uint getDelayLength();
+
+  //functions for read/write values
+  inline float getReadValue() {return buffer[RHPosition];};
+  inline void setWriteValue(float inputSample) {buffer[WHPosition] = inputSample;};
 
   //take step in time
-  void tick()
+  inline void tick() {
+    incrRead();
+    incrWrite();
+  }
 
 
 private:
-  //with pointer towards the correct head to increment
-  void incrementHead(int& head);
-  //heads positions
-  int RHPosition;
-  int WHPosition;
-  float buffer[SIZE_ARRAY];
+  inline void incrRead() {
+    RHPosition++;
+    wrapHead(RHPosition);
+  };
+
+  inline void incrWrite() {
+    WHPosition++;
+    wrapHead(WHPosition);
+  };
+
+  //wrapping the head if nessecary
+  inline void wrapHead(uint& head) {
+    if (head >= bufferSize) head -= bufferSize;
+  };
+
+  //methods with buffer size things
+  void allocateBuffer();
+  void releaseBuffer();
+  //not very sure why, but the buffer is a pointer now
+  float* buffer;
+  //private members
+  uint bufferSize;
+  uint RHPosition;
+  uint WHPosition;
+  uint delayLength;
 };
