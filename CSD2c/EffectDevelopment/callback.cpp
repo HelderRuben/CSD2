@@ -8,11 +8,11 @@ void CustomCallback::prepare (int rate) {
   sampleRate = (float) rate;
   std::cout << "\nsamplerate: " << sampleRate << "\n";
 
-    // sine.prepare(sampleRate);
-    // sine.setFrequency(targetParameter);
+    sine.prepare(sampleRate);
+    sine.setFrequency(targetParameter);
 
-    square.prepare(sampleRate);
-    square.setFrequency(targetParameter);
+    // square.prepare(sampleRate);
+    // square.setFrequency(targetParameter);
 
   oscServer.init (serverport);
   oscServer.set_callback ("/parameter", "f");
@@ -25,19 +25,23 @@ void CustomCallback::process (AudioBuffer buffer) {
     auto [inputChannels, outputChannels, numInputChannels, numOutputChannels, numFrames] = buffer;
 
     float outputSample = 0.0f;
-    // sine.setFrequency(targetParameter);
-    square.setFrequency(targetParameter);
+    sine.setFrequency(targetParameter);
+    // square.setFrequency(targetParameter);
 
     for (int sample = 0u; sample < numFrames; ++sample) {
         for (int channel = 0u; channel < numOutputChannels; ++channel) {
             //process waveshaper frame
             // waveShaper.processFrame(sine.getSample(), outputSample);
 
-            //process delay frame
-            // delay.processFrame(sine.getSample(), outputSample);
-            outputChannels[channel][sample] = square.getSample() * 0.2;
+            //process AllPassFilter frame
+            allPassFilter.processFrame(sine.getSample(), outputSample);
+            //IF NO EFFECT:
+            // outputChannels[channel][sample] = sine.getSample() * 0.2;
+            // IF EFFECT:
+            outputChannels[channel][sample] = outputSample * 0.2;
+            std::cout <<
         }
-        // sine.tick();
-        square.tick();
+        sine.tick();
+        // square.tick();
     }
 }

@@ -20,27 +20,24 @@ void AllPassFilter::applyEffect(const float &input, float &output)
   //Delayed Sample
   m_feedbackSample = m_buffer[m_RHPosition++];
   wrapHead(m_RHPosition);
-  m_buffer[m_WHPosition++] = m_feedbackSample * m_feedback + input;
+  const auto inputPlusFeedback = m_feedbackSample * m_feedback + input;
+  m_buffer[m_WHPosition++] = inputPlusFeedback;
   wrapHead(m_WHPosition);
 
   //Feedforward Sample
-  m_feedforwardSample = input * -m_feedback;
-  // m_feedforwardSample = input * (1 - m_feedback);
+  m_feedforwardSample = inputPlusFeedback * -m_feedback;
 
-  output = m_feedbackSample + m_feedforwardSample;
+  output = (m_feedbackSample + m_feedforwardSample) * makeUpGain;
 }
-
-
-
 
 void AllPassFilter::resetSize(uint bufferSize) {
   releaseBuffer();
   allocateBuffer();
 };
 
-void AllPassFilter::setDelayLength(uint delayLength) {
+void AllPassFilter::setDelayLength(int delayLength) {
   m_delayLength = delayLength;
-  m_RHPosition = m_WHPosition - m_delayLength + m_bufferSize;
+  m_RHPosition = (int)m_WHPosition - m_delayLength + m_bufferSize;
   wrapHead(m_RHPosition);
 };
 
@@ -54,7 +51,7 @@ void AllPassFilter::setFeedback(float feedback)
   if(feedback < 0 || feedback > 1) {
     throw "Delay::setFeedback - feedback exceeds range [0, 1]";
   }
-  m_feedback = feedback;
+  m_feedback = -feedback;
 }
 
 void AllPassFilter::logFeedback() {

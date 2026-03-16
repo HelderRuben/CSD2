@@ -7,6 +7,7 @@
 #include <square.h>
 #include <waveShaper.h>
 #include <delay.h>
+#include "allPassFilter.h"
 
 class CustomCallback : public AudioCallback {
 public:
@@ -18,10 +19,11 @@ private:
   float sampleRate = 44100.f;
   float targetParameter { 440.f };
 
-  // Sine sine;
-  Square square;
+  Sine sine;
+  // Square square;
   // WaveShaper waveShaper;
-  Delay delay;
+  // Delay delay;
+  AllPassFilter allPassFilter;
 
   LocalOSC oscServer { targetParameter };
   std::string serverport {"7777"};
