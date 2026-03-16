@@ -12,15 +12,13 @@ int main(int argc, char **argv) {
   JUCEModule juceModule (audioSource);
   juceModule.init (2, 2);
 
-  // AllPassFilter allPassFilter(0.9, 20, 512, 1.0);
+  AllPassFilter allPassFilter{0.4, 2, 512, 0.9};
   float freq = 400;
-
-  // allPassFilter.logAllSettings();
 
   // Square square(freq, SAMPLERATE);
   // Sine sine(freq, SAMPLERATE);
 
-  //TESTING CIRCBUFFER
+  //TESTING SAMPLE VALUES
   float squareSample = 0;
   float sineSample = 0;
   float impulsSample = 0;
@@ -29,7 +27,6 @@ int main(int argc, char **argv) {
     //SQUARE
     // squareSample = square.getSample();
     // allPassFilter.setWriteValue(squareSample);
-    // // std::cout << "CBRead: " << allPassFilter.getReadValue() << ", squareSample: " << squareSample << "RW = " << RHPosition << "-" << WHPosition << "\n";
     // std::cout << "Square: " << squareSample << " | RH: " << allPassFilter.getReadValue() << " | ";
     // allPassFilter.logRWPos();
     // allPassFilter.applyEffect(squareSample, outputSample);
@@ -39,7 +36,6 @@ int main(int argc, char **argv) {
     //SINE
     // sineSample = sine.getSample();
     // allPassFilter.setWriteValue(sineSample);
-    // // std::cout << "CBRead: " << allPassFilter.getReadValue() << ", sineSample: " << sineSample << "RW = " << RHPosition << "-" << WHPosition << "\n";
     // std::cout << "Sine: " << sineSample << " | RH: " << allPassFilter.getReadValue() << " | ";
     // allPassFilter.logRWPos();
     // allPassFilter.applyEffect(sineSample, outputSample);
@@ -55,7 +51,7 @@ int main(int argc, char **argv) {
     // allPassFilter.applyEffect(impulsSample, outputSample);
     // std::cout << " | Outputsample: " << outputSample << "\n";
   }
-
+  //ALLPASSFILTER
   // allPassFilter.logAllSettings();
   // allPassFilter.logAllValues();
   // allPassFilter.logFeedback();
@@ -68,6 +64,5 @@ int main(int argc, char **argv) {
         running = false;
     }
   }
-
   return 0;
 }

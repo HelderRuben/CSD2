@@ -17,13 +17,13 @@ public:
 
 private:
   float sampleRate = 44100.f;
-  float targetParameter { 440.f };
+  float targetParameter {440.f};
 
   Sine sine;
   // Square square;
   // WaveShaper waveShaper;
   // Delay delay;
-  AllPassFilter allPassFilter;
+  AllPassFilter allPassFilter{0.3, 2, 512};
 
   LocalOSC oscServer { targetParameter };
   std::string serverport {"7777"};

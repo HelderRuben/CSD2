@@ -1,9 +1,9 @@
 #include "allPassFilter.h"
 
 AllPassFilter::AllPassFilter(float feedback, uint delayLength,
-  uint bufferSize, float dryWet) : Effect(dryWet),
-  m_feedback(0), m_delayLength(0),
-  m_bufferSize(bufferSize), m_RHPosition(0), m_WHPosition(0)
+  uint bufferSize, float makeUpGain)
+  : m_feedback(0), m_delayLength(0), m_bufferSize(bufferSize),
+    m_RHPosition(0), m_WHPosition(0), m_makeUpGain(makeUpGain)
 {
     allocateBuffer();
     setDelayLength(delayLength);
@@ -17,17 +17,15 @@ AllPassFilter::~AllPassFilter() {
 
 void AllPassFilter::applyEffect(const float &input, float &output)
 {
-  //Delayed Sample
   m_feedbackSample = m_buffer[m_RHPosition++];
   wrapHead(m_RHPosition);
+
   const auto inputPlusFeedback = m_feedbackSample * m_feedback + input;
   m_buffer[m_WHPosition++] = inputPlusFeedback;
   wrapHead(m_WHPosition);
 
-  //Feedforward Sample
   m_feedforwardSample = inputPlusFeedback * -m_feedback;
-
-  output = (m_feedbackSample + m_feedforwardSample) * makeUpGain;
+  output = (m_feedbackSample + m_feedforwardSample) * m_makeUpGain;
 }
 
 void AllPassFilter::resetSize(uint bufferSize) {
@@ -55,7 +53,7 @@ void AllPassFilter::setFeedback(float feedback)
 }
 
 void AllPassFilter::logFeedback() {
-  std::cout << "Feedback member: "<< m_feedback << "\n";
+  std::cout << "Feedback member: "<< -m_feedback << "\n";
 }
 
 
@@ -68,7 +66,7 @@ void AllPassFilter::releaseBuffer() {
   free(m_buffer);
 };
 
-//Debug Methods
+//-----------------DEBUG METHODS-----------------
 void AllPassFilter::logRWPos()
 {
   std::cout << "RHPos: " << m_RHPosition << ", WHPos: " << m_WHPosition;
@@ -76,22 +74,21 @@ void AllPassFilter::logRWPos()
 
 void AllPassFilter::logDistanceRW()
 {
-  std::cout << "\n______________________ AllPassFilter:CB ______________________________\n";
+  std::cout << "\n______________________ AllPassFilter______________________________\n";
   std::cout << "Distance between read and write head: " << m_delayLength << "\n";
 	std::cout << "_________________________________________________________________\n";
 }
 
-
 void AllPassFilter::logSize()
 {
-  std::cout << "\n______________________ AllPassFilter:CB ______________________________\n";
+  std::cout << "\n______________________ AllPassFilter______________________________\n";
   std::cout << "Buffer size: " << m_bufferSize << "\n";
 	std::cout << "_________________________________________________________________\n";
 }
 
 void AllPassFilter::logAllSettings()
 {
-  std::cout << "\n______________________ AllPassFilter:CB ______________________________\n";
+  std::cout << "\n______________________ AllPassFilter______________________________\n";
   std::cout << "Read head position: " << m_RHPosition << "\n";
   std::cout << "Write head position: " << m_WHPosition << "\n";
   std::cout << "Distance between read and write head: " << m_delayLength << "\n";
@@ -99,10 +96,9 @@ void AllPassFilter::logAllSettings()
 	std::cout << "_________________________________________________________________\n";
 }
 
-
 void AllPassFilter::logAllValues()
 {
-  std::cout << "\n______________________ AllPassFilter:CB ______________________________\n";
+  std::cout << "\n______________________ AllPassFilter______________________________\n";
   std::cout << "AllPassFilter - buffer contains: \n";
   for (int i = 0; i < m_bufferSize - 1; i++)
 	{

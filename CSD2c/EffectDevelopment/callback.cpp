@@ -39,7 +39,6 @@ void CustomCallback::process (AudioBuffer buffer) {
             // outputChannels[channel][sample] = sine.getSample() * 0.2;
             // IF EFFECT:
             outputChannels[channel][sample] = outputSample * 0.2;
-            std::cout <<
         }
         sine.tick();
         // square.tick();
