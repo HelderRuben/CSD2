@@ -16,7 +16,7 @@ target_sources(EffectDevelopment
   PRIVATE
   main.cpp
   callback.cpp
-  circularBuffer.cpp
+  allPassFilter.cpp
 )
 target_compile_definitions(EffectDevelopment PRIVATE JUCE_WEB_BROWSER=0 JUCE_USE_CURL=0 SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}")
 

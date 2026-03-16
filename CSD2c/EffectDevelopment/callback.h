@@ -4,7 +4,9 @@
 #include <audiocomponent.h>
 #include "osc_server.h"
 #include <sine.h>
+#include <square.h>
 #include <waveShaper.h>
+#include <delay.h>
 
 class CustomCallback : public AudioCallback {
 public:
@@ -16,8 +18,10 @@ private:
   float sampleRate = 44100.f;
   float targetParameter { 440.f };
 
-  Sine sine;
-  WaveShaper waveShaper;
+  // Sine sine;
+  Square square;
+  // WaveShaper waveShaper;
+  Delay delay;
 
   LocalOSC oscServer { targetParameter };
   std::string serverport {"7777"};
