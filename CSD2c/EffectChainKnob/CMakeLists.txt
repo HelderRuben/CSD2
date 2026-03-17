@@ -24,6 +24,9 @@ target_sources(EffectChainKnob
         PRIVATE
         PluginEditor.cpp
         PluginProcessor.cpp
+        allPassFilter.cpp
+        nestedAPFOne.cpp
+        nestedAPFTwo.cpp
 )
 
 target_compile_definitions(EffectChainKnob
