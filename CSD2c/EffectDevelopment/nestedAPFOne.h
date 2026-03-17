@@ -1,33 +1,34 @@
 #pragma once
 #include <effect.h>
-
+#include "allPassFilter.h"
 #include <iostream>
 
-class AllPassFilter : public Effect
+class NestedAPFOne : public Effect
 {
 public:
-  AllPassFilter(
+  NestedAPFOne(
     float feedback = 0.7,
     uint delayLength = 20,
-    uint bufferSize = 512
+    uint bufferSize = 512,
+    float nestedFeedback = 0.7,
+    uint nestedDelayLength = 20,
+    uint nestedBufferSize = 512
   );
-  ~AllPassFilter();
+  ~NestedAPFOne();
 
   void applyEffect(const float &input, float &output) override;
 
   void resetSize(uint size);
-  void setSize(uint size);
   void setDelayLength(int delayLength);
   uint getDelayLength();
   void setFeedback(float feedback);
-  void logFeedback();
+
 
   inline float getReadValue() {return m_buffer[m_RHPosition];};
   inline void setWriteValue(float inputSample) {m_buffer[m_WHPosition] = inputSample;};
 
-  void allocateBuffer();
-  void releaseBuffer();
-
+  void logReadValues();
+  void logFeedback();
   void logRWPos();
   void logDistanceRW();
   void logSize();
@@ -36,10 +37,15 @@ public:
 
 private:
 
+  AllPassFilter APFInsideThisOne;
+
   inline void wrapHead(uint& head) {
     if (head >= m_bufferSize) head -= m_bufferSize;
     else if (head < 0) head += m_bufferSize;
   };
+
+  void allocateBuffer();
+  void releaseBuffer();
 
   float m_feedback = 0.0f;
   float m_feedbackSample = 0;

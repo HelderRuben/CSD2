@@ -1,9 +1,9 @@
 #include "allPassFilter.h"
 
 AllPassFilter::AllPassFilter(float feedback, uint delayLength,
-  uint bufferSize, float makeUpGain)
+  uint bufferSize)
   : m_feedback(0), m_delayLength(0), m_bufferSize(bufferSize),
-    m_RHPosition(0), m_WHPosition(0), m_makeUpGain(makeUpGain)
+    m_RHPosition(0), m_WHPosition(0)
 {
     allocateBuffer();
     setDelayLength(delayLength);
@@ -33,6 +33,10 @@ void AllPassFilter::resetSize(uint bufferSize) {
   allocateBuffer();
 };
 
+void AllPassFilter::setSize(uint bufferSize) {
+  m_bufferSize = bufferSize;
+};
+
 void AllPassFilter::setDelayLength(int delayLength) {
   m_delayLength = delayLength;
   m_RHPosition = (int)m_WHPosition - m_delayLength + m_bufferSize;
@@ -52,11 +56,6 @@ void AllPassFilter::setFeedback(float feedback)
   m_feedback = -feedback;
 }
 
-void AllPassFilter::logFeedback() {
-  std::cout << "Feedback member: "<< -m_feedback << "\n";
-}
-
-
 void AllPassFilter::allocateBuffer() {
   m_buffer = (float*)malloc(m_bufferSize * sizeof(float));
   memset(m_buffer, 0, m_bufferSize * sizeof(float));
@@ -70,6 +69,10 @@ void AllPassFilter::releaseBuffer() {
 void AllPassFilter::logRWPos()
 {
   std::cout << "RHPos: " << m_RHPosition << ", WHPos: " << m_WHPosition;
+}
+
+void AllPassFilter::logFeedback() {
+  std::cout << "Feedback member: "<< -m_feedback << "\n";
 }
 
 void AllPassFilter::logDistanceRW()
