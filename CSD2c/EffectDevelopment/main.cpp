@@ -2,6 +2,7 @@
 #include "callback.h"
 #include "allPassFilter.h"
 #include "nestedAPFOne.h"
+#include "nestedAPFTwo.h"
 #include <square.h>
 #include <sine.h>
 
@@ -13,7 +14,8 @@ int main(int argc, char **argv) {
   JUCEModule juceModule (audioSource);
   juceModule.init (2, 2);
 
-  NestedAPFOne allPassFilter{0.6, 4, 512, 0.5, 7, 512};
+  // NestedAPFTwo allPassFilter{0.6, 4, 512, 0.5, 5, 512, 0.65, 7, 256};
+  AllPassFilter testapffB{0.2, 1, 8};
   float freq = 400;
 
   // Square square(freq, SAMPLERATE);
@@ -44,20 +46,32 @@ int main(int argc, char **argv) {
     // sine.tick();
 
     //IMPULS
-    if (i == 10) {impulsSample = 1;}
-    else {impulsSample = 0;}
-    allPassFilter.setWriteValue(impulsSample);
-    std::cout << "Impuls: " << impulsSample << " | RH: ";
-    allPassFilter.logReadValues();
-    std::cout << " | ";
-    allPassFilter.logRWPos();
-    allPassFilter.applyEffect(impulsSample, outputSample);
-    std::cout << " | Outputsample: " << outputSample << "\n";
+    // if (i == 10) {impulsSample = 1;}
+    // else {impulsSample = 0;}
+    // allPassFilter.setWriteValue(impulsSample);
+    // std::cout << "Impuls: " << impulsSample << " | RH: ";
+    // allPassFilter.logReadValues();
+    // std::cout << " | ";
+    // allPassFilter.logRWPos();
+    // allPassFilter.applyEffect(impulsSample, outputSample);
+    // std::cout << " | Outputsample: " << outputSample << "\n";
   }
   //ALLPASSFILTER
-  allPassFilter.logAllSettings();
-  allPassFilter.logAllValues();
-  allPassFilter.logFeedback();
+  // allPassFilter.logAllSettings();
+  // allPassFilter.logAllValues();
+  // allPassFilter.logFeedback();
+
+  //TESTING FOR BREAKFREQUENCY
+  int fBarray[3] = {100, 1000, 10000};
+  testapffB.logAllSettings();
+
+  for(int i = 0; i < 3; i++) {
+    testapffB.setBreakFrequency(fBarray[i], 48000);
+    testapffB.logFeedback();
+    testapffB.logAllSettings();
+  }
+
+
 
   std::cout << "Press q + Enter to quit..." << std::endl;
   bool running = true;

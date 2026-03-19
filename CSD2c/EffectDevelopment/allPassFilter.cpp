@@ -1,4 +1,5 @@
 #include "allPassFilter.h"
+#include <cmath>
 
 AllPassFilter::AllPassFilter(float feedback, uint delayLength,
   uint bufferSize)
@@ -48,13 +49,23 @@ uint AllPassFilter::getDelayLength() {
 };
 
 
-void AllPassFilter::setFeedback(float feedback)
-{
+void AllPassFilter::setFeedback(float feedback) {
   if(feedback < 0 || feedback > 1) {
     throw "Delay::setFeedback - feedback exceeds range [0, 1]";
   }
   m_feedback = -feedback;
 }
+
+//ADD TO PLUGIN FOCUS
+      // TODO: add argument for LFO modulating the fB. I'm not
+      // using this method outside a phaser anyway.
+void AllPassFilter::setBreakFrequency(float fB, float fS) {
+  float fBfS = fB / fS;
+  float temp = tan(M_PI * fBfS);
+  float coefficient = (temp -1)/(temp + 1);
+  m_feedback = -coefficient;
+}
+////////////////////
 
 void AllPassFilter::allocateBuffer() {
   m_buffer = (float*)malloc(m_bufferSize * sizeof(float));
