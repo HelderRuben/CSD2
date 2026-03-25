@@ -76,6 +76,31 @@ void NestedAPFTwo::setFeedback(float feedback)
   m_feedback = -feedback;
 }
 
+float NestedAPFTwo::readCubic(int RHPosition){
+  int y0, y1, y2, y3;
+  float mu;
+
+  y0 = floor(RHPosition - 1);
+  y1 = floor(RHPosition);
+  y2 = floor(RHPosition);
+  y3 = floor(RHPosition + 1);
+  mu = RHPosition - y1;
+
+  return cubicInterpolation(getReadValue(y0), getReadValue(y1), getReadValue(y2), getReadValue(y3), mu);
+}
+
+float NestedAPFTwo::cubicInterpolation(float y0, float y1, float y2, float y3, float mu){
+  double a0, a1, a2, a3, mu2;
+
+  mu2 = mu * mu;
+	a0 = -0.5 * y0 + 1.5 * y1 - 1.5 * y2 + 0.5 * y3;
+	a1 = y0 - 2.5 * y1 + 2 * y2 - 0.5 * y3;
+	a2 = -0.5 * y0 + 0.5 * y2;
+	a3 = y1;
+
+  return(a0 * mu * mu2 + a1 * mu2 + a2 * mu + a3);
+}
+
 void NestedAPFTwo::allocateBuffer() {
   m_buffer = (float*)malloc(m_bufferSize * sizeof(float));
   memset(m_buffer, 0, m_bufferSize * sizeof(float));
@@ -84,72 +109,3 @@ void NestedAPFTwo::allocateBuffer() {
 void NestedAPFTwo::releaseBuffer() {
   free(m_buffer);
 };
-
-//-----------------DEBUG METHODS-----------------
-
-void NestedAPFTwo::logReadValues() {
-  std::cout << "RH: "<< getReadValue() << "||  Nest1RH: " << APFInsideThisOne.getReadValue() << "|| Nest2RH: " << APFInsideThisTwo.getReadValue() << "||";
-}
-
-void NestedAPFTwo::logFeedback() {
-  std::cout << "Feedback member: "<< -m_feedback << "\n";
-  std::cout << "NESTEDAPF: ";
-  APFInsideThisOne.logFeedback();
-  APFInsideThisTwo.logFeedback();
-}
-
-void NestedAPFTwo::logRWPos()
-{
-  std::cout << "RHPos: " << m_RHPosition << ", WHPos: " << m_WHPosition;
-  std::cout << "NESTEDAPF: ";
-  APFInsideThisOne.logRWPos();
-  APFInsideThisTwo.logRWPos();
-}
-
-void NestedAPFTwo::logDistanceRW()
-{
-  std::cout << "\n______________________ NestedAPFTwo______________________________\n";
-  std::cout << "Distance between read and write head: " << m_delayLength << "\n";
-	std::cout << "_________________________________________________________________\n";
-  std::cout << "NESTEDAPF: ";
-  APFInsideThisOne.logDistanceRW();
-  APFInsideThisTwo.logDistanceRW();
-}
-
-void NestedAPFTwo::logSize()
-{
-  std::cout << "\n______________________ NestedAPFTwo______________________________\n";
-  std::cout << "Buffer size: " << m_bufferSize << "\n";
-	std::cout << "_________________________________________________________________\n";
-  std::cout << "NESTEDAPF: ";
-  APFInsideThisOne.logSize();
-  APFInsideThisTwo.logSize();
-}
-
-void NestedAPFTwo::logAllSettings()
-{
-  std::cout << "\n______________________ NestedAPFTwo______________________________\n";
-  std::cout << "Read head position: " << m_RHPosition << "\n";
-  std::cout << "Write head position: " << m_WHPosition << "\n";
-  std::cout << "Distance between read and write head: " << m_delayLength << "\n";
-  std::cout << "Buffer size: " << m_bufferSize << "\n";
-	std::cout << "_________________________________________________________________\n";
-  std::cout << "NESTEDAPF: ";
-  APFInsideThisOne.logAllSettings();
-  APFInsideThisTwo.logAllSettings();
-}
-
-void NestedAPFTwo::logAllValues()
-{
-  std::cout << "\n______________________ NestedAPFTwo______________________________\n";
-  std::cout << "NestedAPFTwo - buffer contains: \n";
-  for (int i = 0; i < m_bufferSize - 1; i++)
-	{
-    std::cout << m_buffer[i] << ", ";
-	}
-  std::cout << m_buffer[m_bufferSize - 1] << "\n";
-	std::cout << "_________________________________________________________________\n";
-  std::cout << "NESTEDAPF: ";
-  APFInsideThisOne.logAllValues();
-  APFInsideThisTwo.logAllValues();
-}

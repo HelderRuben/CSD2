@@ -22,18 +22,11 @@ public:
   void setDelayLength(int delayLength);
   uint getDelayLength();
   void setFeedback(float feedback);
+  float cubicInterpolation(float y0, float y1, float y2, float y3, float mu);
+  float readCubic(int RHPosition);
 
-
-  inline float getReadValue() {return m_buffer[m_RHPosition];};
+  inline float getReadValue(int RHPosition) {return m_buffer[RHPosition];};
   inline void setWriteValue(float inputSample) {m_buffer[m_WHPosition] = inputSample;};
-
-  void logReadValues();
-  void logFeedback();
-  void logRWPos();
-  void logDistanceRW();
-  void logSize();
-  void logAllSettings();
-  void logAllValues();
 
 private:
 
@@ -50,7 +43,7 @@ private:
   float m_feedback = 0.0f;
   float m_feedbackSample = 0;
   float m_feedforwardSample = 0;
-  const float m_makeUpGain = 0.97;
+  const float m_makeUpGain = 0.95;
 
   float* m_buffer;
   uint m_bufferSize;

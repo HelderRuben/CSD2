@@ -27,6 +27,7 @@ target_sources(EffectChainKnob
         allPassFilter.cpp
         nestedAPFOne.cpp
         nestedAPFTwo.cpp
+        phaser.cpp
 )
 
 target_compile_definitions(EffectChainKnob
