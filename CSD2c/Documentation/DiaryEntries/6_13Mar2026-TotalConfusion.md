@@ -54,7 +54,7 @@ I'm just gonna do that aren't i? Let's go
 
 - I'm seeing the APF as if it's having a CircularBuffer already built inside of it.
   - Therefore, in the naming of members and methods, i'm choosing to name them after APF or CB.
-- You know, i'm actually going to treat the CircularBufferas a separate thing.::
+- You know, i'm actually going to treat the CircularBuffer as a separate thing.::
   - Deleting CB-things from AllPassFilter.h and .cpp
   - I want to make sure everything CB-related goes via the APF
 

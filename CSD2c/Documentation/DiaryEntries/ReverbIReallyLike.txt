@@ -1,0 +1,125 @@
+/////GET NEXT BLOCK/////
+// Your DSP goes here
+float outputSample1 = 0.0f;
+float outputSample2 = 0.0f;
+
+// PIRKLE LARGE ROOM REVERBERATOR
+//apf1 outputs
+float apf1output = 0.0f;
+float apf2output = 0.0f;
+float apf3output = 0.0f;
+float apf4output = 0.0f;
+//These are the different points in the system that get added up before the output
+float lineOne = 0.0f;
+float lineTwo = 0.0f;
+float lineThree = 0.0f;
+//This is the sample from the feedbackloop that runs through a BPF (that i dont have (yet))
+float feedbackSample = 0.0f;
+// Final outputSample:
+float outputSample = 0.0f;
+
+//apf2 outputs
+float xtra1apf1output = 0.0f;
+float xtra1apf2output = 0.0f;
+float xtra1apf3output = 0.0f;
+float xtra1apf4output = 0.0f;
+//These are the different points in the system that get added up before the output
+float xtra1lineOne = 0.0f;
+float xtra1lineTwo = 0.0f;
+float xtra1lineThree = 0.0f;
+//This is the sample from the feedbackloop that runs through a BPF (that i dont have (yet))
+float xtra1feedbackSample = 0.0f;
+// Final outputSample:
+float xtra1outputSample = 0.0f;
+
+//apf3 outputs
+float xtra2apf1output = 0.0f;
+float xtra2apf2output = 0.0f;
+float xtra2apf3output = 0.0f;
+float xtra2apf4output = 0.0f;
+//These are the different points in the system that get added up before the output
+float xtra2lineOne = 0.0f;
+float xtra2lineTwo = 0.0f;
+float xtra2lineThree = 0.0f;
+//This is the sample from the feedbackloop that runs through a BPF (that i dont have (yet))
+float xtra2feedbackSample = 0.0f;
+// Final outputSample:
+float xtra2outputSample = 0.0f;
+
+
+
+
+
+/////PROCESSING FRAMES/////
+// PIRKLE LARGE ROOM REVERBERATOR
+apf1.processFrame(inputChannel[sample] + feedbackSample, apf1output);
+apf2.processFrame(apf1output, apf2output);
+lineOne = apf2output * 0.5;
+apf3.processFrame(apf2output, apf3output);
+lineTwo = apf3output * 0.3;
+apf4.processFrame(apf3output, apf4output);
+lineThree = apf4output * 0.5;
+feedbackSample = apf4output * 0.45;
+outputSample1 = lineOne + lineTwo + lineThree;
+
+xtra1apf1.processFrame(inputChannel[sample] + feedbackSample, xtra1apf1output);
+xtra1apf2.processFrame(xtra1apf1output, xtra1apf2output);
+xtra1lineOne = xtra1apf2output * 0.6;
+xtra1apf3.processFrame(xtra1apf2output, xtra1apf3output);
+xtra1lineTwo = xtra1apf3output * 0.4;
+xtra1apf4.processFrame(xtra1apf3output, xtra1apf4output);
+xtra1lineThree = xtra1apf4output * 0.55;
+xtra1feedbackSample = xtra1apf4output * 0.45;
+xtra1outputSample = xtra1lineOne + xtra1lineTwo + xtra1lineThree;
+
+xtra2apf1.processFrame(inputChannel[sample] + feedbackSample, xtra2apf1output);
+xtra2apf2.processFrame(xtra2apf1output, xtra2apf2output);
+xtra2lineOne = xtra2apf2output * 0.9;
+xtra2apf3.processFrame(xtra2apf2output, xtra2apf3output);
+xtra2lineTwo = xtra2apf3output * 0.5;
+xtra2apf4.processFrame(xtra2apf3output, xtra2apf4output);
+xtra2lineThree = xtra2apf4output * 0.4;
+xtra2feedbackSample = xtra2apf4output * 0.45;
+xtra2outputSample = xtra2lineOne + xtra2lineTwo + xtra2lineThree;
+
+outputSample = (outputSample1 + xtra1outputSample + xtra2outputSample) * 0.33;
+outputChannel[sample] = outputSample * 0.8; //some extra gaining just to be sure
+
+
+
+
+
+/////PRIVATE://///
+// PIRKLE LARGE ROOM REVERBERATOR
+AllPassFilter apf1{0.35, 384, 512};
+AllPassFilter apf2{0.3, 576, 600};
+NestedAPFOne apf3{
+  0.5, 1200, 1250,
+  0.25, 2976, 3000};
+NestedAPFTwo apf4{
+  0.5, 672, 680,
+  0.25, 3648, 3700,
+  0.25, 1440, 1500
+};
+
+AllPassFilter xtra1apf1{0.4, 413, 512};
+AllPassFilter xtra1apf2{0.35, 534, 600};
+NestedAPFOne xtra1apf3{
+  0.3, 1134, 1250,
+  0.45, 3197, 3200};
+NestedAPFTwo xtra1apf4{
+  0.6, 649, 660,
+  0.45, 3856, 3900,
+  0.15, 1340, 1500
+};
+
+AllPassFilter xtra2apf1{0.3, 367, 512};
+AllPassFilter xtra2apf2{0.4, 614, 630};
+NestedAPFOne xtra2apf3{
+  0.6, 1236, 1250,
+  0.2, 2743, 3000};
+NestedAPFTwo xtra2apf4{
+  0.45, 699, 710,
+  0.15, 3578, 3700,
+  0.45, 1540, 1550
+};
