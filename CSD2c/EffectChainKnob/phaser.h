@@ -2,6 +2,7 @@
 #include <effect.h>
 #include <iostream>
 #include "allPassFilter.h"
+#include <sine.h>
 
 class Phaser : public Effect
 {
@@ -18,7 +19,6 @@ public:
   void setFeedback(float feedback);
   void setLFOSpeed(float LFOSpeed);
   void setLFODepth(float LFODepth);
-  void logThings();
 
 private:
   //AllPassFilters
@@ -29,6 +29,8 @@ private:
   AllPassFilter apf5;
   AllPassFilter apf6;
   AllPassFilter apfArray[6] = {apf1, apf2, apf3, apf4, apf5, apf6};
+  //LFO
+  Sine LFO{0.5f, 48000};
   //Members
   float m_feedback;
   float m_LFOSpeed;
@@ -42,5 +44,5 @@ private:
   float apf5output = 0.0f;
   float apf6output = 0.0f;
   float feedbackSample = 0.0f;
-
+  float LFOModifier = 0.0f;
 };

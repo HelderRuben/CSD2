@@ -16,6 +16,7 @@ public:
   ~AllPassFilter();
 
   void applyEffect(const float &input, float &output) override;
+  void applyEffect(const float &input, float &output, float LFOModifier);
 
   void resetSize(uint size);
   void setSize(uint size);

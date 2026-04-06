@@ -29,7 +29,7 @@ AudioPluginAudioProcessorEditor::~AudioPluginAudioProcessorEditor(){}
 
 //==============================================================================
 void AudioPluginAudioProcessorEditor::paint(juce::Graphics& g){
-    g.fillAll (juce::Colour::fromRGB(49, 294, 147));
+    g.fillAll (juce::Colour::fromRGB(49, 130, 147));
 
     g.setColour(juce::Colours::gainsboro);
     g.setFont(40.0f);

@@ -27,16 +27,15 @@ Phaser::~Phaser()
 };
 
 void Phaser::applyEffect(const float &input, float &output) {
-  //for now simply like this:
-
-
-  apf1.processFrame(input + feedbackSample, apf1output);
-  apf2.processFrame(apf1output, apf2output);
-  apf3.processFrame(apf2output, apf3output);
-  apf4.processFrame(apf3output, apf4output);
-  apf5.processFrame(apf4output, apf5output);
-  apf6.processFrame(apf5output, apf6output);
-  feedbackSample = apf6output * m_feedback;
+  LFOModifier = LFO.getSample() * 0.05;
+  apf1.applyEffect(input + feedbackSample, apf1output, LFOModifier);
+  apf2.applyEffect(apf1output, apf2output, LFOModifier);
+  apf3.applyEffect(apf2output, apf3output, LFOModifier);
+  apf4.applyEffect(apf3output, apf4output, LFOModifier);
+  apf5.applyEffect(apf4output, apf5output, LFOModifier);
+  apf6.applyEffect(apf5output, apf6output, LFOModifier);
+  feedbackSample = apf3output * m_feedback;
+  LFO.tick();
   output = apf6output * 0.5 + input * 0.5;
 }
 
@@ -44,7 +43,7 @@ void Phaser::setFeedback(float feedback) {
   if(feedback < 0 || feedback > 1) {
     throw "Delay::setFeedback - feedback exceeds range [0, 1]";
   }
-  m_feedback = -feedback;
+  m_feedback = feedback;
 }
 
 void Phaser::setLFOSpeed(float LFOSpeed) {
@@ -60,16 +59,4 @@ void Phaser::setLFODepth(float LFODepth) {
     throw "Delay::setLFODepth - LFODepth exceeds range [NO IDEA]"; ///THIS
   }
   m_LFODepth = LFODepth;
-}
-
-//LOGGING THINGS
-void Phaser::logThings() {
-  std::cout << "Phaser m_feedback: " << m_feedback << "\n";
-  std::cout << "\nPhaser LFOSpeed: " << m_LFOSpeed << "\n";
-  std::cout << "Phaser LFODepth: " << m_LFODepth << "\n";
-  std::cout << "----Phaser apf's feedback----\n";
-  for (int i = 0; i < 6; i++) {
-    std::cout << i + 1 << ": ";
-    apfArray[i].logFeedback();
-  }
 }

@@ -33,6 +33,29 @@ void AllPassFilter::applyEffect(const float &input, float &output)
   output = (m_feedbackSample + m_feedforwardSample) * m_makeUpGain;
 }
 
+void AllPassFilter::applyEffect(const float &input, float &output, float LFOModifier)
+{
+  //CUBIC INTERPOLATION
+  // m_feedbackSample = readCubic(m_RHPosition);
+  // m_RHPosition++;
+  // wrapHead(m_RHPosition);
+  //WITHOUT CUBIC INTERPOLATION
+  m_feedbackSample = m_buffer[m_RHPosition++];
+  wrapHead(m_RHPosition);
+
+  // const auto inputPlusFeedback = m_feedbackSample * m_feedback + input;
+  // m_buffer[m_WHPosition++] = inputPlusFeedback;
+  // wrapHead(m_WHPosition);
+  // m_feedforwardSample = inputPlusFeedback * -m_feedback;
+
+  m_buffer[m_WHPosition++] = m_feedbackSample * (m_feedback + LFOModifier) + input;
+  wrapHead(m_WHPosition);
+  m_feedforwardSample = input * -(m_feedback + LFOModifier);
+
+  output = (m_feedbackSample + m_feedforwardSample) * m_makeUpGain;
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+}
+
 void AllPassFilter::resetSize(uint bufferSize) {
   releaseBuffer();
   allocateBuffer();
