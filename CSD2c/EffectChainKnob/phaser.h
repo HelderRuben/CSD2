@@ -2,6 +2,7 @@
 #include <effect.h>
 #include <iostream>
 #include "allPassFilter.h"
+#include "simpleAPF.h"
 #include <sine.h>
 
 class Phaser : public Effect
