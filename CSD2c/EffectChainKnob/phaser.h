@@ -1,7 +1,6 @@
 #pragma once
 #include <effect.h>
 #include <iostream>
-#include "allPassFilter.h"
 #include "simpleAPF.h"
 #include <sine.h>
 
@@ -19,31 +18,20 @@ public:
   void applyEffect(const float &input, float &output) override;
   void setFeedback(float feedback);
   void setLFOSpeed(float LFOSpeed);
-  void setLFODepth(float LFODepth);
+  void setLFODepth(float LFODepth); //?????
 
 private:
-  //AllPassFilters
-  AllPassFilter apf1;
-  AllPassFilter apf2;
-  AllPassFilter apf3;
-  AllPassFilter apf4;
-  AllPassFilter apf5;
-  AllPassFilter apf6;
-  AllPassFilter apfArray[6] = {apf1, apf2, apf3, apf4, apf5, apf6};
+  // SimpleAPF Array:
+  SimpleAPF *apfArray[6];
   //LFO
-  Sine LFO{0.5f, 48000};
+  Sine *LFO;
   //Members
   float m_feedback;
   float m_LFOSpeed;
-  float m_LFODepth;
+  float m_LFODepth; //?????
 
   //Samples
-  float apf1output = 0.0f;
-  float apf2output = 0.0f;
-  float apf3output = 0.0f;
-  float apf4output = 0.0f;
-  float apf5output = 0.0f;
-  float apf6output = 0.0f;
-  float feedbackSample = 0.0f;
+  float filterSample;
+  float feedbackSample = 0.0f; //?????
   float LFOModifier = 0.0f;
 };

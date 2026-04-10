@@ -10,33 +10,32 @@ Phaser::Phaser(
 {
   setFeedback(feedback);
   setLFOSpeed(LFOSpeed);
-  setLFODepth(LFODepth);
+  setLFODepth(LFODepth); //?????
+
   for (int i = 0; i < 6; i++) {
-    apfArray[i].setSize(8);
-    apfArray[i].allocateBuffer();
-    apfArray[i].setDelayLength(1);
-    apfArray[i].setFeedback(gainIncrement * (i + 1));
+    apfArray[i] = new SimpleAPF((i+1) * gainIncrement);
   }
+  LFO = new Sine(0.5f, 48000);
 }
 
 Phaser::~Phaser()
 {
   for (int i = 0; i < 6; i++) {
-    apfArray[i].releaseBuffer();
+    delete apfArray[i];
+    apfArray[i] = nullptr;
   }
+  delete LFO;
+  LFO = nullptr;
 };
 
 void Phaser::applyEffect(const float &input, float &output) {
-  LFOModifier = LFO.getSample() * 0.05;
-  apf1.applyEffect(input + feedbackSample, apf1output, LFOModifier);
-  apf2.applyEffect(apf1output, apf2output, LFOModifier);
-  apf3.applyEffect(apf2output, apf3output, LFOModifier);
-  apf4.applyEffect(apf3output, apf4output, LFOModifier);
-  apf5.applyEffect(apf4output, apf5output, LFOModifier);
-  apf6.applyEffect(apf5output, apf6output, LFOModifier);
-  feedbackSample = apf3output * m_feedback;
-  LFO.tick();
-  output = apf6output * 0.5 + input * 0.5;
+  LFOModifier = LFO->getSample() * 0.05;
+  filterSample = input;
+  for(int i = 0; i < 6; i++) {
+    filterSample = apfArray[i]->process(filterSample, LFOModifier);
+  }
+  LFO->tick();
+  output = filterSample * 0.5 + input * 0.5;
 }
 
 void Phaser::setFeedback(float feedback) {
@@ -53,7 +52,22 @@ void Phaser::setLFOSpeed(float LFOSpeed) {
   m_LFOSpeed = LFOSpeed;
 }
 
+
+
+
 //TODO: Set LFO Depth
+//TODO: Set LFO Depth
+//TODO: Set LFO Depth
+//TODO: Set LFO Depth
+//TODO: Set LFO Depth
+
+//TODO: Set LFO FREQ
+//TODO: Set LFO FREQ
+//TODO: Set LFO FREQ
+//TODO: Set LFO FREQ
+//TODO: Set LFO FREQ
+
+
 void Phaser::setLFODepth(float LFODepth) {
   if(LFODepth < 0.25 || LFODepth > 10) {
     throw "Delay::setLFODepth - LFODepth exceeds range [NO IDEA]"; ///THIS

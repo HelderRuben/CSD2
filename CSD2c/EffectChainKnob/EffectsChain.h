@@ -6,6 +6,7 @@
 #include "nestedAPFOne.h"
 #include "nestedAPFTwo.h"
 #include "phaser.h"
+#include "simpleAPF.h"
 #include <juce_audio_processors/juce_audio_processors.h>
 
 class EffectsChain {
@@ -21,6 +22,10 @@ public:
         float outputSample = 0.0f;
         float outputSample1 = 0.0f;
         float outputSample2 = 0.0f;
+
+        // for (int i = 0; i < 6; i++) {
+        //   apfArray[i] = new SimpleAPF((i+1) * 0.06);
+        // }
 
         //PHASER FLOATS
         // float phaserapf1OUTPUT = 0.0f;
@@ -53,12 +58,21 @@ public:
                 //
                 // outputSample = (phaserapf6OUTPUT * 0.5) + (inputChannel[sample] * 0.5);
 
+                //New `Try
+                // LFOModifier = LFO.getSample() * 0.05;
+                // filterSample = inputChannel[sample];
+                // for(int i = 0; i < 6; i++) {
+                //   filterSample = apfArray[i]->process(filterSample, LFOModifier);
+                // }
+                // outputSample1 = filterSample * 0.5 + inputChannel[sample] * 0.5;
+
                 // waveshaper.processFrame(inputChannel[sample], outputSample);
                 phaser.processFrame(inputChannel[sample], outputSample1);
                 // reverb.processFrame(inputChannel[sample], outputSample2);
                 outputChannel[sample] = outputSample1 * 0.8; //some extra gaining just to be sure
             }
         }
+        // LFO.tick();
     }
     void setParameter(float parameter){
         if (prevParameter != parameter) {
@@ -77,9 +91,14 @@ private:
   // AllPassFilter phaserapf4{0.24, 1, 8};
   // AllPassFilter phaserapf5{0.3, 1, 8};
   // AllPassFilter phaserapf6{0.36, 1, 8};
-  // Sine LFO{0.5, 48000};
 
-  // Phaser phaser{0.0, 0.08, 0.5, 0.8};
-  WaveShaper phaser;
+
+  // Sine LFO{0.5, 48000};
+  // SimpleAPF *apfArray[6];
+  // float LFOModifier = 0.0f;
+  // float filterSample;
+
+  Phaser phaser{0.0, 0.06, 0.5, 0.8};
+  // WaveShaper waveshaper;
   float prevParameter = 0.0f;
 };

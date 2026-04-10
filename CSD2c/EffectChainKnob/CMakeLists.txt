@@ -28,6 +28,7 @@ target_sources(EffectChainKnob
         nestedAPFOne.cpp
         nestedAPFTwo.cpp
         phaser.cpp
+        simpleAPF.cpp
 )
 
 target_compile_definitions(EffectChainKnob
