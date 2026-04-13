@@ -17,20 +17,17 @@ NestedAPFTwo::NestedAPFTwo(
     setDelayLength(delayLength);
     setFeedback(feedback);
 
-    APFInsideThisOne.setSize(nestedBufferSize1);
-    APFInsideThisOne.allocateBuffer();
-    APFInsideThisOne.setDelayLength(nestedDelayLength1);
-    APFInsideThisOne.setFeedback(nestedFeedback1);
-
-    APFInsideThisTwo.setSize(nestedBufferSize2);
-    APFInsideThisTwo.allocateBuffer();
-    APFInsideThisTwo.setDelayLength(nestedDelayLength2);
-    APFInsideThisTwo.setFeedback(nestedFeedback2);
+    APFInsideThisOne = new AllPassFilter{nestedFeedback1, nestedDelayLength1, nestedBufferSize1};
+    APFInsideThisTwo = new AllPassFilter{nestedFeedback2, nestedDelayLength2, nestedBufferSize2};
 };
 
 NestedAPFTwo::~NestedAPFTwo() {
-  APFInsideThisOne.releaseBuffer();
-  APFInsideThisTwo.releaseBuffer();
+  APFInsideThisOne->releaseBuffer();
+  delete APFInsideThisOne;
+  APFInsideThisOne = nullptr;
+  APFInsideThisTwo->releaseBuffer();
+  delete APFInsideThisTwo;
+  APFInsideThisTwo = nullptr;
   releaseBuffer();
 };
 
@@ -43,8 +40,8 @@ void NestedAPFTwo::applyEffect(const float &input, float &output)
   const auto inputPlusFeedback = m_feedbackSample * m_feedback + input;
   float NestedAPF1Output = 0.0f;
   float NestedAPF2Output = 0.0f;
-  APFInsideThisOne.applyEffect(inputPlusFeedback, NestedAPF1Output);
-  APFInsideThisTwo.applyEffect(NestedAPF1Output, NestedAPF2Output);
+  APFInsideThisOne->applyEffect(inputPlusFeedback, NestedAPF1Output);
+  APFInsideThisTwo->applyEffect(NestedAPF1Output, NestedAPF2Output);
   m_buffer[m_WHPosition++] = NestedAPF2Output;
   wrapHead(m_WHPosition);
 

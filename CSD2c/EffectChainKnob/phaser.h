@@ -11,7 +11,7 @@ public:
     float feedback = 0.0,
     float gainIncrement = 0.06,
     float LFOSpeed = 0.5,
-    float LFODepth = 0.8
+    float LFODepth = 0.05
   );
   ~Phaser();
 
@@ -21,16 +21,13 @@ public:
   void setLFODepth(float LFODepth); //?????
 
 private:
-  // SimpleAPF Array:
   SimpleAPF *apfArray[6];
-  //LFO
   Sine *LFO;
-  //Members
+
   float m_feedback;
   float m_LFOSpeed;
-  float m_LFODepth; //?????
+  float m_LFODepth = 0.05;
 
-  //Samples
   float filterSample;
   float feedbackSample = 0.0f; //?????
   float LFOModifier = 0.0f;

@@ -13,15 +13,14 @@ NestedAPFOne::NestedAPFOne(
     allocateBuffer();
     setDelayLength(delayLength);
     setFeedback(feedback);
-
-    APFInsideThisOne.setSize(nestedBufferSize);
-    APFInsideThisOne.allocateBuffer();
-    APFInsideThisOne.setDelayLength(nestedDelayLength);
-    APFInsideThisOne.setFeedback(nestedFeedback);
+    APFInsideThisOne = new AllPassFilter{nestedFeedback, nestedDelayLength, nestedBufferSize};
 };
 
 NestedAPFOne::~NestedAPFOne() {
-  APFInsideThisOne.releaseBuffer();
+  APFInsideThisOne->releaseBuffer();
+  delete APFInsideThisOne;
+  APFInsideThisOne = nullptr;
+
   releaseBuffer();
 };
 
@@ -34,7 +33,7 @@ void NestedAPFOne::applyEffect(const float &input, float &output)
 
   const auto inputPlusFeedback = m_feedbackSample * m_feedback + input;
   float NestedAPFOutput = 0.0f;
-  APFInsideThisOne.applyEffect(inputPlusFeedback, NestedAPFOutput);
+  APFInsideThisOne->applyEffect(inputPlusFeedback, NestedAPFOutput);
   m_buffer[m_WHPosition++] = NestedAPFOutput;
   wrapHead(m_WHPosition);
 

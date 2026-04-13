@@ -33,8 +33,8 @@ public:
 
 private:
 
-  AllPassFilter APFInsideThisOne;
-  AllPassFilter APFInsideThisTwo;
+  AllPassFilter *APFInsideThisOne;
+  AllPassFilter *APFInsideThisTwo;
 
   inline void wrapHead(uint& head) {
     if (head >= m_bufferSize) head -= m_bufferSize;
