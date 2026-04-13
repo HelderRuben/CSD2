@@ -18,7 +18,7 @@ public:
   void applyEffect(const float &input, float &output) override;
   void setFeedback(float feedback);
   void setLFOSpeed(float LFOSpeed);
-  void setLFODepth(float LFODepth); //?????
+  void setLFODepth(float LFODepth);
 
 private:
   SimpleAPF *apfArray[6];
@@ -29,6 +29,6 @@ private:
   float m_LFODepth = 0.05;
 
   float filterSample;
-  float feedbackSample = 0.0f; //?????
+  float feedbackSample = 0.0f;
   float LFOModifier = 0.0f;
 };
