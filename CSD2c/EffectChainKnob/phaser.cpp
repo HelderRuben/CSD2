@@ -2,15 +2,17 @@
 
 Phaser::Phaser(
   float feedback,
-  float gainIncrement,
   float LFOSpeed,
-  float LFODepth)
+  float LFODepth,
+  float LFODirection)
   : m_feedback(0),
-    m_LFODepth(0)
+    m_LFODepth(0),
+    m_LFODirection(LFODirection)
 {
   for (int i = 0; i < 6; i++) {
-    apfArray[i] = new SimpleAPF((i+1) * gainIncrement);
+    apfArray[i] = new SimpleAPF(-0.706730);
   }
+
   LFO = new Sine(0.5f, 48000);
   setFeedback(feedback);
   setLFOSpeed(LFOSpeed);
@@ -28,11 +30,16 @@ Phaser::~Phaser()
 };
 
 void Phaser::applyEffect(const float &input, float &output) {
-  LFOModifier = LFO->getSample() * m_LFODepth;
+  LFOModifier = LFO->getSample() * m_LFODirection * m_LFODepth;
   filterSample = input;
   for(int i = 0; i < 6; i++) {
-    filterSample = apfArray[i]->process(filterSample, LFOModifier);
+    if(i == 0) {
+    filterSample = apfArray[i]->process(filterSample + feedbackSample, LFOModifier);
+    } else {
+      filterSample = apfArray[i]->process(filterSample, LFOModifier);
+    }
   }
+  feedbackSample = filterSample * m_feedback;
   LFO->tick();
   output = filterSample * 0.5 + input * 0.5;
 }
@@ -45,15 +52,13 @@ void Phaser::setFeedback(float feedback) {
 }
 
 void Phaser::setLFOSpeed(float LFOSpeed) {
-  if(LFOSpeed < 0.1 || LFOSpeed > 3.5) {
+  if(LFOSpeed >= 0.0 && LFOSpeed < 0.6) {
     LFO->setFrequency(LFOSpeed);
+  } else {
+    LFO->setFrequency(0.0);
   }
-  LFO->setFrequency(0.5);
 }
 
 void Phaser::setLFODepth(float LFODepth) {
-  // if(LFODepth < 0.25 || LFODepth > 10) {
-  //   throw "Delay::setLFODepth - LFODepth exceeds range [NO IDEA]";
-  // }
   m_LFODepth = LFODepth;
 }

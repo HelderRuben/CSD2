@@ -9,9 +9,9 @@ class Phaser : public Effect
 public:
   Phaser(
     float feedback = 0.0,
-    float gainIncrement = 0.06,
-    float LFOSpeed = 0.5,
-    float LFODepth = 0.05
+    float LFOSpeed = 0.0,
+    float LFODepth = 0.05,
+    float LFODirection = 0.0f
   );
   ~Phaser();
 
@@ -31,4 +31,5 @@ private:
   float filterSample;
   float feedbackSample = 0.0f;
   float LFOModifier = 0.0f;
+  int m_LFODirection;
 };
