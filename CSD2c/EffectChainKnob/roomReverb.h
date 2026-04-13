@@ -4,15 +4,16 @@
 #include "nestedAPFOne.h"
 #include "nestedAPFTwo.h"
 
-class PirkleReverb : public Effect
+class RoomReverb : public Effect
 {
 public:
-  PirkleReverb(
+  RoomReverb(
     int valueSet
   );
-  ~PirkleReverb();
+  ~RoomReverb();
 
 void applyEffect(const float &input, float &output) override;
+void setFeedback(float feedback);
 
 private:
   AllPassFilter *apf1;
@@ -27,4 +28,5 @@ private:
   float m_line2Gain = 0.0f;
   float m_line3Gain = 0.0f;
   float m_feedbackSample = 0.0f;
+  float m_feedback = 1.0f;
 };

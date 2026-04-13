@@ -1,6 +1,6 @@
-#include "pirkleReverb.h"
+#include "roomReverb.h"
 
-PirkleReverb::PirkleReverb(
+RoomReverb::RoomReverb(
   int valueSet)
 {
   if(valueSet == 0) {
@@ -47,7 +47,7 @@ PirkleReverb::PirkleReverb(
   }
 }
 
-PirkleReverb::~PirkleReverb() {
+RoomReverb::~RoomReverb() {
   delete apf1;
   apf1 = nullptr;
   delete apf2;
@@ -58,9 +58,9 @@ PirkleReverb::~PirkleReverb() {
   napf2 = nullptr;
 }
 
-void PirkleReverb::applyEffect(const float &input, float &output) {
+void RoomReverb::applyEffect(const float &input, float &output) {
   float tempSample = 0.0f;
-  apf1->processFrame(input + m_feedbackSample, tempSample);
+  apf1->processFrame(input + (m_feedbackSample * m_feedback), tempSample);
   apf2->processFrame(tempSample, tempSample);
   m_line1Sample = tempSample * m_line1Gain;
   napf1->processFrame(tempSample, tempSample);
@@ -71,6 +71,10 @@ void PirkleReverb::applyEffect(const float &input, float &output) {
   output = m_line1Sample + m_line2Sample + m_line3Sample;
 }
 
-// void PirkleReverb::setLineGain(float line1Gain, float line2Gain, float line3gain) {
+void RoomReverb::setFeedback(float feedback) {
+  m_feedback = feedback;
+}
+
+// void RoomReverb::setLineGain(float line1Gain, float line2Gain, float line3gain) {
 
 // }

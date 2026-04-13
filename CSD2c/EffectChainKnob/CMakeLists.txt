@@ -24,7 +24,7 @@ target_sources(EffectChainKnob
         PRIVATE
         PluginEditor.cpp
         PluginProcessor.cpp
-        pirkleReverb.cpp
+        roomReverb.cpp
         allPassFilter.cpp
         nestedAPFOne.cpp
         nestedAPFTwo.cpp
