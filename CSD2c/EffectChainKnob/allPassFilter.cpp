@@ -14,46 +14,17 @@ AllPassFilter::~AllPassFilter() {
   releaseBuffer();
 };
 
-
 void AllPassFilter::applyEffect(const float &input, float &output)
 {
   m_feedbackSample = readCubic(m_RHPosition);
   m_RHPosition++;
   wrapHead(m_RHPosition);
 
-  // const auto inputPlusFeedback = m_feedbackSample * m_feedback + input;
-  // m_buffer[m_WHPosition++] = inputPlusFeedback;
-  // wrapHead(m_WHPosition);
-  // m_feedforwardSample = inputPlusFeedback * -m_feedback;
-
   m_buffer[m_WHPosition++] = m_feedbackSample * m_feedback + input;
   wrapHead(m_WHPosition);
   m_feedforwardSample = input * -m_feedback;
 
   output = (m_feedbackSample + m_feedforwardSample) * m_makeUpGain;
-}
-
-void AllPassFilter::applyEffect(const float &input, float &output, float LFOModifier)
-{
-  //CUBIC INTERPOLATION
-  // m_feedbackSample = readCubic(m_RHPosition);
-  // m_RHPosition++;
-  // wrapHead(m_RHPosition);
-  //WITHOUT CUBIC INTERPOLATION
-  m_feedbackSample = m_buffer[m_RHPosition++];
-  wrapHead(m_RHPosition);
-
-  // const auto inputPlusFeedback = m_feedbackSample * m_feedback + input;
-  // m_buffer[m_WHPosition++] = inputPlusFeedback;
-  // wrapHead(m_WHPosition);
-  // m_feedforwardSample = inputPlusFeedback * -m_feedback;
-
-  m_buffer[m_WHPosition++] = m_feedbackSample * (m_feedback + LFOModifier) + input;
-  wrapHead(m_WHPosition);
-  m_feedforwardSample = input * -(m_feedback + LFOModifier);
-
-  output = (m_feedbackSample + m_feedforwardSample) * m_makeUpGain;
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }
 
 void AllPassFilter::resetSize(uint bufferSize) {
@@ -78,18 +49,8 @@ uint AllPassFilter::getDelayLength() {
 
 void AllPassFilter::setFeedback(float feedback)
 {
-  if(feedback < 0 || feedback > 1) {
-    throw "Delay::setFeedback - feedback exceeds range [0, 1]";
-  }
   m_feedback = -feedback;
 }
-
-// void AllPassFilter::setBreakFrequency(float fB, float fS) {
-//   float fBfS = fB / fS;
-//   float temp = tan(M_PI * fBfS);
-//   float coefficient = (temp -1)/(temp + 1);
-//   m_feedback = -coefficient;
-// }
 
 float AllPassFilter::readCubic(int RHPosition){
   int y0, y1, y2, y3;

@@ -1,10 +1,11 @@
 #pragma once
 #include <waveShaper.h>
-#include <delay.h>
+
 #include "roomReverb.h"
 #include "allPassFilter.h"
 #include "nestedAPFOne.h"
 #include "nestedAPFTwo.h"
+
 #include "phaser.h"
 #include "simpleAPF.h"
 
@@ -13,9 +14,7 @@
 class EffectsChain {
 public:
     EffectsChain() {}
-    void prepareToPlay(float sampleRate, int numSamplesPerBlock){
-        // Your Prepare Goes Here
-    }
+    void prepareToPlay(float sampleRate, int numSamplesPerBlock){}
 
     void getNextBlock(juce::AudioBuffer<float>& buffer){
         for(int channel = 0; channel < buffer.getNumChannels(); ++channel){
@@ -51,22 +50,22 @@ public:
             waveshaperGain = 0.5 + parameter;
             phaserL.setDryWet(parameter * 2);
             phaserR.setDryWet(parameter * 2);
-            mapParam1 = parameter;
-            mapParam2 = (parameter * 2) * 0.2;
+            mapLFOSpeed = parameter;
+            mapLFODepth = (parameter * 2) * 0.2;
           }
           if (parameter >= 0.5) {
             waveshaperGain = 1.0;
             phaserL.setDryWet(1 - ((parameter * 2) - 1));
             phaserR.setDryWet(1 - ((parameter * 2) - 1));
-            mapParam1 = 1 - parameter;
-            mapParam2 = (1 - ((parameter * 2) - 1)) * 0.2;
+            mapLFOSpeed = 1 - parameter;
+            mapLFODepth = (1 - ((parameter * 2) - 1)) * 0.2;
           }
-          phaserL.setLFOSpeed(mapParam1);
-          phaserR.setLFOSpeed(mapParam1);
-          phaserL.setFeedback(mapParam1 * 1.2);
-          phaserR.setFeedback(mapParam1 * 1.2);
-          phaserL.setLFODepth(mapParam2);
-          phaserR.setLFODepth(mapParam2);
+          phaserL.setLFOSpeed(mapLFOSpeed);
+          phaserR.setLFOSpeed(mapLFOSpeed);
+          phaserL.setFeedback(mapLFOSpeed * 1.2);
+          phaserR.setFeedback(mapLFOSpeed * 1.2);
+          phaserL.setLFODepth(mapLFODepth);
+          phaserR.setLFODepth(mapLFODepth);
         }
         prevParameter = parameter;
     }
@@ -76,11 +75,12 @@ private:
   WaveShaper waveshaperR;
   Phaser phaserL{0.0, 0.0, 0.05, 1};
   Phaser phaserR{0.0, 0.0, 0.05, -1};
-  RoomReverb reverbL{0};
-  RoomReverb reverbR{0};
-  float prevParameter = 0.0f;
-  float mapParam1 = 0.0f;
-  float mapParam2 = 0.0f;
+  RoomReverb reverbL;
+  RoomReverb reverbR;
+
+  float prevParameter = 0.1f;
+  float mapLFOSpeed = 0.0f;
+  float mapLFODepth = 0.0f;
   float waveshaperGain = 0.0f;
 
   float waveshaperOut = 0.0f;

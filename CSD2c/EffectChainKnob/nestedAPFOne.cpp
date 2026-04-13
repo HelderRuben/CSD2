@@ -20,10 +20,8 @@ NestedAPFOne::~NestedAPFOne() {
   APFInsideThisOne->releaseBuffer();
   delete APFInsideThisOne;
   APFInsideThisOne = nullptr;
-
   releaseBuffer();
 };
-
 
 void NestedAPFOne::applyEffect(const float &input, float &output)
 {
@@ -56,12 +54,8 @@ uint NestedAPFOne::getDelayLength() {
   return m_delayLength;
 };
 
-
 void NestedAPFOne::setFeedback(float feedback)
 {
-  if(feedback < 0 || feedback > 1) {
-    throw "Delay::setFeedback - feedback exceeds range [0, 1]";
-  }
   m_feedback = -feedback;
 }
 

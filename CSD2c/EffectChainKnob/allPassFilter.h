@@ -1,6 +1,5 @@
 #pragma once
 #include <effect.h>
-
 #include <iostream>
 #include <cmath>
 #include <vector>
@@ -16,15 +15,13 @@ public:
   ~AllPassFilter();
 
   void applyEffect(const float &input, float &output) override;
-  void applyEffect(const float &input, float &output, float LFOModifier);
 
   void resetSize(uint size);
   void setSize(uint size);
   void setDelayLength(int delayLength);
   uint getDelayLength();
   void setFeedback(float feedback);
-  void logFeedback();
-  // void setBreakFrequency(float fB, float fS);
+
   float cubicInterpolation(float y0, float y1, float y2, float y3, float mu);
   float readCubic(int RHPosition);
 
@@ -35,7 +32,6 @@ public:
   void releaseBuffer();
 
 private:
-
   inline void wrapHead(uint& head) {
     if (head >= m_bufferSize) head -= m_bufferSize;
     else if (head < 0) head += m_bufferSize;

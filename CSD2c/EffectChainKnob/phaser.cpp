@@ -5,22 +5,18 @@ Phaser::Phaser(
   float LFOSpeed,
   float LFODepth,
   float LFODirection)
-  : m_feedback(0),
-    m_LFODepth(0),
-    m_LFODirection(LFODirection)
+  : m_feedback(0), m_LFODepth(0), m_LFODirection(LFODirection)
 {
   for (int i = 0; i < 6; i++) {
     apfArray[i] = new SimpleAPF(-0.706730);
   }
-
   LFO = new Sine(0.5f, 48000);
   setFeedback(feedback);
   setLFOSpeed(LFOSpeed);
   setLFODepth(LFODepth);
 }
 
-Phaser::~Phaser()
-{
+Phaser::~Phaser() {
   for (int i = 0; i < 6; i++) {
     delete apfArray[i];
     apfArray[i] = nullptr;
@@ -45,9 +41,6 @@ void Phaser::applyEffect(const float &input, float &output) {
 }
 
 void Phaser::setFeedback(float feedback) {
-  if(feedback < 0 || feedback > 1) {
-    throw "Delay::setFeedback - feedback exceeds range [0, 1]";
-  }
   m_feedback = feedback;
 }
 

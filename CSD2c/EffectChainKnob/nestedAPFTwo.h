@@ -31,8 +31,10 @@ public:
   inline float getReadValue(int RHPosition) {return m_buffer[RHPosition];};
   inline void setWriteValue(float inputSample) {m_buffer[m_WHPosition] = inputSample;};
 
-private:
+  void allocateBuffer();
+  void releaseBuffer();
 
+private:
   AllPassFilter *APFInsideThisOne;
   AllPassFilter *APFInsideThisTwo;
 
@@ -40,9 +42,6 @@ private:
     if (head >= m_bufferSize) head -= m_bufferSize;
     else if (head < 0) head += m_bufferSize;
   };
-
-  void allocateBuffer();
-  void releaseBuffer();
 
   float m_feedback = 0.0f;
   float m_feedbackSample = 0;

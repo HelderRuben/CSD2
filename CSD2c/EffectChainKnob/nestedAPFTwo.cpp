@@ -31,7 +31,6 @@ NestedAPFTwo::~NestedAPFTwo() {
   releaseBuffer();
 };
 
-
 void NestedAPFTwo::applyEffect(const float &input, float &output)
 {
   m_feedbackSample = m_buffer[m_RHPosition++];
@@ -64,12 +63,8 @@ uint NestedAPFTwo::getDelayLength() {
   return m_delayLength;
 };
 
-
 void NestedAPFTwo::setFeedback(float feedback)
 {
-  if(feedback < 0 || feedback > 1) {
-    throw "Delay::setFeedback - feedback exceeds range [0, 1]";
-  }
   m_feedback = -feedback;
 }
 

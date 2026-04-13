@@ -6,24 +6,22 @@
 #include <juce_gui_extra/juce_gui_extra.h>
 
 namespace plugin_focus {
-//==============================================================================
-class AudioPluginAudioProcessorEditor final : public juce::AudioProcessorEditor
-{
-public:
-    explicit AudioPluginAudioProcessorEditor (AudioPluginAudioProcessor&);
-    ~AudioPluginAudioProcessorEditor() override;
+  //==============================================================================
+  class AudioPluginAudioProcessorEditor final : public juce::AudioProcessorEditor
+  {
+  public:
+      explicit AudioPluginAudioProcessorEditor (AudioPluginAudioProcessor&);
+      ~AudioPluginAudioProcessorEditor() override;
 
-    //==============================================================================
-    void paint (juce::Graphics& g) override;
-    void resized() override;
+      //==============================================================================
+      void paint (juce::Graphics& g) override;
+      void resized() override;
 
-private:
+  private:
+      AudioPluginAudioProcessor& processorRef;
+      juce::Slider slider {"The Slider"};
+      juce::SliderParameterAttachment sliderAttachment;
 
-    AudioPluginAudioProcessor& processorRef;
-    juce::Slider slider {"The Slider"};
-    juce::SliderParameterAttachment sliderAttachment;
-
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioPluginAudioProcessorEditor)
-};
-
+      JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioPluginAudioProcessorEditor)
+  };
 } // namespace plugin_focus

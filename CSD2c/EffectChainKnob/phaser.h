@@ -9,7 +9,7 @@ class Phaser : public Effect
 public:
   Phaser(
     float feedback = 0.0,
-    float LFOSpeed = 0.0,
+    float LFOSpeed = 0.5,
     float LFODepth = 0.05,
     float LFODirection = 0.0f
   );

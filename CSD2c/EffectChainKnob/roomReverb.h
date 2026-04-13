@@ -7,14 +7,12 @@
 class RoomReverb : public Effect
 {
 public:
-  RoomReverb(
-    int valueSet
-  );
+  RoomReverb();
   ~RoomReverb();
 
-void applyEffect(const float &input, float &output) override;
-void setFeedback(float feedback);
-
+  void applyEffect(const float &input, float &output) override;
+  void setFeedback(float feedback);
+  
 private:
   AllPassFilter *apf1;
   AllPassFilter *apf2;
