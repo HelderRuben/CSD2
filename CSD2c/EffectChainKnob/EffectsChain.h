@@ -1,7 +1,6 @@
 #pragma once
 #include <waveShaper.h>
 #include <delay.h>
-#include "reverbILike.h"
 #include "pirkleReverb.h"
 #include "allPassFilter.h"
 #include "nestedAPFOne.h"
@@ -31,10 +30,7 @@ public:
                 // waveshaper.processFrame(inputChannel[sample], outputSample);
                 // phaser.processFrame(inputChannel[sample], outputSample1);
                 reverb.processFrame(inputChannel[sample], outputSample);
-                // reverb1.processFrame(inputChannel[sample], outputSample1);
-                // reverb2.processFrame(inputChannel[sample], outputSample2);
-                // outputSample3 = (outputSample + outputSample1 + outputSample2) * 0.33;
-                outputChannel[sample] = outputSample * 0.8; //some extra gaining just to be sure
+                outputChannel[sample] = outputSample * 0.8;
             }
         }
     }
@@ -42,8 +38,6 @@ public:
         if (prevParameter != parameter) {
           // waveshaper.setDryWet(1 - parameter);
           reverb.setDryWet(parameter);
-          // reverb1.setDryWet(parameter);
-          // reverb2.setDryWet(parameter);
           // if (parameter < 0.5) {phaser.setDryWet(parameter * 2);}
           // if (parameter >= 0.5) {phaser.setDryWet(1 - ((parameter * 2) - 1));}
 
@@ -57,11 +51,9 @@ public:
     }
 
 private:
-  WaveShaper waveshaper;
+  // WaveShaper waveshaper;
   // Phaser phaser;
   PirkleReverb reverb{0};
-  // PirkleReverb reverb1{1};
-  // PirkleReverb reverb2{1};
   float prevParameter = 0.0f;
   float mapParam = 0.0f;
 };
