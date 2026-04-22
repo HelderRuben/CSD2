@@ -1,8 +1,17 @@
 # STEPS OF PROJECT  
-0 = Main things that keep being updates throughout the project
-1 = Diverging: forming lots of ideas
-2 = Converging: working out previous ideas
-3 = Converging: choosing one idea
+0 = Main things that keep being updated throughout the project  
+1 = Diverging: forming lots of ideas  
+2 = Converging: working out previous ideas  
+3 = Diverging: Fast braindumping and thinking about goals/concepts i.o. concrete
+4 = Testing: Making and experiencing my ideas with physical artifacts
+5 = Researching computer board
+
+ = Making List of Priorities  
+ = Making Lists of Parts  
+ = Code & Test  
+ = Picking Lego Parts
+ = Make Prototype  
+ = Design   
 
 # New Beginnings
 This block, I'll be doing some things differently. This readme is also just for me to form the structure of how I'll be working and what file-structure I'll use.
