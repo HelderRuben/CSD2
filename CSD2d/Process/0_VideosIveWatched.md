@@ -91,13 +91,42 @@ https://www.youtube.com/watch?v=o0NElA-iWmc
 
 17: pedalShield Uno: An Arduino Guitar Pedal 🎸  
 https://www.youtube.com/watch?v=FkaQD5KyJzw  
--
+- Cool, has written out code for different effecs for arduino
+- Nice for knowing how audio flow goes to Jack-out
 
-18: Passive RC Filters
-https://www.youtube.com/watch?v=NBLCqqmvy0A  
--
+18: Let’s Create an Effects Pedal/Unit With Daisy Pod!    
+https://www.youtube.com/watch?v=KTM8pHN3_mM  
+- This looks like EXACTLY what i want.
+- I want embedded audio
+- This video is golden
 
+19: Meet Daisy  
+https://www.youtube.com/watch?v=gH8R7LtMtuc  
+- Daisy trailer
+- This is exciting  
 
-19: Let’s Create an Effects Pedal/Unit With Daisy Pod!  
-https://www.youtube.com/watch?v=KTM8pHN3_mM
-- 
+20: How to Set Up Your C++ Development Environment (Daisy Tutorial)  
+https://www.youtube.com/watch?v=AbvaTdAyJWk  
+- Daisy Video on connecting C++  
+- Helpful to watch this before buying something so it doesn't unpleasantly surprise me  
+
+21: DIY Daisy Seed Mono Synth | Simple Build, Big Sound  
+https://www.youtube.com/watch?v=hb_fzLtgpfs  
+- I'm saving this for if I make the choice for Daisy, first looking at other microcontrollers
+- This is really MIDI-powered, not what i want (doesnt even use pins and things)
+
+22: Build a Sampler Synth with Daisy Seed!  
+https://www.youtube.com/watch?v=0vWgR7alH7Y  
+- Cool sampler you got there daisy
+- Okay the granular synthesis is actually really good i kinda want that but it may be too much
+
+23: Course - Daisy Seed Synth Programming Lesson #01 #synthdiy  
+https://www.youtube.com/watch?v=VoDWfT9OJhE  
+- Oscillator with Daisy (arduino programming)  
+- Does everything in VCV rack for some reason
+
+24: Arduino Multiplexor - MUX INPUTS & OUTPUTS - ANALOG and PWM  
+https://www.youtube.com/watch?v=Dco6jo9xgAo  
+- I need a multiplexer because i need more ADC's than the Daisy Seed provides
+- Nice explanation of multiplexers
+- Nice explanation of how to send binairy to control which output/input is selected
