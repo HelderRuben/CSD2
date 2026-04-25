@@ -130,3 +130,13 @@ https://www.youtube.com/watch?v=Dco6jo9xgAo
 - I need a multiplexer because i need more ADC's than the Daisy Seed provides
 - Nice explanation of multiplexers
 - Nice explanation of how to send binairy to control which output/input is selected
+
+25: How to use rotary encoders  
+https://www.youtube.com/watch?v=9j-y6XlaE80  
+- Using this for pitch and octave
+- Nice programming for reading out encoder
+
+26: How to Connect a Potentiometer to the Daisy (DaisyDuino)  
+https://www.youtube.com/watch?v=LusZYXIx0gw  
+- To see how to do this
+- Didn't talk about potmeter ohm

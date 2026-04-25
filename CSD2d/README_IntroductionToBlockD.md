@@ -4,10 +4,8 @@
 2 = Converging: working out previous ideas  
 3 = Diverging: Fast braindumping and thinking about goals/concepts i.o. concrete
 4 = Testing: Making and experiencing my ideas with physical artifacts
-5 = Researching computer board
-
- = Making List of Priorities  
- = Making Lists of Parts  
+5 = Description of the concept as result of ideation phase and prio-list
+6 = Researching board and LEGO parts
  = Code & Test  
  = Picking Lego Parts
  = Make Prototype  
