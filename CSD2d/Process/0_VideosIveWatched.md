@@ -134,9 +134,23 @@ https://www.youtube.com/watch?v=Dco6jo9xgAo
 25: How to use rotary encoders  
 https://www.youtube.com/watch?v=9j-y6XlaE80  
 - Using this for pitch and octave
-- Nice programming for reading out encoder
+- Nice programming for reading out encoder  
 
 26: How to Connect a Potentiometer to the Daisy (DaisyDuino)  
 https://www.youtube.com/watch?v=LusZYXIx0gw  
 - To see how to do this
-- Didn't talk about potmeter ohm
+- Didn't talk about potmeter ohm  
+
+27: (Sponsored) Audio Compressor Software Implementation (STM32 DSP) - Phil's lab #157
+https://www.youtube.com/watch?v=fHcRKKvXxpo  
+- Nice Compressor things  
+
+28: Lowpass and Highpass Filter Plugin with JUCE C++ Framework | Tutorial for Beginners [AudioFX #010]  
+https://www.youtube.com/watch?v=xJCt0MVZZ7Q  
+- Nice  
+
+29: How to design and implement a digital low-pass filter on an Arduino  
+https://www.youtube.com/watch?v=HJ-C4Incgpw  
+- Nice  
+
+30: 

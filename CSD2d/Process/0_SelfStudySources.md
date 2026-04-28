@@ -20,9 +20,15 @@ https://forum.arduino.cc/t/trying-to-get-audio-output-from-a-1-4-jack-using-pwm-
 - Using a multiplexer with Daisy Seed: https://forum.electro-smith.com/t/cd4051-multiplexer-tutorial-is-here/3481  
   - Also nice C++ code using a multiplexer lib  
 
-**Parts:**  
+**Parts**  
 - Forum for using rotary encoders with daisy: https://forum.electro-smith.com/t/rotary-encoder-missing-steps/1842  
 - Using the tinytronic €0.75 rotary encoder: https://www.instructables.com/Improved-Arduino-Rotary-Encoder-Reading/  
 - Using the tinytronic €1,50 rotary encoder: https://www.instructables.com/How-to-Use-an-Rotary-Encoder-With-Arduino/
 - Forum on potmeter ohm values: https://forum.electro-smith.com/t/pots-resolution-and-capacitive-sensors/2913
 - Forum on/off for arduino: https://forum.arduino.cc/t/adding-on-off-switch-to-arduino-uno/554181  
+
+**Classes**  
+- Blog post on Envelope followers: https://kferg.dev/posts/2020/audio-reactive-programming-envelope-followers/  
+- Nice source on building a compressor: Digital_Dynamic_Range_Compressor_Design-A_Tutorial  
+- Forum on Auto make-up gain: https://forum.juce.com/t/auto-make-up-gain-for-compressor/43140
+- 
