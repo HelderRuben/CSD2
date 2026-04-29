@@ -8,9 +8,6 @@
 
 #include "phaser.h"
 #include "simpleAPF.h"
-#include "bitcrush.h"
-#include "lowpass.h"
-#include "linkRileyLPF.h"
 
 #include <juce_audio_processors/juce_audio_processors.h>
 
@@ -25,23 +22,18 @@ public:
             auto* outputChannel = buffer.getWritePointer(channel);
             for (int sample = 0; sample < buffer.getNumSamples(); ++sample){
                 if(channel == 0) {
-                  // waveshaperL.processFrame(inputChannel[sample], waveshaperOut);
-                  // waveshaperOut = waveshaperOut * waveshaperGain;
-                  // phaserL.processFrame(waveshaperOut, phaserOut);
-                  // reverbL.processFrame(phaserOut, reverbOut);
-                  // bitcrushL.processFrame(inputChannel[sample], bitcrushOut);
-                  lowpassL.processFrame(inputChannel[sample], bitcrushOut);
+                  waveshaperL.processFrame(inputChannel[sample], waveshaperOut);
+                  waveshaperOut = waveshaperOut * waveshaperGain;
+                  phaserL.processFrame(waveshaperOut, phaserOut);
+                  reverbL.processFrame(phaserOut, reverbOut);
                 }
                 if(channel == 1) {
-                  // waveshaperR.processFrame(inputChannel[sample], waveshaperOut);
-                  // waveshaperOut = waveshaperOut * waveshaperGain;
-                  // phaserR.processFrame(waveshaperOut, phaserOut);
-                  // reverbR.processFrame(phaserOut, reverbOut);
-                  // bitcrushR.processFrame(inputChannel[sample], bitcrushOut);
-                  lowpassR.processFrame(inputChannel[sample], bitcrushOut);
+                  waveshaperR.processFrame(inputChannel[sample], waveshaperOut);
+                  waveshaperOut = waveshaperOut * waveshaperGain;
+                  phaserR.processFrame(waveshaperOut, phaserOut);
+                  reverbR.processFrame(phaserOut, reverbOut);
                 }
-                // outputChannel[sample] = reverbOut * waveshaperGain;
-                outputChannel[sample] = bitcrushOut;
+                outputChannel[sample] = reverbOut * waveshaperGain;
             }
         }
     }
@@ -53,14 +45,6 @@ public:
           reverbR.setDryWet(parameter);
           waveshaperL.setDryWet(0.5 - (parameter * 0.75));
           waveshaperR.setDryWet(0.5 - (parameter * 0.75));
-          // bitcrushL.setN(int(parameter * 14 + 2));
-          bitcrushL.setN(int(parameter * 7 + 3));
-          // bitcrushR.setN(int(parameter * 14 + 2));
-          bitcrushR.setN(int(parameter * 7 + 3));
-          bitcrushL.setDryWet(parameter);
-          bitcrushR.setDryWet(parameter);
-          lowpassL.calcBreakFreq(parameter);
-          lowpassR.calcBreakFreq(parameter);
 
           if (parameter < 0.5) {
             waveshaperGain = 0.5 + parameter;
@@ -76,12 +60,12 @@ public:
             mapLFOSpeed = 1 - parameter;
             mapLFODepth = (1 - ((parameter * 2) - 1)) * 0.2;
           }
-          // phaserL.setLFOSpeed(mapLFOSpeed);
-          // phaserR.setLFOSpeed(mapLFOSpeed);
-          // phaserL.setFeedback(mapLFOSpeed * 1.2);
-          // phaserR.setFeedback(mapLFOSpeed * 1.2);
-          // phaserL.setLFODepth(mapLFODepth);
-          // phaserR.setLFODepth(mapLFODepth);
+          phaserL.setLFOSpeed(mapLFOSpeed);
+          phaserR.setLFOSpeed(mapLFOSpeed);
+          phaserL.setFeedback(mapLFOSpeed * 1.2);
+          phaserR.setFeedback(mapLFOSpeed * 1.2);
+          phaserL.setLFODepth(mapLFODepth);
+          phaserR.setLFODepth(mapLFODepth);
         }
         prevParameter = parameter;
     }
@@ -93,10 +77,6 @@ private:
   Phaser phaserR{0.0, 0.0, 0.05, -1};
   RoomReverb reverbL;
   RoomReverb reverbR;
-  Bitcrush bitcrushL;
-  Bitcrush bitcrushR;
-  LinkRileyLPF lowpassL;
-  LinkRileyLPF lowpassR;
 
   float prevParameter = 0.1f;
   float mapLFOSpeed = 0.0f;
@@ -106,6 +86,4 @@ private:
   float waveshaperOut = 0.0f;
   float phaserOut = 0.0f;
   float reverbOut = 0.0f;
-  float bitcrushOut = 0.0f;
-  float lowpassOut = 0.0f;
 };

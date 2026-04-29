@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 3.22)
-project(LegoSeq VERSION 0.0.1)
+project(EffectChainKnob VERSION 0.0.1)
 
-juce_add_plugin(LegoSeq
+add_subdirectory(csd_lib)
+
+juce_add_plugin(EffectChainKnob
         VERSION 0.0.1
         # ICON_BIG ...
         # ICON_SMALL ...
@@ -15,10 +17,10 @@ juce_add_plugin(LegoSeq
         PLUGIN_MANUFACTURER_CODE Csd2
         PLUGIN_CODE Plu1
         FORMATS AU VST3 Standalone
-        PRODUCT_NAME "LegoSeq"
+        PRODUCT_NAME "EffectChainKnob"
 )
 
-target_sources(LegoSeq
+target_sources(EffectChainKnob
         PRIVATE
         PluginEditor.cpp
         PluginProcessor.cpp
@@ -28,12 +30,9 @@ target_sources(LegoSeq
         nestedAPFTwo.cpp
         phaser.cpp
         simpleAPF.cpp
-        bitcrush.cpp
-        lowpass.cpp
-        linkRileyLPF.cpp
 )
 
-target_compile_definitions(LegoSeq
+target_compile_definitions(EffectChainKnob
         PUBLIC
         JUCE_WEB_BROWSER=0
         JUCE_USE_CURL=0
@@ -41,7 +40,7 @@ target_compile_definitions(LegoSeq
 )
 
 
-target_link_libraries(LegoSeq
+target_link_libraries(EffectChainKnob
         PRIVATE
         csd_lib
 
@@ -60,4 +59,4 @@ if(MSVC)
     add_definitions(-DNOMINMAX)
 endif()
 
-target_compile_features(LegoSeq PRIVATE cxx_std_20)
+target_compile_features(EffectChainKnob PRIVATE cxx_std_20)
