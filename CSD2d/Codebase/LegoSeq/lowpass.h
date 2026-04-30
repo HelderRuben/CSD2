@@ -15,7 +15,8 @@ public:
   float getBreakFreq() {return breakFreq_;};
 
 private:
-    float breakFreq_, sampleRate_;
+    float breakFreq_;
+    int sampleRate_;
     float theta_, gamma_;
     float a_, b_;
     float xn1_ = 0;

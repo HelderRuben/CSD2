@@ -11,6 +11,7 @@
 #include "bitcrush.h"
 #include "lowpass.h"
 #include "linkRileyLPF.h"
+#include "compressor.h"
 
 #include <juce_audio_processors/juce_audio_processors.h>
 
@@ -97,6 +98,8 @@ private:
   Bitcrush bitcrushR;
   LinkRileyLPF lowpassL;
   LinkRileyLPF lowpassR;
+  Compressor compL;
+  Compressor compR;
 
   float prevParameter = 0.1f;
   float mapLFOSpeed = 0.0f;

@@ -31,6 +31,7 @@ target_sources(LegoSeq
         bitcrush.cpp
         lowpass.cpp
         linkRileyLPF.cpp
+        compressor.cpp
 )
 
 target_compile_definitions(LegoSeq

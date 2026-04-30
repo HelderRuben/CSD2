@@ -6,8 +6,9 @@
 4 = Testing: Making and experiencing my ideas with physical artifacts
 5 = Description of the concept as result of ideation phase and prio-list
 6 = Researching board and LEGO parts
- = Code & Test  
- = Picking Lego Parts
+7 = Mapping FX test in Ableton
+8 = Collecting classes and doing research on not-yet-obtained FX
+9 = Coding/Testing these classes
  = Make Prototype  
  = Design   
 
