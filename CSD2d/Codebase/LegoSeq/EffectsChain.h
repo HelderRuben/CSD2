@@ -31,7 +31,8 @@ public:
                   // phaserL.processFrame(waveshaperOut, phaserOut);
                   // reverbL.processFrame(phaserOut, reverbOut);
                   // bitcrushL.processFrame(inputChannel[sample], bitcrushOut);
-                  lowpassL.processFrame(inputChannel[sample], bitcrushOut);
+                  // lowpassL.processFrame(inputChannel[sample], lowpassOut);
+                  compL.processFrame(inputChannel[sample], compOut);
                 }
                 if(channel == 1) {
                   // waveshaperR.processFrame(inputChannel[sample], waveshaperOut);
@@ -39,10 +40,11 @@ public:
                   // phaserR.processFrame(waveshaperOut, phaserOut);
                   // reverbR.processFrame(phaserOut, reverbOut);
                   // bitcrushR.processFrame(inputChannel[sample], bitcrushOut);
-                  lowpassR.processFrame(inputChannel[sample], bitcrushOut);
+                  // lowpassR.processFrame(inputChannel[sample], lowpassOut);
+                  compR.processFrame(inputChannel[sample], compOut);
                 }
                 // outputChannel[sample] = reverbOut * waveshaperGain;
-                outputChannel[sample] = bitcrushOut;
+                outputChannel[sample] = compOut;
             }
         }
     }
@@ -62,6 +64,8 @@ public:
           bitcrushR.setDryWet(parameter);
           lowpassL.calcBreakFreq(parameter);
           lowpassR.calcBreakFreq(parameter);
+          compL.setDryWet(parameter);
+          compR.setDryWet(parameter);
 
           if (parameter < 0.5) {
             waveshaperGain = 0.5 + parameter;
@@ -111,4 +115,5 @@ private:
   float reverbOut = 0.0f;
   float bitcrushOut = 0.0f;
   float lowpassOut = 0.0f;
+  float compOut = 0.0f;
 };

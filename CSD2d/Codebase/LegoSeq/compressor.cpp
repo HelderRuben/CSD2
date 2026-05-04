@@ -6,24 +6,36 @@ Compressor::Compressor(
   float thresh,
   float ratio)
    : thresh_(thresh), ratio_(ratio) {
-  att_a_ = calcAttDec(att);
-  dec_a_ = calcAttDec(dec);
-
+  setAttDec(att, dec);
 }
 Compressor::~Compressor() {}
 
 void Compressor::applyEffect(const float &input, float &output) {
-  if() {
-    inRMS_ = calcRMS(input, att_a_);
-  } else {
-    inRMS_ = calcRMS(input, dec_a_);
-  }
-  linTodB(inRMS_);
+  //according to Fig. 7c
+
+  // Step 2 + absolute value
+  indB_ = linTodB(fabs(input));
+
+  // Step 3
+  outdB_ = calcGain(indB_);
+
+  // Step 1
+  // if(outdB_ > ) {
+    inRMS_ = calcRMS(outdB_, att_a_);
+  // } else {
+  //   inRMS_ = calcRMS(outdB_, dec_a_);
+  // }
+
+  // Step 4
   makeUp_ = -thresh_ * (1 - (1/ratio_));
-  outdB_ = calcGain(indB_) + makeUp_;
-  dBToLin();
+  outdB_ = inRMS_ + makeUp_;
+
+  // Step 5
+  outG_ = dBToLin(outdB_);
+
+  // Step 6
   outG_ = clamp(outG_);
-  output = input *
+  output = input * outG_;
 }
 
 void Compressor::setAttDec(float att, float dec) {
@@ -37,10 +49,11 @@ float Compressor::calcAttDec(float attDec) {
 }
 
 float Compressor::calcRMS(float x, float a) {
+  //abs not needed anymore??
   abs_x_ = abs(x);
   a_ = a;
 
-  yn0_ = a_ * yn1_ + (1 - a_) * abs_x;
+  yn0_ = a_ * yn1_ + (1 - a_) * abs_x_;
   yn1_ = yn0_;
   return yn0_;
 }
@@ -52,15 +65,17 @@ float Compressor::calcGain(float indB) {
   } else {return indB;}
 }
 
-void Compressor::linTodB(float in) {
-  indB_ = 20 * log10f(in + 0.00000001);
+float Compressor::linTodB(float in) {
+  float temp = 20 * log10f(in + 0.00000001);
+  return temp;
 }
 
-void Compressor::dBToLin(float in) {
-  outG_ = powf(10.0f, in / 20.0f);
+float Compressor::dBToLin(float in) {
+  float temp = powf(10.0f, in / 20.0f);
+  return temp;
 }
 
-float Compressor::clamp(gain) {
+float Compressor::clamp(float gain) {
   if (gain > 1.0) {gain = 1.0;}
   return gain;
 }

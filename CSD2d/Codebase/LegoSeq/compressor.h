@@ -20,11 +20,12 @@ public:
   float calcRMS(float x, float a);
   float calcGain(float indB);
 
-  void linTodB(float in);
-  void dBToLin(float in);
+  float linTodB(float in);
+  float dBToLin(float in);
   float clamp(float gain);
 
 private:
+  static const float DC_OFFSET = 1.0E-25f;
   int sampleRate_ = 44100;
   float att_a_, dec_a_;
 

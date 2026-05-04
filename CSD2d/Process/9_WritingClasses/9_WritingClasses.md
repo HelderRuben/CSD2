@@ -21,3 +21,21 @@ It would be very nice if the filter had a resonance peak. I'll research this as 
 I like this, pretty much everything is going smoothly and i'm absolutely enjoying myself
 
 ## 3: Compressor
+Started writing class according to 8.1 and had some trouble, so dicided to dive deeper.   
+Looked at classes wrote by *ChunkWare Music Software (OPEN-SOURCE)* and made a simple class diagram as overview, see 9.1.  
+The steps were clear now.    
+Ah to be honest i feel like i almost got it but it's not top priority to have this right now. I first want to focus on the Daisy Seed itself and getting it to work.  
+
+# Concluding
+
+**I HAVE:**  
+- Reverb
+- Delay
+- Phaser
+- Waveshaper
+- LPF (no resonance)
+- Bitcrush
+
+**I WOULD WANT LATER:**  
+- Compressor (working)
+- LPF with resonance
