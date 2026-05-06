@@ -32,6 +32,7 @@ target_sources(LegoSeq
         lowpass.cpp
         linkRileyLPF.cpp
         compressor.cpp
+        lpfwithQ.cpp
 )
 
 target_compile_definitions(LegoSeq

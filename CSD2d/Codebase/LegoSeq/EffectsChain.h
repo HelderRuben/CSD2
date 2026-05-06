@@ -12,6 +12,7 @@
 #include "lowpass.h"
 #include "linkRileyLPF.h"
 #include "compressor.h"
+#include "lpfwithQ.h"
 
 #include <juce_audio_processors/juce_audio_processors.h>
 
@@ -31,8 +32,8 @@ public:
                   // phaserL.processFrame(waveshaperOut, phaserOut);
                   // reverbL.processFrame(phaserOut, reverbOut);
                   // bitcrushL.processFrame(inputChannel[sample], bitcrushOut);
-                  // lowpassL.processFrame(inputChannel[sample], lowpassOut);
-                  compL.processFrame(inputChannel[sample], compOut);
+                  lowpassL.processFrame(inputChannel[sample], lowpassOut);
+                  // compL.processFrame(inputChannel[sample], compOut);
                 }
                 if(channel == 1) {
                   // waveshaperR.processFrame(inputChannel[sample], waveshaperOut);
@@ -40,11 +41,11 @@ public:
                   // phaserR.processFrame(waveshaperOut, phaserOut);
                   // reverbR.processFrame(phaserOut, reverbOut);
                   // bitcrushR.processFrame(inputChannel[sample], bitcrushOut);
-                  // lowpassR.processFrame(inputChannel[sample], lowpassOut);
-                  compR.processFrame(inputChannel[sample], compOut);
+                  lowpassR.processFrame(inputChannel[sample], lowpassOut);
+                  // compR.processFrame(inputChannel[sample], compOut);
                 }
                 // outputChannel[sample] = reverbOut * waveshaperGain;
-                outputChannel[sample] = compOut;
+                outputChannel[sample] = lowpassOut;
             }
         }
     }
@@ -100,8 +101,8 @@ private:
   RoomReverb reverbR;
   Bitcrush bitcrushL;
   Bitcrush bitcrushR;
-  LinkRileyLPF lowpassL;
-  LinkRileyLPF lowpassR;
+  LPFwithQ lowpassL;
+  LPFwithQ lowpassR;
   Compressor compL;
   Compressor compR;
 

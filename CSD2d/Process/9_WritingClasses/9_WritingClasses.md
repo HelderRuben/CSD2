@@ -39,3 +39,6 @@ Ah to be honest i feel like i almost got it but it's not top priority to have th
 **I WOULD WANT LATER:**  
 - Compressor (working)
 - LPF with resonance
+
+# AFTER Conclusion
+Just took the pirkle formula for 2nd order LPF and added it as class, works amazing i'm so happy bc its cool.  
